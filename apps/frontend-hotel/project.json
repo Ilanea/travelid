@@ -25,6 +25,7 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "apps/frontend-hotel:build"
+        "proxyConfig": "apps/frontend-hotel/proxy.conf.json"
       },
       "configurations": {
         "development": {
