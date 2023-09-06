@@ -24,7 +24,7 @@
       "executor": "@nx/vite:dev-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "apps/frontend-hotel:build"
+        "buildTarget": "apps/frontend-hotel:build",
         "proxyConfig": "apps/frontend-hotel/proxy.conf.json"
       },
       "configurations": {
