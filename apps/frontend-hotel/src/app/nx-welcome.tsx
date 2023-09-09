@@ -1,3 +1,5 @@
+import { Button, Input } from '@libs/ui-web';
+
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  This is a starter component and can be deleted.
@@ -417,6 +419,8 @@ export function NxWelcome({ title }: { title: string }) {
       <div className="wrapper">
         <div className="container">
           <div id="welcome">
+            <Button>Test</Button>
+            <Input />
             <h1 className="text-red-400">
               <span> Hello there, </span>
               Welcome {title} 👋
