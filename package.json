@@ -3,8 +3,18 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "dev:backend": "nx run apps/backend:serve",
     "dev:user": "nx run-many -t serve -p apps/backend apps/frontend-user",
-    "dev:hotel": "nx run-many -t serve -p apps/backend apps/frontend-hotel"
+    "dev:hotel": "nx run-many -t serve -p apps/backend apps/frontend-hotel",
+    "format": "prettier --write ."
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*": "prettier --write"
   },
   "private": true,
   "dependencies": {
@@ -17,6 +27,7 @@
     "axios": "^1.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "husky": "^8.0.3",
     "lucide-react": "^0.274.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -63,6 +74,7 @@
     "jest": "^29.4.1",
     "jest-environment-node": "^29.4.1",
     "jsdom": "~22.1.0",
+    "lint-staged": "^14.0.1",
     "nx": "16.8.0",
     "nx-cloud": "latest",
     "postcss": "8.4.21",
