@@ -10,4 +10,10 @@ export class AppController {
   getData() {
     return this.appService.getData();
   }
+
+  // for demo purposes
+  @Get('username')
+  getUsername() {
+    return { username: 'John Doe' };
+  }
 }
