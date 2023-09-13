@@ -1,22 +1,12 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
-  cacheDir: '../../node_modules/.vite/apps/frontend-hotel',
+  cacheDir: '../../node_modules/.vite/utils',
 
-  server: {
-    port: 4201,
-    host: 'localhost',
-  },
-
-  preview: {
-    port: 4301,
-    host: 'localhost',
-  },
-
-  plugins: [react(), nxViteTsPaths()],
+  plugins: [nxViteTsPaths()],
 
   // Uncomment this if you are using workers.
   // worker: {
@@ -28,7 +18,7 @@ export default defineConfig({
     cache: {
       dir: '../../node_modules/.vitest',
     },
-    environment: 'jsdom',
+    environment: 'node',
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
   },
 });

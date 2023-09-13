@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@libs/ui-web": ["libs/ui-web/src/index.ts"],
+      "@libs/ui-web/*": ["libs/ui-web/src/*"],
+      "@libs/utils": ["libs/utils/src/index.ts"],
+      "@libs/utils/*": ["libs/utils/src/*"]
+    }
+  }
+}
