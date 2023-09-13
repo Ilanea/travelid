@@ -1,5 +1,5 @@
 function ExamplePage() {
-  return <div className="text-3xl">ExamplePage</div>;
+  return <div>Example Page</div>;
 }
 
 export default ExamplePage;
