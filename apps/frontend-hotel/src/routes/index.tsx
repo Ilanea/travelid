@@ -1,5 +1,5 @@
 import { useRoutes } from 'react-router-dom';
-import ExamplePage from '../features/example/pages/example-page';
+import ExamplePage from '../features/example/pages/Example';
 
 const publicRoutes = [
   {
