@@ -15,79 +15,100 @@ export class AuthService{
     ){}
     
     async signup(dto: SignupDto) {
-        const saltOrRounds = 10;
-        const hash = await bcrypt.hash(dto.password, saltOrRounds);
-        try {
-            const user = await this.prisma.user.create({
-                data: {
-                    email: dto.email,
-                    hash: hash,
-                    firstName: dto.firstname,
-                    lastName: dto.lastname,
-                },
-            });
+      const saltOrRounds = 10;
+      const hash = await bcrypt.hash(dto.password, saltOrRounds);
+      try {
+          const user = await this.prisma.user.create({
+              data: {
+                  email: dto.email,
+                  hash: hash,
+                  firstName: dto.firstname,
+                  lastName: dto.lastname,
+              },
+          });
 
-            return this.signToken(user.id, user.email);
-        } catch (error) {
-          if (
-            error instanceof
-            PrismaClientKnownRequestError
-          ) {
-            if (error.code === 'P2002') {
-              throw new ForbiddenException(
-                'Credentials taken',
-              );
-            }
+          return this.signToken(user.id, user.email);
+      } catch (error) {
+        if (
+          error instanceof
+          PrismaClientKnownRequestError
+        ) {
+          if (error.code === 'P2002') {
+            throw new ForbiddenException(
+              'Credentials taken',
+            );
           }
-          throw error;
         }
+        throw error;
+      }
     }
 
     async login(dto: LoginDto) {
-        try {
-            const user = await this.prisma.user.findUnique({
-                where: {
-                    email: dto.email,
-                },
-            });
-            if(!user){
-                throw new ForbiddenException('User not found');
-            }
-            if(!await bcrypt.compare(dto.password, user.hash)){
-                throw new ForbiddenException('Invalid password');
-            } else {
-              return this.signToken(user.id, dto.email);
-            }
-            
-        } catch (error) {
-          if (
-            error instanceof
-            PrismaClientKnownRequestError
-          ) {
-            if (error.code === 'P2002') {
-              throw new ForbiddenException(
-                'Credentials taken',
-              );
-            }
-          }
-          throw error;
+      try {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                email: dto.email,
+            },
+        });
+        if(!user){
+            throw new ForbiddenException('User not found');
         }
+        if(!await bcrypt.compare(dto.password, user.hash)){
+            throw new ForbiddenException('Invalid password');
+        } else {
+          return this.signToken(user.id, dto.email);
+        }
+      } catch (error) {
+        if (
+          error instanceof
+          PrismaClientKnownRequestError
+        ) {
+          if (error.code === 'P2002') {
+            throw new ForbiddenException(
+              'Credentials taken',
+            );
+          }
+        }
+        throw error;
+      }
+    }
+
+    async handleGoogleOAuth(req): Promise<{ access_token: string }> {
+      const existingUser = await this.prisma.user.findUnique({
+        where: { email: req.user.email },
+      });
+  
+      if (existingUser) {
+        const token = await this.signToken(existingUser.id, existingUser.email);
+        return token;
+      } else {
+        const newUser = await this.prisma.user.create({
+          data: {
+            email: req.user.email,
+            firstName: req.user.firstName,
+            lastName: req.user.lastName
+          },
+        });
+  
+        const token = await this.signToken(newUser.id, newUser.email);
+        return token;
+      }
     }
 
     async signToken(userId: number, email: string ): Promise<{ access_token: string }> {
-        const payload = { sub: userId, email };
-        const secret = this.config.get('JWT_SECRET');
-    
-        const token = await this.jwt.signAsync(
-          payload,
-          {
-            expiresIn: '15m',
-            secret: secret,
-          },
-        );
-    
-        return {
-          access_token: token,
-        };
-      }
+      const payload = { sub: userId, email };
+      const secret = this.config.get('JWT_SECRET');
+  
+      const token = await this.jwt.signAsync(
+        payload,
+        {
+          expiresIn: '15m',
+          secret: secret,
+        },
+      );
+  
+      return {
+        access_token: token,
+      };
+    }
 }

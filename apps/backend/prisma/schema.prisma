@@ -18,7 +18,7 @@ model User {
   role Role @default(GUEST)
 
   email String @unique
-  hash String
+  hash String?
 
   firstName String?
   lastName String?
