@@ -21,7 +21,7 @@ model User {
   hash String
 
   firstName String?
-  lastName String?  
+  lastName String?
 }
 
 enum Role {

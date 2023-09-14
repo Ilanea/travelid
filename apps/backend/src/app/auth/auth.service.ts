@@ -90,5 +90,4 @@ export class AuthService{
           access_token: token,
         };
       }
-
 }
