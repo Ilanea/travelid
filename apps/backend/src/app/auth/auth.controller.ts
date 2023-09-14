@@ -14,7 +14,6 @@ export class AuthController{
             const user = await this.authService.signup(dto);
             return { message: 'Signup successful', user };
         } catch (error) {
-            // Handle signup failure, e.g., duplicate email
             throw new UnauthorizedException('Signup failed');
         }
     }
@@ -25,7 +24,6 @@ export class AuthController{
             const user = await this.authService.login(dto);
             return { message: 'Login successful', user };
         } catch (error) {
-            // Handle login failure, e.g., invalid credentials
             throw new UnauthorizedException('Login failed');
         }
     }
