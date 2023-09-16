@@ -7,5 +7,10 @@
       "@libs/utils": ["libs/utils/src/index.ts"],
       "@libs/utils/*": ["libs/utils/src/*"]
     }
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
   }
 }
