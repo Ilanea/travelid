@@ -7,6 +7,7 @@ import { expect } from '@storybook/jest';
 const meta: Meta<typeof Button> = {
   component: Button,
   title: 'Button',
+  tags: ['autodocs'],
 };
 export default meta;
 type Story = StoryObj<typeof Button>;
@@ -23,3 +24,5 @@ export const Heading: Story = {
     expect(canvas.getByText(/Welcome to Button!/gi)).toBeTruthy();
   },
 };
+
+export const Accessible = () => <button>Accessible button</button>;
