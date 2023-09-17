@@ -50,10 +50,14 @@ export class AuthService{
       if(!user){
         throw new ForbiddenException('User not found');
       }
-      if(!await argon.verify(user.hash, dto.password)){
-        throw new ForbiddenException('Invalid password');
+      if(user.hash === null){
+        throw new ForbiddenException('Not using Oauth');
       } else {
-        return this.signToken(user.id, dto.email);
+        if(!await argon.verify(user.hash, dto.password)){
+          throw new ForbiddenException('Invalid password');
+        } else {
+          return this.signToken(user.id, dto.email);
+        }
       }
     } catch (error) {
       if (
