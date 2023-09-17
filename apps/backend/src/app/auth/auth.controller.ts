@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Req, UnauthorizedException, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LoginDto, SignupDto } from "./dto";
 import { AuthGuard } from "@nestjs/passport";
 
@@ -9,6 +9,7 @@ import { AuthGuard } from "@nestjs/passport";
 export class AuthController{
   constructor(private authService: AuthService) {}
 
+  @ApiOperation({ summary: 'Creates a new user' })
   @Post('signup')
   async signup(@Body() dto: SignupDto) {
     try {
@@ -18,6 +19,7 @@ export class AuthController{
     }
   }
 
+  @ApiOperation({ summary: 'Login existing user' })
   @Post('login')
   async login(@Body() dto: LoginDto) {
     try {
@@ -27,6 +29,7 @@ export class AuthController{
     }
   }
 
+  @ApiOperation({ summary: 'Start Google Oauth procedure' })
   @Get('google')
   @UseGuards(AuthGuard('google'))
   async googleOAuth() {
