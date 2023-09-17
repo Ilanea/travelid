@@ -12,8 +12,7 @@ export class AuthController{
   @Post('signup')
   async signup(@Body() dto: SignupDto) {
     try {
-      const access_token = await this.authService.signup(dto);
-      return { message: 'Signup successful', access_token };
+      return this.authService.signup(dto);
     } catch (error) {
       throw new UnauthorizedException('Signup failed');
     }
@@ -22,8 +21,7 @@ export class AuthController{
   @Post('login')
   async login(@Body() dto: LoginDto) {
     try {
-      const access_token = await this.authService.login(dto);
-      return { message: 'Login successful', access_token };
+      return this.authService.login(dto);
     } catch (error) {
       throw new UnauthorizedException('Login failed');
     }
@@ -39,8 +37,7 @@ export class AuthController{
   @UseGuards(AuthGuard('google'))
   async googleOAuthCallback(@Req() req) {
     try {
-      const access_token = await this.authService.handleGoogleOAuth(req);
-      return { message: 'Google OAuth successful', access_token };
+      return this.authService.handleGoogleOAuth(req);
     } catch (error) {
       throw new UnauthorizedException('Google OAuth failed');
     }

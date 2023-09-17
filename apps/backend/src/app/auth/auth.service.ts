@@ -76,8 +76,7 @@ export class AuthService{
     });
 
     if (existingUser) {
-      const token = await this.signToken(existingUser.id, existingUser.email);
-      return token;
+      return this.signToken(existingUser.id, existingUser.email);
     } else {
       const newUser = await this.prisma.user.create({
         data: {
@@ -87,8 +86,7 @@ export class AuthService{
         },
       });
 
-      const token = await this.signToken(newUser.id, newUser.email);
-      return token;
+      return this.signToken(newUser.id, newUser.email);
     }
   }
 
