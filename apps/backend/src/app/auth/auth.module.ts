@@ -7,8 +7,8 @@ import { JwtStrategy } from "./strategy";
 import { GoogleStrategy } from "./strategy/oauth.strategy";
 
 @Module({
-    imports: [JwtModule.register({})],
-    controllers: [AuthController],
-    providers: [AuthService, JwtStrategy, GoogleStrategy],
+  imports: [JwtModule.register({})],
+  controllers: [AuthController],
+  providers: [AuthService, JwtStrategy, GoogleStrategy],
 })
 export class AuthModule{}

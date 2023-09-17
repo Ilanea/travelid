@@ -9,6 +9,6 @@ import { PrismaModule } from './prisma/prisma.module';
   imports: [ConfigModule.forRoot({
     isGlobal: true,
   }),
-  AuthModule,UserModule, PrismaModule],
+  AuthModule, UserModule, PrismaModule],
 })
 export class AppModule {}
