@@ -15,7 +15,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
   }));
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 3333;
 
   const config = new DocumentBuilder()
     .setTitle('TravelID API')
