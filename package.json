@@ -19,6 +19,7 @@
   },
   "private": true,
   "dependencies": {
+    "@hookform/resolvers": "^3.3.1",
     "@nestjs/common": "^10.0.2",
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
@@ -53,13 +54,15 @@
     "react": "18.2.0",
     "react-day-picker": "^8.8.2",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.46.1",
     "react-router-dom": "^6.15.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "sort-by": "^1.2.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
