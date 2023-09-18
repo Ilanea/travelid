@@ -19,6 +19,49 @@
         "passWithNoTests": true,
         "reportsDirectory": "../../coverage/libs/ui-web"
       }
+    },
+    "storybook": {
+      "executor": "@nx/storybook:storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "libs/ui-web/.storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nx/storybook:build",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/libs/ui-web",
+        "configDir": "libs/ui-web/.storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "test-storybook -c libs/ui-web/.storybook --url=http://localhost:4400"
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "libs/ui-web:build-storybook",
+        "staticFilePath": "dist/storybook/libs/ui-web"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "libs/ui-web:build-storybook:ci"
+        }
+      }
     }
   }
 }
