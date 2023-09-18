@@ -18,6 +18,12 @@ export class UserController {
     return user;
   }
 
+  @ApiOperation({ summary: 'Checks if current user is using Oauth' })
+  @Get('oauth')
+  getOauth(@GetUser('id') userId: number) {
+    return this.userService.checkOauth(userId);
+  }
+
   @Patch('edit')
   editUser(
     @GetUser('id') userId: number,

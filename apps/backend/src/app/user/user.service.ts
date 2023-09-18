@@ -7,6 +7,17 @@ import { ChangePasswordDto, EditUserDto } from './dto';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
+  async checkOauth(userId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+    if(user.hash === null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   async editUser(
     userId: number,
     dto: EditUserDto,
