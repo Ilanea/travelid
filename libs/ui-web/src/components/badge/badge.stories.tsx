@@ -8,10 +8,10 @@ const meta: Meta<typeof Badge> = {
 export default meta;
 type Story = StoryObj<typeof Badge>;
 
-export const Primary = {
+export const Default: Story = {
   args: {},
-  render: (props: any) => {
-    return <MyBadge {...props} variant="outline" />;
+  render: (props, args) => {
+    return <MyBadge {...props} {...args} />;
   },
 };
 

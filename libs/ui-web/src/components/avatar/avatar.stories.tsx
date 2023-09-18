@@ -25,8 +25,8 @@ export const WithOpenDefault: Story = {
 const MyAvatar = (props: any) => {
   return (
     <Avatar>
-      <AvatarImage src="https://github.com/shadcn.png" />
-      <AvatarFallback>CN</AvatarFallback>
+      <AvatarImage src="https://gitlab.com/uploads/-/system/project/avatar/3224774/rick_astley.jpg?width=64" />
+      <AvatarFallback>RA</AvatarFallback>
     </Avatar>
   );
 };

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Alert, AlertDescription, AlertTitle } from './alert';
-import { Terminal, Waves } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 
 const meta: Meta<typeof Alert> = {
   component: Alert,
@@ -9,24 +9,28 @@ const meta: Meta<typeof Alert> = {
 export default meta;
 type Story = StoryObj<typeof Alert>;
 
-export const Primary = {
-  args: {},
-  render: (props: any) => {
-    return <MyAlert {...props} />;
+export const Default: Story = {
+  args: {
+    variant: 'default',
+  },
+  render: (props, args) => {
+    return <MyAlert {...props} {...args} />;
   },
 };
 
-export const WithOpenDefault: Story = {
-  args: {},
-  render: (props) => {
-    return <MyAlert {...props} defaultValue="item-1" />;
+export const Destructive: Story = {
+  args: {
+    variant: 'destructive',
+  },
+  render: (props, args) => {
+    return <MyAlert {...props} {...args} />;
   },
 };
 
 const MyAlert = (props: any) => {
   return (
-    <Alert>
-      <Terminal className="h-4 w-4" />
+    <Alert {...props}>
+      <AlertCircle className="h-4 w-4" />
       <AlertTitle>Heads up!</AlertTitle>
       <AlertDescription>
         You can add components and dependencies to your app using the cli.

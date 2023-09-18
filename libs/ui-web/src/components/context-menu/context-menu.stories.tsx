@@ -14,7 +14,6 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from './context-menu';
-import React from 'react';
 
 const meta: Meta<typeof ContextMenu> = {
   component: ContextMenu,
@@ -23,14 +22,7 @@ const meta: Meta<typeof ContextMenu> = {
 export default meta;
 type Story = StoryObj<typeof ContextMenu>;
 
-export const Primary = {
-  args: {},
-  render: (props: any) => {
-    return <MyContextMenu {...props} />;
-  },
-};
-
-export const WithOpenDefault: Story = {
+export const Primary: Story = {
   args: {},
   render: (props) => {
     return <MyContextMenu {...props} />;

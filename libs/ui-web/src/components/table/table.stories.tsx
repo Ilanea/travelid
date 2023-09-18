@@ -30,6 +30,7 @@ import { Input } from '../input';
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -43,17 +44,17 @@ const meta: Meta<typeof Table> = {
 export default meta;
 type Story = StoryObj<typeof Table>;
 
-export const Primary = {
+export const Avanced: Story = {
   args: {},
   render: (props: any) => {
     return <MyTable {...props} />;
   },
 };
 
-export const WithOpenDefault: Story = {
+export const Simple: Story = {
   args: {},
   render: (props) => {
-    return <MyTable {...props} />;
+    return <SimpleTable {...props} />;
   },
 };
 
@@ -90,14 +91,14 @@ const data: Payment[] = [
   },
 ];
 
-export type Payment = {
+type Payment = {
   id: string;
   amount: number;
   status: 'pending' | 'processing' | 'success' | 'failed';
   email: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+const columns: ColumnDef<Payment>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -185,7 +186,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ];
 
-export function MyTable() {
+const MyTable = () => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -327,14 +328,28 @@ export function MyTable() {
       </div>
     </div>
   );
-}
+};
 
-/* const MyTable = (props: any) => {
+const SimpleTable = () => {
   return (
-    <Popover>
-      <PopoverTrigger>Open</PopoverTrigger>
-      <PopoverContent>Place content for the popover here.</PopoverContent>
-    </Popover>
+    <Table>
+      <TableCaption>A list of your recent payments.</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[100px]">ID</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead className="text-right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {data.map((payment) => (
+          <TableRow key={payment.id}>
+            <TableCell className="font-medium">{payment.email}</TableCell>
+            <TableCell>{payment.status}</TableCell>
+            <TableCell className="text-right">{payment.amount}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 };
- */

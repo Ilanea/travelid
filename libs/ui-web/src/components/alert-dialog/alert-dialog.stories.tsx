@@ -26,13 +26,6 @@ export const Primary = {
   },
 };
 
-export const WithOpenDefault: Story = {
-  args: {},
-  render: (props) => {
-    return <MyAlertDialog {...props} />;
-  },
-};
-
 const MyAlertDialog = (props: any) => {
   return (
     <AlertDialog>

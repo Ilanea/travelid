@@ -9,16 +9,9 @@ const meta: Meta<typeof Checkbox> = {
 export default meta;
 type Story = StoryObj<typeof Checkbox>;
 
-export const Primary = {
+export const Primary: Story = {
   args: {},
   render: (props: any) => {
-    return <MyCheckbox {...props} />;
-  },
-};
-
-export const WithOpenDefault: Story = {
-  args: {},
-  render: (props) => {
     return <MyCheckbox {...props} />;
   },
 };

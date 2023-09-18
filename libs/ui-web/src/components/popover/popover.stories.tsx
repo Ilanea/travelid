@@ -9,16 +9,9 @@ const meta: Meta<typeof Popover> = {
 export default meta;
 type Story = StoryObj<typeof Popover>;
 
-export const Primary = {
+export const Primary: Story = {
   args: {},
   render: (props: any) => {
-    return <MyPopover {...props} />;
-  },
-};
-
-export const WithOpenDefault: Story = {
-  args: {},
-  render: (props) => {
     return <MyPopover {...props} />;
   },
 };

@@ -22,13 +22,6 @@ export const Primary = {
   },
 };
 
-export const WithOpenDefault: Story = {
-  args: {},
-  render: (props) => {
-    return <MyDialog {...props} />;
-  },
-};
-
 const MyDialog = (props: any) => {
   return (
     <Dialog>
