@@ -58,6 +58,24 @@
           "codeCoverage": true
         }
       }
+    },
+    "prisma": {
+      "command": "prisma",
+      "options": {
+        "cwd": "apps/backend/"
+      }
+    },
+    "migrate": {
+      "command": "prisma migrate dev",
+      "options": {
+        "cwd": "apps/backend/"
+      }
+    },
+    "generate-types": {
+      "command": "prisma generate",
+      "options": {
+        "cwd": "apps/backend/"
+      }
     }
   },
   "tags": []
