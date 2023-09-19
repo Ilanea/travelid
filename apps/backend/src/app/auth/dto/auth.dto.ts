@@ -5,26 +5,26 @@ export class SignupDto {
   @ApiProperty()
   @IsEmail()
   @IsNotEmpty()
-  email: string
+  email: string;
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  password: string
+  password: string;
   @ApiPropertyOptional()
   @IsString()
-  firstname: string
+  firstName: string;
   @ApiPropertyOptional()
   @IsString()
-  lastname: string
+  lastName: string;
 }
 
 export class LoginDto {
   @ApiProperty()
   @IsEmail()
   @IsNotEmpty()
-  email: string
+  email: string;
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  password: string
+  password: string;
 }
