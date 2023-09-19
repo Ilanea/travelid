@@ -1,9 +1,10 @@
 import { useRoutes } from 'react-router-dom';
 import ExamplePage from '../features/example/pages/Example';
-import Signup from '../features/auth/pages/signup';
+import SignUp from '../features/auth/pages/signup';
 import Terms from '../features/misc/pages/terms';
 import Privacy from '../features/misc/pages/privacy';
 import NotFound from '../features/misc/pages/not-found';
+import SignIn from '../features/auth/pages/signin';
 
 const publicRoutes = [
   {
@@ -11,8 +12,12 @@ const publicRoutes = [
     element: <ExamplePage />,
   },
   {
-    path: '/signup',
-    element: <Signup />,
+    path: '/auth/signup',
+    element: <SignUp />,
+  },
+  {
+    path: '/auth/signin',
+    element: <SignIn />,
   },
   {
     path: '/terms',
