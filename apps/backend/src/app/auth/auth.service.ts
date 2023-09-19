@@ -1,41 +1,38 @@
-import { ForbiddenException, Injectable } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service";
+import { ForbiddenException, Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as argon from 'argon2';
 import { LoginDto, SignupDto } from './dto';
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()
-export class AuthService{
+export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwt: JwtService,
-    private config: ConfigService,
-  ){}
-    
+    private config: ConfigService
+  ) {}
+
   async signup(dto: SignupDto) {
     const hash = await argon.hash(dto.password);
+    console.log('dto', dto);
+
     try {
       const user = await this.prisma.user.create({
-          data: {
-              email: dto.email,
-              hash: hash,
-              firstName: dto.firstname,
-              lastName: dto.lastname,
-          },
+        data: {
+          email: dto.email,
+          hash: hash,
+          firstName: dto.firstName,
+          lastName: dto.lastName,
+        },
       });
 
       return this.signToken(user.id, user.email);
     } catch (error) {
-      if (
-        error instanceof
-        PrismaClientKnownRequestError
-      ) {
+      if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
-          throw new ForbiddenException(
-            'Credentials taken',
-          );
+          throw new ForbiddenException('Credentials taken');
         }
       }
       throw error;
@@ -47,27 +44,22 @@ export class AuthService{
       const user = await this.prisma.user.findUnique({
         where: { email: dto.email },
       });
-      if(!user){
+      if (!user) {
         throw new ForbiddenException('User not found');
       }
-      if(user.hash === null){
+      if (user.hash === null) {
         throw new ForbiddenException('Not using Oauth');
       } else {
-        if(!await argon.verify(user.hash, dto.password)){
+        if (!(await argon.verify(user.hash, dto.password))) {
           throw new ForbiddenException('Invalid password');
         } else {
           return this.signToken(user.id, dto.email);
         }
       }
     } catch (error) {
-      if (
-        error instanceof
-        PrismaClientKnownRequestError
-      ) {
+      if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
-          throw new ForbiddenException(
-            'Credentials taken',
-          );
+          throw new ForbiddenException('Credentials taken');
         }
       }
       throw error;
@@ -86,7 +78,7 @@ export class AuthService{
         data: {
           email: req.user.email,
           firstName: req.user.firstName,
-          lastName: req.user.lastName
+          lastName: req.user.lastName,
         },
       });
 
@@ -94,17 +86,17 @@ export class AuthService{
     }
   }
 
-  async signToken(userId: number, email: string ): Promise<{ access_token: string }> {
+  async signToken(
+    userId: number,
+    email: string
+  ): Promise<{ access_token: string }> {
     const payload = { sub: userId, email };
     const secret = this.config.get('JWT_SECRET');
 
-    const token = await this.jwt.signAsync(
-      payload,
-      {
-        expiresIn: '15m',
-        secret: secret,
-      },
-    );
+    const token = await this.jwt.signAsync(payload, {
+      expiresIn: '15m',
+      secret: secret,
+    });
 
     return {
       access_token: token,
