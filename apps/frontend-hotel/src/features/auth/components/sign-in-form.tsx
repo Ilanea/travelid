@@ -10,9 +10,11 @@ import {
   FormMessage,
   Input,
 } from '@libs/ui-web';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { signIn } from '../api/sign-in';
+import AuthContext from '@hotel/context/auth-provider';
 
 const formSchema = z.object({
   email: z.string().email({
@@ -24,6 +26,7 @@ const formSchema = z.object({
 });
 
 const SignInForm = () => {
+  const { setAuth } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -31,9 +34,11 @@ const SignInForm = () => {
 
     setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+    const response = await signIn(values);
+
+    console.log('response', response);
+
+    setIsLoading(false);
   }
 
   const form = useForm<z.infer<typeof formSchema>>({

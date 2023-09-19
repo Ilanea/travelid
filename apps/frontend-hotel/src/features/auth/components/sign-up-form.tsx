@@ -1,4 +1,8 @@
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
 import { Icons } from '@libs/icons-web';
 import {
   Button,
@@ -10,9 +14,8 @@ import {
   FormMessage,
   Input,
 } from '@libs/ui-web';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+
+import { signUp } from '@hotel/features/auth/api/sign-up';
 
 const formSchema = z.object({
   firstName: z.string().min(2, {
@@ -37,9 +40,9 @@ const SignUpForm = () => {
 
     setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+    signUp(values);
+
+    setIsLoading(false);
   }
 
   const form = useForm<z.infer<typeof formSchema>>({
