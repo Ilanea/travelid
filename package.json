@@ -4,9 +4,12 @@
   "license": "MIT",
   "scripts": {
     "dev:backend": "nx run apps/backend:serve",
-    "dev:user": "nx run-many -t serve -p apps/backend apps/frontend-user",
+    "dev:user": "nx run-many -t serve -p apps/backend apps/frontend-user && docker",
     "dev:hotel": "nx run-many -t serve -p apps/backend apps/frontend-hotel",
     "storybook": "nx run libs/ui-web:storybook ",
+    "prisma:studio": "cd apps/backend && npx prisma studio",
+    "prisma:deploy": "cd apps/backend && prisma migrate deploy",
+    "db:up": "docker-compose up dev-db -d",
     "format": "prettier --write ."
   },
   "husky": {
