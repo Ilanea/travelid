@@ -102,20 +102,54 @@ export class AuthService{
     }
   }
 
-  async signToken(userId: number, email: string ): Promise<{ access_token: string }> {
-    const payload = { sub: userId, email };
-    const secret = this.config.get('JWT_SECRET');
+  async logout(userId: number) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: { id: userId },
+      });
+      if(!user){
+        throw new ForbiddenException('User not found');
+      }
+      await this.prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          refreshToken: null,
+        },
+      })
+    } (error) {
+      throw error;
+    }
+  }
 
-    const token = await this.jwt.signAsync(
-      payload,
-      {
-        expiresIn: '15m',
-        secret: secret,
-      },
-    );
+  async signToken(userId: string, username: string) {
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwt.signAsync(
+        {
+          sub: userId,
+          username,
+        },
+        {
+          secret: this.config.get<string>('JWT_ACCESS_SECRET'),
+          expiresIn: '15m',
+        },
+      ),
+      this.jwt.signAsync(
+        {
+          sub: userId,
+          username,
+        },
+        {
+          secret: this.config.get<string>('JWT_REFRESH_SECRET'),
+          expiresIn: '7d',
+        },
+      ),
+    ]);
 
     return {
-      access_token: token,
+      accessToken,
+      refreshToken,
     };
   }
 }

@@ -3,6 +3,7 @@ import { AuthService } from "./auth.service";
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LoginDto, SignupDto } from "./dto";
 import { AuthGuard } from "@nestjs/passport";
+import { GetUser } from "./decorator";
 
 @ApiTags('auth')
 @Controller('auth')
@@ -45,4 +46,10 @@ export class AuthController{
       throw new UnauthorizedException('Google OAuth failed');
     }
   }
+
+  @Get('logout')
+  async logout(@GetUser('id') userId: number) {
+    return this.authService.logout(userId)
+  }
+
 }

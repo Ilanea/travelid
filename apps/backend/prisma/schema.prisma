@@ -15,10 +15,11 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  role Role @default(GUEST)
+  role Role @default(USER)
 
   email String  @unique
   hash  String?
+  refreshToken String?
 
   firstName String?
   lastName  String?
@@ -28,11 +29,12 @@ model User {
   @@map("users")
 }
 
-enum Role {
-  GUEST
-  ADMIN
-  HOTEL
+
+export enum Role {
+  USER = 'USER',
+  ADMIN = 'ADMIN',
 }
+
 
 model Hotel {
   id        Int      @id @default(autoincrement())
