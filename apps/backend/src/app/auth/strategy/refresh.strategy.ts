@@ -1,11 +1,11 @@
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class RefreshTokenStrategy extends PassportStrategy(
+export class RefreshStrategy extends PassportStrategy(
   Strategy,
   'jwt-refresh',
 ) {
@@ -16,7 +16,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
     super({
       jwtFromRequest:
         ExtractJwt.fromAuthHeaderAsBearerToken(),
-        secretOrKey: config.get('JWT_ACCESS_SECRET'),
+        secretOrKey: config.get('JWT_REFRESH_SECRET'),
     });
   }
 
@@ -30,7 +30,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
           id: payload.sub,
         },
       });
-    delete user.hash;
+    delete user.passwordHash;
     return user;
   }
 }

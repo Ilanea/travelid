@@ -30,7 +30,7 @@ export class LocalStrategy extends PassportStrategy(
           id: payload.sub,
         },
       });
-    delete user.hash;
+    delete user.passwordHash;
     return user;
   }
 }

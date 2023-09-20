@@ -10,6 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+  HOTELMANAGER
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -17,9 +23,9 @@ model User {
 
   role Role @default(USER)
 
-  email String  @unique
-  hash  String?
-  refreshToken String?
+  email            String  @unique
+  passwordHash     String?
+  refreshTokenHash String?
 
   firstName String?
   lastName  String?
@@ -28,13 +34,6 @@ model User {
 
   @@map("users")
 }
-
-
-export enum Role {
-  USER = 'USER',
-  ADMIN = 'ADMIN',
-}
-
 
 model Hotel {
   id        Int      @id @default(autoincrement())

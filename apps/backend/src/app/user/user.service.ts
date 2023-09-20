@@ -11,7 +11,7 @@ export class UserService {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
     });
-    if(user.hash === null) {
+    if(user.passwordHash === null) {
       return true;
     } else {
       return false;
@@ -31,7 +31,7 @@ export class UserService {
       },
     });
 
-    delete user.hash;
+    delete user.passwordHash;
 
     return user;
   }
@@ -43,10 +43,10 @@ export class UserService {
     const oldUser = await this.prisma.user.findUnique({
       where: {id: userId  },
     });
-    if(oldUser.hash === null) {
+    if(oldUser.passwordHash === null) {
       throw new BadRequestException('User is using Oauth');
     }
-    if(!await argon.verify(oldUser.hash, dto.oldPassword)) {
+    if(!await argon.verify(oldUser.passwordHash, dto.oldPassword)) {
       throw new BadRequestException('Wrong password provided');
     }
     if(dto.newPassword === dto.oldPassword) {
@@ -63,11 +63,11 @@ export class UserService {
         id: userId,
       },
       data: {
-        hash: await argon.hash(dto.newPassword),
+        passwordHash: await argon.hash(dto.newPassword),
       },
     });
 
-    delete user.hash;
+    delete user.passwordHash;
 
     return user;
   }

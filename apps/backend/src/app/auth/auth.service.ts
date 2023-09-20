@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import * as argon from 'argon2';
 import { LoginDto, SignupDto } from './dto';
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { access } from "fs";
 
 @Injectable()
 export class AuthService{
@@ -23,18 +24,25 @@ export class AuthService{
       throw new BadRequestException('Password must be at most 32 characters long');
     }
 
-    const hash = await argon.hash(dto.password);
+    const passwordHash = await argon.hash(dto.password);
     try {
       const user = await this.prisma.user.create({
           data: {
               email: dto.email,
-              hash: hash,
+              passwordHash: passwordHash,
               firstName: dto.firstname,
-              lastName: dto.lastname,
+              lastName: dto.lastname
           },
       });
 
-      return this.signToken(user.id, user.email);
+      return {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role,
+        access_token: await this.accessToken(user.id, user.email),
+      };
     } catch (error) {
       if (
         error instanceof
@@ -42,7 +50,7 @@ export class AuthService{
       ) {
         if (error.code === 'P2002') {
           throw new ForbiddenException(
-            'Credentials taken',
+            'User exists',
           );
         }
       }
@@ -51,44 +59,44 @@ export class AuthService{
   }
 
   async login(dto: LoginDto) {
-    try {
       const user = await this.prisma.user.findUnique({
         where: { email: dto.email },
       });
       if(!user){
         throw new ForbiddenException('User not found');
       }
-      if(user.hash === null){
+      if(user.passwordHash === null){
         throw new ForbiddenException('Not using Oauth');
       } else {
-        if(!await argon.verify(user.hash, dto.password)){
+        if(!await argon.verify(user.passwordHash, dto.password)){
           throw new ForbiddenException('Invalid password');
         } else {
-          return this.signToken(user.id, dto.email);
+          return {
+            id: user.id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            role: user.role,
+            access_token: await this.accessToken(user.id, user.email),
+          };
         }
       }
-    } catch (error) {
-      if (
-        error instanceof
-        PrismaClientKnownRequestError
-      ) {
-        if (error.code === 'P2002') {
-          throw new ForbiddenException(
-            'Credentials taken',
-          );
-        }
-      }
-      throw error;
-    }
   }
 
-  async handleGoogleOAuth(req): Promise<{ access_token: string }> {
+  async handleGoogleOAuth(req): Promise<{ id: number, email: string, firstName: string, lastName: string, role: string, access_token: string }> {
     const existingUser = await this.prisma.user.findUnique({
       where: { email: req.user.email },
     });
 
     if (existingUser) {
-      return this.signToken(existingUser.id, existingUser.email);
+      return {
+        id: existingUser.id,
+        email: existingUser.email,
+        firstName: existingUser.firstName,
+        lastName: existingUser.lastName,
+        role: existingUser.role,
+        access_token: await this.accessToken(existingUser.id, existingUser.email),
+      };
     } else {
       const newUser = await this.prisma.user.create({
         data: {
@@ -98,12 +106,18 @@ export class AuthService{
         },
       });
 
-      return this.signToken(newUser.id, newUser.email);
+      return {
+        id: newUser.id,
+        email: newUser.email,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        role: newUser.role,
+        access_token: await this.accessToken(newUser.id, newUser.email),
+      };
     }
   }
 
   async logout(userId: number) {
-    try {
       const user = await this.prisma.user.findUnique({
         where: { id: userId },
       });
@@ -115,41 +129,70 @@ export class AuthService{
           id: userId,
         },
         data: {
-          refreshToken: null,
+          refreshTokenHash: null,
         },
       })
-    } (error) {
-      throw error;
+
+      return true;
+  }
+
+  async accessToken(userId: number, email: string): Promise<string> {
+    const payload = { sub: userId, email };
+
+    const accessToken = await this.jwt.signAsync(
+      payload,
+      {
+        expiresIn: '15m',
+        secret: this.config.get('JWT_ACCESS_SECRET'),
+      },
+    );
+
+    return accessToken;
+  }
+
+  async refreshToken(userId: number, email: string): Promise<string> {
+    const payload = { sub: userId, email };
+    
+    const refreshToken = await this.jwt.signAsync(
+      payload,
+      {
+        expiresIn: '7d',
+        secret: this.config.get('JWT_REFRESH_SECRET'),
+      },
+    );
+
+    await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        refreshTokenHash: await argon.hash(refreshToken),
+      },
+    });
+
+    return refreshToken;
+  }
+
+  async checkRequestToken(refreshToken: string): Promise<string> {
+    const userId = this.jwt.decode(refreshToken)['sub'];
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+    if(!user){
+      throw new ForbiddenException('User not found');
+    }
+    if(user.refreshTokenHash === null){
+      throw new ForbiddenException('User is not logged in');
+    }
+    if(!await argon.verify(user.refreshTokenHash, refreshToken)){
+      throw new ForbiddenException('Invalid refresh token');
+    } else {
+      if(await this.jwt.verifyAsync(refreshToken, { secret: this.config.get('JWT_REFRESH_SECRET') })) {
+        return await this.accessToken(user.id, user.email);
+      } else {
+        throw new ForbiddenException('Refresh token expired');
+      }
     }
   }
 
-  async signToken(userId: string, username: string) {
-    const [accessToken, refreshToken] = await Promise.all([
-      this.jwt.signAsync(
-        {
-          sub: userId,
-          username,
-        },
-        {
-          secret: this.config.get<string>('JWT_ACCESS_SECRET'),
-          expiresIn: '15m',
-        },
-      ),
-      this.jwt.signAsync(
-        {
-          sub: userId,
-          username,
-        },
-        {
-          secret: this.config.get<string>('JWT_REFRESH_SECRET'),
-          expiresIn: '7d',
-        },
-      ),
-    ]);
-
-    return {
-      accessToken,
-      refreshToken,
-    };
-  }
 }
