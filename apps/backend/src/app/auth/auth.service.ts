@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from "@nestjs/common";
+import { ForbiddenException, Injectable, BadRequestException } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -15,6 +15,14 @@ export class AuthService{
   ){}
     
   async signup(dto: SignupDto) {
+
+    if(dto.password.length < 8) {
+      throw new BadRequestException('Password must be at least 8 characters long');
+    }
+    if(dto.password.length > 32) {
+      throw new BadRequestException('Password must be at most 32 characters long');
+    }
+
     const hash = await argon.hash(dto.password);
     try {
       const user = await this.prisma.user.create({
