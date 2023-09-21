@@ -1,45 +1,36 @@
-import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
-import { User } from '@prisma/client';
-import { GetUser } from '../auth/decorator';
-import { JwtGuard } from '../auth/guard';
+import { Body, Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
+import { AuthenticatedGuard } from '../auth/guard';
 import { ChangePasswordDto, EditUserDto } from './dto';
 import { UserService } from './user.service';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('users')
-@UseGuards(JwtGuard)
 @Controller('users')
+@UseGuards(AuthenticatedGuard)
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @ApiOperation({ summary: 'Returns current user' })
   @Get('me')
-  getMe(@GetUser() user: User) {
-    console.log('endpoint hit');
-    console.log('backend user',user);
-    
-    return user;
+  getMe(@Req() request) {
+    return request.session.user;
   }
 
-  @ApiOperation({ summary: 'Checks if current user is using Oauth' })
   @Get('oauth')
-  getOauth(@GetUser('id') userId: number) {
-    return this.userService.checkOauth(userId);
+  getOauth(@Req() request) {
+    return this.userService.checkOauth(request.session.user.id);
   }
 
   @Patch('edit')
-  editUser(
-    @GetUser('id') userId: number,
-    @Body() dto: EditUserDto,
-  ) {
-    return this.userService.editUser(userId, dto);
+  async editUser(@Body() dto: EditUserDto, @Req() request) {
+    const user = await this.userService.editUser(request.session.user.id, dto);
+    request.session.user = user;
+    return user;
   }
 
   @Patch('password')
-  changePassword(
-    @GetUser('id') userId: number,
-    @Body() dto: ChangePasswordDto,
-  ) {
-    return this.userService.changePassword(userId, dto);
+  async changePassword(@Body() dto: ChangePasswordDto, @Req() request) {
+    const user = await this.userService.changePassword(request.session.user.id, dto);
+    request.session.user = user;
+    return user;
   }
 }

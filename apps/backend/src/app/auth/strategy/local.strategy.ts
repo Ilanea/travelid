@@ -1,36 +1,25 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { ExtractJwt, Strategy } from 'passport-jwt';
-import { PrismaService } from '../../prisma/prisma.service';
+import { Strategy } from 'passport-local';
+import { AuthService } from '../auth.service';
+import { User } from '@prisma/client';
 
 @Injectable()
-export class LocalStrategy extends PassportStrategy(
-  Strategy,
-  'jwt',
-) {
+export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
   constructor(
-    config: ConfigService,
-    private prisma: PrismaService,
+    private authService: AuthService,
   ) {
     super({
-      jwtFromRequest:
-        ExtractJwt.fromAuthHeaderAsBearerToken(),
-        secretOrKey: config.get('JWT_ACCESS_SECRET'),
+      usernameField: 'email',
+      passwordField: 'password',
     });
   }
 
-  async validate(payload: {
-    sub: number;
-    email: string;
-  }) {
-    const user =
-      await this.prisma.user.findUnique({
-        where: {
-          id: payload.sub,
-        },
-      });
-    delete user.passwordHash;
+  async validate(email: string, password: string): Promise<User | null> {
+    const user = await this.authService.validateUser(email, password);
+    if (!user) {
+      throw new UnauthorizedException("Invalid credentials");
+    }
     return user;
   }
 }

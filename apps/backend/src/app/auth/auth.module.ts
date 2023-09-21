@@ -1,15 +1,13 @@
 import { Module } from "@nestjs/common"
-import { JwtModule } from "@nestjs/jwt";
-
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
-import { LocalStrategy } from "./strategy";
-import { GoogleStrategy } from "./strategy/oauth.strategy";
-import { RefreshStrategy } from "./strategy/refresh.strategy";
+import { LocalStrategy, GoogleStrategy, SessionSerializer } from "./strategy";
+import { PassportModule } from "@nestjs/passport";
+
 
 @Module({
-  imports: [JwtModule.register({})],
+  imports: [PassportModule.register({ session: true })],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, GoogleStrategy, RefreshStrategy],
+  providers: [AuthService, LocalStrategy, GoogleStrategy, SessionSerializer ],
 })
 export class AuthModule{}
