@@ -59,7 +59,7 @@ async function bootstrap() {
       saveUninitialized: false,
       secret: configService.get('SESSION_SECRET'),
       cookie: { 
-        maxAge: 3600000, 
+        //maxAge: 3600000, 
         secure: false 
       },
     })

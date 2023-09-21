@@ -47,7 +47,6 @@ export class AuthController{
 
   @Get('logout')
   async logout(@Req() request, @Res({ passthrough: true }) response: Response) {
-    console.log(request)
     request.session.destroy();
     response.clearCookie('connect.sid');
     return { message: 'Logout successful' };
