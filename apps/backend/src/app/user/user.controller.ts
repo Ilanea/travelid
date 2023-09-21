@@ -1,12 +1,14 @@
 import { Body, Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
-import { AuthenticatedGuard } from '../auth/guard';
-import { ChangePasswordDto, EditUserDto } from './dto';
+import { AuthenticatedGuard, RolesGuard } from '../auth/guard';
+import { ChangePasswordDto, ChangeRoleDto, EditUserDto } from './dto';
 import { UserService } from './user.service';
 import { ApiTags } from '@nestjs/swagger';
+import { Roles } from '../auth/decorator';
+import { Role } from '../auth/roles/role.enum';
 
 @ApiTags('users')
 @Controller('users')
-@UseGuards(AuthenticatedGuard)
+@UseGuards(AuthenticatedGuard, RolesGuard)
 export class UserController {
   constructor(private userService: UserService) {}
 
@@ -31,6 +33,13 @@ export class UserController {
   async changePassword(@Body() dto: ChangePasswordDto, @Req() request) {
     const user = await this.userService.changePassword(request.session.user.id, dto);
     request.session.user = user;
+    return user;
+  }
+
+  @Patch('role')
+  @Roles(Role.ADMIN)
+  async changeRole(@Body() dto: ChangeRoleDto) {
+    const user = await this.userService.changeRole(dto);
     return user;
   }
 }

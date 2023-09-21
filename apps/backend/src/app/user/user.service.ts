@@ -71,4 +71,23 @@ export class UserService {
     return user;
   }
 
+  async changeRole(dto) {
+    const user = await this.prisma.user.update({
+      where: {
+        id: dto.userId,
+      },
+      data: {
+        role: dto.role,
+      },
+    });
+
+    if(!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    delete user.passwordHash;
+
+    return user;
+  }
+
 }
