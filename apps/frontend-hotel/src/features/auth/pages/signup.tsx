@@ -6,9 +6,9 @@ import { cn } from '@libs/utils';
 import UserAuthForm from '../components/user-auth-form';
 import LeftHero from '../components/left-hero';
 
-function SignUp() {
+const SignUp = () => {
   return (
-    <div className="container relative hidden h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+    <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <Link
         to="/auth/signin"
         className={cn(
@@ -51,6 +51,6 @@ function SignUp() {
       </div>
     </div>
   );
-}
+};
 
 export default SignUp;

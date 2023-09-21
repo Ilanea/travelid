@@ -1,3 +1,6 @@
+import { cn } from '@libs/utils';
+import { useEffect, useState } from 'react';
+
 type Quotation = {
   quotee: string;
   quote: string;
@@ -34,6 +37,11 @@ const quotations: Quotation[] = [
 const LeftHero = () => {
   const randomQuote: Quotation =
     quotations[Math.floor(Math.random() * quotations.length)];
+  const [opacity, setOpacity] = useState(0);
+
+  useEffect(() => {
+    setOpacity(100);
+  }, []);
 
   return (
     <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
@@ -53,7 +61,12 @@ const LeftHero = () => {
         </svg>
         Travel ID
       </div>
-      <div className="relative z-20 mt-auto">
+      <div
+        className={cn(
+          'relative z-20 mt-auto transition-all ease-in duration-1000',
+          'opacity-' + opacity
+        )}
+      >
         <blockquote className="space-y-2">
           <p className="text-lg">&ldquo;{randomQuote.quote}&rdquo;</p>
           <footer className="text-sm">{randomQuote.quotee}</footer>

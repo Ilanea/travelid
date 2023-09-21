@@ -14,7 +14,10 @@ import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { signIn } from '../api/sign-in';
-import AuthContext from '@hotel/context/auth-provider';
+import AuthContext from '@hotel/features/auth/context/auth-provider';
+import useAuth from '../hooks/use-auth';
+import { useLocation, useNavigate, useNavigation } from 'react-router-dom';
+import { useToast } from '../../../../../../libs/ui-web/src/components/toast';
 
 const formSchema = z.object({
   email: z.string().email({
@@ -26,19 +29,24 @@ const formSchema = z.object({
 });
 
 const SignInForm = () => {
-  const { setAuth } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/dashboard';
+
+  console.log('from', from);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-
     setIsLoading(true);
-
-    const response = await signIn(values);
-
-    console.log('response', response);
-
+    try {
+      const response = await signIn(values);
+      setAuth(response);
+    } catch (error) {
+      setIsLoading(false);
+    }
     setIsLoading(false);
+    navigate(from, { replace: true });
   }
 
   const form = useForm<z.infer<typeof formSchema>>({

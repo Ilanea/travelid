@@ -1,5 +1,6 @@
 import {
   Archive,
+  Armchair,
   ArrowRight,
   ArrowUpDown,
   CalendarIcon,
@@ -61,6 +62,7 @@ const SpinnerIcon = (props: SVGIconProps) => (
 
 export const Icons = {
   archive: Archive,
+  armchair: Armchair,
   arrowRight: ArrowRight,
   arrowUpDown: ArrowUpDown,
   calendar: CalendarIcon,

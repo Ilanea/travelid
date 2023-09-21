@@ -1,42 +1,28 @@
-import { useRoutes } from 'react-router-dom';
-import ExamplePage from '../features/example/pages/Example';
-import SignUp from '../features/auth/pages/signup';
-import Terms from '../features/misc/pages/terms';
-import Privacy from '../features/misc/pages/privacy';
-import NotFound from '../features/misc/pages/not-found';
-import SignIn from '../features/auth/pages/signin';
+import { Route, Routes } from 'react-router-dom';
 
-const publicRoutes = [
-  {
-    path: '/example',
-    element: <ExamplePage />,
-  },
-  {
-    path: '/auth/signup',
-    element: <SignUp />,
-  },
-  {
-    path: '/auth/signin',
-    element: <SignIn />,
-  },
-  {
-    path: '/terms',
-    element: <Terms />,
-  },
-  {
-    path: '/privacy',
-    element: <Privacy />,
-  },
-  {
-    path: '*',
-    element: <NotFound />,
-  },
-];
+import RequireAuth from '@hotel/features/auth/components/require-auth';
+import Reports from '@hotel/features/reports/page/reports';
+
+import SignIn from '../features/auth/pages/signin';
+import SignUp from '../features/auth/pages/signup';
+import { Role } from '../features/auth/types';
+import ExamplePage from '../features/example/pages/Example';
 
 export const AppRoutes = () => {
-  const commonRoutes = [{ path: '/', element: <div>Landing Page</div> }];
+  return (
+    <Routes>
+      {/* public routes */}
+      <Route path="/auth/signup" element={<SignUp />} />
+      <Route path="/auth/signin" element={<SignIn />} />
 
-  const element = useRoutes([...publicRoutes, ...commonRoutes]);
-
-  return <>{element}</>;
+      {/* protected routes */}
+      <Route element={<RequireAuth allowedRoles={[Role.GUEST, Role.ADMIN]} />}>
+        <Route path="/dashboard" element={<div>Dashboard</div>} />
+        <Route path="/reports" element={<Reports />} />
+      </Route>
+      <Route element={<RequireAuth allowedRoles={[Role.ADMIN]} />}>
+        <Route path="/example" element={<ExamplePage />} />
+      </Route>
+    </Routes>
+  );
 };

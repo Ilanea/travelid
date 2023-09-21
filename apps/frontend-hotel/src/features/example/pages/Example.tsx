@@ -14,7 +14,7 @@ function ExamplePage() {
   const [username, setUsername] = useState('kein username geladen');
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchUsername = async () => {
       const data = await fetchUserAPI();
       setUsername(data.username);
@@ -23,7 +23,7 @@ function ExamplePage() {
 
     setLoading(true);
     fetchUsername();
-  }, []);
+  }, []); */
 
   return (
     <div className="p-12 h-full space-y-2">

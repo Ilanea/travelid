@@ -16,6 +16,8 @@ import {
 } from '@libs/ui-web';
 
 import { signUp } from '@hotel/features/auth/api/sign-up';
+import { useLocation, useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/use-auth';
 
 const formSchema = z.object({
   firstName: z.string().min(2, {
@@ -27,22 +29,35 @@ const formSchema = z.object({
   email: z.string().email({
     message: 'Please enter a valid email.',
   }),
-  password: z.string().min(8, {
-    message: 'Password must be at least 8 characters.',
-  }),
+  password: z
+    .string()
+    .min(8, {
+      message: 'Password must be at least 8 characters.',
+    })
+    .max(32, {
+      message: 'Password must be at most 32 characters.',
+    }),
 });
 
 const SignUpForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/dashboard';
+
+  console.log('from', from);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-
     setIsLoading(true);
-
-    signUp(values);
-
+    try {
+      const response = await signUp(values);
+      setAuth(response);
+    } catch (error) {
+      setIsLoading(false);
+    }
     setIsLoading(false);
+    navigate(from, { replace: true });
   }
 
   const form = useForm<z.infer<typeof formSchema>>({
