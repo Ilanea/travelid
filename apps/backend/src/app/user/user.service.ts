@@ -32,7 +32,6 @@ export class UserService {
     });
 
     delete user.passwordHash;
-
     return user;
   }
 
