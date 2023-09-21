@@ -1,7 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import * as argon from 'argon2';
 import { ChangePasswordDto, EditUserDto } from './dto';
+import { Role } from '../auth/roles/role.enum';
 
 @Injectable()
 export class UserService {
@@ -16,6 +17,25 @@ export class UserService {
     } else {
       return false;
     }
+  }
+
+  async getUser(userId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    delete user.passwordHash;
+    return user;
+  }
+
+  async getAllUsers() {
+    const users = await this.prisma.user.findMany();
+    users.forEach(user => {
+      delete user.passwordHash;
+    });
+    return users;
   }
 
   async editUser(
@@ -33,6 +53,35 @@ export class UserService {
 
     delete user.passwordHash;
     return user;
+  }
+
+  async deleteUser(userId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+  
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+  
+    if (user.role === Role.ADMIN) {
+      throw new BadRequestException('Admin users cannot be deleted');
+    }
+  
+    const deleteUser = await this.prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!deleteUser) {
+      return { message: 'User deleted' };
+    } else {
+      throw new BadRequestException('User could not be deleted');
+    }
+  
   }
 
   async changePassword(
@@ -71,10 +120,10 @@ export class UserService {
     return user;
   }
 
-  async changeRole(dto) {
+  async changeRole(userId: number, dto) {
     const user = await this.prisma.user.update({
       where: {
-        id: dto.userId,
+        id: userId,
       },
       data: {
         role: dto.role,

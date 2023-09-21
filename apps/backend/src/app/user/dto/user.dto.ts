@@ -31,10 +31,6 @@ export class ChangePasswordDto {
 
 export class ChangeRoleDto {
   @ApiProperty()
-  @IsNumber()
-  userId: number
-  
-  @ApiProperty()
   @IsEnum(Role, {
     message: `Invalid role. Role must be one of: ${Object.values(Role).join(', ')}`,
   })

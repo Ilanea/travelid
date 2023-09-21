@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { AuthenticatedGuard, RolesGuard } from '../auth/guard';
 import { ChangePasswordDto, ChangeRoleDto, EditUserDto } from './dto';
 import { UserService } from './user.service';
@@ -12,34 +12,59 @@ import { Role } from '../auth/roles/role.enum';
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Get('me')
-  getMe(@Req() request) {
-    return request.session.user;
-  }
-
-  @Get('oauth')
-  getOauth(@Req() request) {
-    return this.userService.checkOauth(request.session.user.id);
-  }
-
-  @Patch('edit')
-  async editUser(@Body() dto: EditUserDto, @Req() request) {
-    const user = await this.userService.editUser(request.session.user.id, dto);
-    request.session.user = user;
-    return user;
-  }
-
-  @Patch('password')
-  async changePassword(@Body() dto: ChangePasswordDto, @Req() request) {
-    const user = await this.userService.changePassword(request.session.user.id, dto);
-    request.session.user = user;
-    return user;
-  }
-
-  @Patch('role')
+  @Get('')
   @Roles(Role.ADMIN)
-  async changeRole(@Body() dto: ChangeRoleDto) {
-    const user = await this.userService.changeRole(dto);
-    return user;
+  async getAllUsers() {
+    return this.userService.getAllUsers();
+  }
+
+  @Get('/:userId')
+  async getUser(@Param('userId') userId: string,  @Req() request) {
+    if (request.session.user.role === Role.ADMIN || request.session.user.id === parseInt(userId)) {
+      return this.userService.getUser(parseInt(userId));
+    } else {
+      throw new UnauthorizedException('You are not authorized to perform this action.');
+    } 
+  }
+
+  @Patch('/:userId')
+  async editUser(@Param('userId') userId: string, @Body() dto: EditUserDto, @Req() request) {
+    if (request.session.user.role === Role.ADMIN || request.session.user.id === parseInt(userId)) {
+      const user = await this.userService.editUser(parseInt(userId), dto);
+      return user;
+    } else {
+      throw new UnauthorizedException('You are not authorized to perform this action.');
+    }
+  }
+
+  @Delete('/:userId')
+  async deleteUser(@Param('userId') userId: string, @Req() request) {
+    if (request.session.user.role === Role.ADMIN || request.session.user.id === parseInt(userId)) {
+      const user = await this.userService.deleteUser(parseInt(userId));
+      return user;
+    } else {
+      throw new UnauthorizedException('You are not authorized to perform this action.');
+    }
+  }
+
+  @Patch('password/:userId')
+  async changePassword(@Param('userId') userId: string, @Body() dto: ChangePasswordDto, @Req() request) {
+    if (request.session.user.role === Role.ADMIN || request.session.user.id === parseInt(userId)) {
+      const user = await this.userService.changePassword(parseInt(userId), dto);
+      return user;
+    } else {
+      throw new UnauthorizedException('You are not authorized to perform this action.');
+    }
+  }
+
+  @Patch('role/:userId')
+  @Roles(Role.ADMIN)
+  async changeRole(@Param('userId') userId: string, @Body() dto: ChangeRoleDto, @Req() request) {
+    if (request.session.user.id === parseInt(userId)) {
+      const user = await this.userService.changeRole(parseInt(userId), dto);
+      return user;
+    } else {
+      throw new UnauthorizedException('You are not authorized to perform this action.');
+    }
   }
 }
