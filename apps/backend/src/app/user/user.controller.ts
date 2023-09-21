@@ -47,7 +47,7 @@ export class UserController {
     }
   }
 
-  @Patch('password/:userId')
+  @Patch('/:userId/password')
   async changePassword(@Param('userId') userId: string, @Body() dto: ChangePasswordDto, @Req() request) {
     if (request.session.user.role === Role.ADMIN || request.session.user.id === parseInt(userId)) {
       const user = await this.userService.changePassword(parseInt(userId), dto);
@@ -57,7 +57,7 @@ export class UserController {
     }
   }
 
-  @Patch('role/:userId')
+  @Patch('/:userId/role')
   @Roles(Role.ADMIN)
   async changeRole(@Param('userId') userId: string, @Body() dto: ChangeRoleDto, @Req() request) {
     if (request.session.user.id === parseInt(userId)) {
