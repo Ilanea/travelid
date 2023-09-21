@@ -10,15 +10,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+  HOTELMANAGER
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  role Role @default(GUEST)
+  role Role @default(USER)
 
-  email String  @unique
-  hash  String?
+  email            String  @unique
+  passwordHash     String?
+  refreshTokenHash String?
 
   firstName String?
   lastName  String?
@@ -26,12 +33,6 @@ model User {
   HotelManager Hotel[]
 
   @@map("users")
-}
-
-enum Role {
-  GUEST
-  ADMIN
-  HOTEL
 }
 
 model Hotel {
