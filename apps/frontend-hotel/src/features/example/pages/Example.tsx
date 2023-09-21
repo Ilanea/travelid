@@ -1,5 +1,10 @@
-import { Button } from '@libs/ui-web';
 import { useEffect, useState } from 'react';
+
+import { Button } from '@libs/ui-web';
+
+import storage from '@hotel/utils/storage';
+
+import { getUser } from '../../auth';
 import MyButton from '../components/MyButton';
 
 const fetchUserAPI = async () => {
@@ -8,6 +13,11 @@ const fetchUserAPI = async () => {
   // timeout
   await new Promise((resolve) => setTimeout(resolve, 3000));
   return data;
+};
+
+const fetchUser = async () => {
+  const user = await getUser();
+  console.log('uesr', user);
 };
 
 function ExamplePage() {
@@ -30,7 +40,7 @@ function ExamplePage() {
       <div>{loading ? 'loading...' : username}</div>
       <MyButton />
       <div className="space-x-2">
-        <Button>Button</Button>
+        <Button onClick={() => fetchUser()}>Button</Button>
         <Button variant="secondary">Second</Button>
       </div>
     </div>

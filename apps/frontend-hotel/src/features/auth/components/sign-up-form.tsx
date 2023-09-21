@@ -1,6 +1,7 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
 import { Icons } from '@libs/icons-web';
@@ -16,7 +17,7 @@ import {
 } from '@libs/ui-web';
 
 import { signUp } from '@hotel/features/auth/api/sign-up';
-import { useLocation, useNavigate } from 'react-router-dom';
+
 import useAuth from '../hooks/use-auth';
 
 const formSchema = z.object({
@@ -45,8 +46,6 @@ const SignUpForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/dashboard';
-
-  console.log('from', from);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);

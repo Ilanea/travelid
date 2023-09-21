@@ -1,10 +1,12 @@
 import { createContext, useState } from 'react';
-import { UserResponse } from '../types';
+
 import storage from '@hotel/utils/storage';
 
+import { AuthUser } from '../types';
+
 type AuthContextType = {
-  auth?: UserResponse;
-  setAuth: (auth: UserResponse) => void;
+  auth?: AuthUser;
+  setAuth: (auth: AuthUser) => void;
 };
 
 const AuthContext = createContext<AuthContextType>({ setAuth: () => {} });
@@ -14,12 +16,12 @@ type AuthProviderProps = {
 };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [auth, setAuth] = useState<UserResponse>();
+  const [auth, setAuth] = useState<AuthUser>();
 
   console.log('auth root', auth);
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth}}>
+    <AuthContext.Provider value={{ auth, setAuth }}>
       {children}
     </AuthContext.Provider>
   );

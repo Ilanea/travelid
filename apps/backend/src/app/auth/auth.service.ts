@@ -30,8 +30,8 @@ export class AuthService {
           data: {
               email: dto.email,
               passwordHash: passwordHash,
-              firstName: dto.firstname,
-              lastName: dto.lastname
+              firstName: dto.firstName,
+              lastName: dto.lastName
           },
       });
 
@@ -41,7 +41,7 @@ export class AuthService {
         firstName: user.firstName,
         lastName: user.lastName,
         role: user.role,
-        access_token: await this.accessToken(user.id, user.email),
+        accessToken: await this.accessToken(user.id, user.email),
       };
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
@@ -74,7 +74,7 @@ export class AuthService {
             firstName: user.firstName,
             lastName: user.lastName,
             role: user.role,
-            access_token: await this.accessToken(user.id, user.email),
+            accessToken: await this.accessToken(user.id, user.email),
           };
         }
       }
@@ -139,7 +139,7 @@ export class AuthService {
     const accessToken = await this.jwt.signAsync(
       payload,
       {
-        expiresIn: '15m',
+        expiresIn: '1m',
         secret: this.config.get('JWT_ACCESS_SECRET'),
       },
     );
@@ -172,9 +172,23 @@ export class AuthService {
 
   async checkRequestToken(refreshToken: string): Promise<string> {
     const userId = this.jwt.decode(refreshToken)['sub'];
+    //console.log('refresh', refreshToken);
+    
+    
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
     });
+
+    //console.log('user.refreshTokenHash: ', user.refreshTokenHash);
+    //const hashedRefreshToken = await argon.hash(refreshToken);
+    //console.log('hashedRefreshToken: ', hashedRefreshToken);
+
+    // unhash refresh token
+    //const unhashedRefreshToken = await argon.verify(user.refreshTokenHash, refreshToken);
+    //console.log('unhashed refreshToken: ', unhashedRefreshToken);
+    
+    
+    
     if(!user){
       throw new ForbiddenException('User not found');
     }
@@ -182,8 +196,10 @@ export class AuthService {
       throw new ForbiddenException('User is not logged in');
     }
     if(!await argon.verify(user.refreshTokenHash, refreshToken)){
+      
       throw new ForbiddenException('Invalid refresh token');
     } else {
+      console.log('test4');
       if(await this.jwt.verifyAsync(refreshToken, { secret: this.config.get('JWT_REFRESH_SECRET') })) {
         return await this.accessToken(user.id, user.email);
       } else {

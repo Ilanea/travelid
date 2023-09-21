@@ -80,8 +80,11 @@ export class AuthController{
   @Get('refresh')
   async refresh(@Req() request: Request) {
     try {
+      //console.log('refresh', request.cookies['refreshToken']);
+      
+      
       const accessToken = await this.authService.checkRequestToken(request.cookies['refreshToken']);
-      return { access_token: accessToken }
+      return { accessToken: accessToken }
     } catch (error) {
       throw new UnauthorizedException('Refresh failed');
     }

@@ -3,14 +3,17 @@ const storagePrefix = 'travel_id_';
 const storage = {
   getToken: () => {
     return JSON.parse(
-      window.localStorage.getItem(`${storagePrefix}token`) as string
+      window.localStorage.getItem(`${storagePrefix}accessToken`) as string
     );
   },
   setToken: (token: string) => {
-    window.localStorage.setItem(`${storagePrefix}token`, JSON.stringify(token));
+    window.localStorage.setItem(
+      `${storagePrefix}accessToken`,
+      JSON.stringify(token)
+    );
   },
   clearToken: () => {
-    window.localStorage.removeItem(`${storagePrefix}token`);
+    window.localStorage.removeItem(`${storagePrefix}accessToken`);
   },
 };
 

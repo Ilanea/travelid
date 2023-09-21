@@ -15,6 +15,9 @@ export class UserController {
   @ApiOperation({ summary: 'Returns current user' })
   @Get('me')
   getMe(@GetUser() user: User) {
+    console.log('endpoint hit');
+    console.log('backend user',user);
+    
     return user;
   }
 

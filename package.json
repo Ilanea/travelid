@@ -10,6 +10,7 @@
     "prisma:studio": "cd apps/backend && npx prisma studio",
     "prisma:deploy": "cd apps/backend && prisma migrate deploy",
     "prisma:dev": "cd apps/backend && prisma migrate dev",
+    "prisma:generate": "cd apps/backend && prisma generate",
     "db:up": "docker-compose up dev-db -d",
     "db:rm": "docker compose rm dev-db -s -f -v",
     "format": "prettier --write .",
