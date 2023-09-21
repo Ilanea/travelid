@@ -48,7 +48,7 @@ function Bookings() {
         <button className="bg-gradient-to-r from-cyan-300 to-blue-400 text-white py-2 px-4 w-72 h-15 font-extrabold text-6x1 rounded-full transform transition duration-150 hover:scale-105 border border-black shadow-md"><Link to="/Bookings">Bookings</Link></button>
         <button className="bg-gradient-to-r from-cyan-300 to-blue-400 text-white py-2 px-4 w-72 h-15 font-extrabold text-6x1 rounded-full transform transition duration-150 hover:scale-105 border border-black shadow-md">Guestlist</button>
         <button className="bg-gradient-to-r from-cyan-300 to-blue-400 text-white py-2 px-4 w-72 h-15 font-extrabold text-6x1 rounded-full transform transition duration-150 hover:scale-105 border border-black shadow-md">Rewards</button>
-        <button className="bg-gradient-to-r from-cyan-300 to-blue-400 text-white py-2 px-4 w-72 h-15 font-extrabold text-6x1 rounded-full transform transition duration-150 hover:scale-105 border border-black shadow-md">Info</button>
+        <button className="bg-gradient-to-r from-cyan-300 to-blue-400 text-white py-2 px-4 w-72 h-15 font-extrabold text-6x1 rounded-full transform transition duration-150 hover:scale-105 border border-black shadow-md"><Link to="/Info">Info</Link></button>
         <button className="bg-gradient-to-r from-cyan-300 to-blue-400 text-white py-2 px-4 w-72 h-15 font-extrabold text-6x1 rounded-full transform transition duration-150 hover:scale-105 border border-black shadow-md">Settings</button>
       </div>
       <div className="mt-5">

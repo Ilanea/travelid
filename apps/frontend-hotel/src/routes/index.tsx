@@ -2,6 +2,8 @@ import { useRoutes } from 'react-router-dom';
 import ExamplePage from '../features/example/pages/Example';
 import HotelPage from "../features/HotelPage/pages/HotelPage";
 import Bookings from "../features/HotelPage/pages/Bookings";
+import Info from "../features/HotelPage/pages/Info";
+import Report from "../features/HotelPage/pages/Report";
 
 const publicRoutes = [
   {
@@ -15,6 +17,14 @@ const publicRoutes = [
   {
     path: '/Bookings',
     element: <Bookings />,
+  },
+  {
+    path: '/Info',
+    element: <Info />,
+  },
+  {
+    path: '/Report',
+    element: <Report />,
   },
 ];
 

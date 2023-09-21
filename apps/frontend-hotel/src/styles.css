@@ -40,6 +40,20 @@
       'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
       'Noto Color Emoji';
   }
+  .min-h-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 25%;  /* This will make it occupy the top quarter */
+    backgroundImage: 'url(/images/BlueMountain.jpg)';
+    backgroundSize: 'cover';
+    backgroundPosition: 'center';
+    backgroundRepeat: 'no-repeat';
+    z-index: -1; /* Ensure it stays behind the actual content */
+  }
+
 
   .dark {
     --background: 224 71% 4%;
