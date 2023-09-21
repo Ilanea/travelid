@@ -6,13 +6,16 @@ export class SignupDto {
   @IsEmail()
   @IsNotEmpty()
   email: string
+  
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
   password: string
+
   @ApiPropertyOptional()
   @IsString()
   firstname: string
+
   @ApiPropertyOptional()
   @IsString()
   lastname: string
@@ -23,6 +26,7 @@ export class LoginDto {
   @IsEmail()
   @IsNotEmpty()
   email: string
+
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
