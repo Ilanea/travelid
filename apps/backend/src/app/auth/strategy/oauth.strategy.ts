@@ -32,7 +32,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
 
     const user = await this.authService.validateOauthUser(googleUser);
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException("Invalid credentials");
     }
     return user;
   }

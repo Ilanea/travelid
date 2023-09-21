@@ -71,6 +71,7 @@ export class AuthService {
       where: { email: googleUser.email },
     });
     if(user){
+      delete user.passwordHash;
       return user;
     } else {
       const user = await this.prisma.user.create({
