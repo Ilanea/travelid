@@ -1,7 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
 import { Icons } from '@libs/icons-web';
@@ -16,9 +14,7 @@ import {
   Input,
 } from '@libs/ui-web';
 
-import { signUp } from '@hotel/features/auth/api/sign-up';
-
-import useAuth from '../hooks/use-auth';
+import useSignInUp from '../hooks/use-sign-in-up';
 
 const formSchema = z.object({
   firstName: z.string().min(2, {
@@ -41,24 +37,11 @@ const formSchema = z.object({
 });
 
 const SignUpForm = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { setAuth } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || '/dashboard';
+  const { isLoading, signUser } = useSignInUp();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsLoading(true);
-    try {
-      const response = await signUp(values);
-      setAuth(response);
-    } catch (error) {
-      setIsLoading(false);
-    }
-    setIsLoading(false);
-    navigate(from, { replace: true });
+    signUser(values, 'signUp');
   }
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

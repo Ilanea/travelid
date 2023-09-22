@@ -19,6 +19,7 @@ export const AppRoutes = () => {
 
       {/* protected routes */}
       <Route element={<RequireAuth allowedRoles={[Role.USER, Role.ADMIN]} />}>
+        <Route path="/" element={<div>Dashboard</div>} />
         <Route path="/dashboard" element={<div>Dashboard</div>} />
         <Route path="/reports" element={<Reports />} />
         <Route path="/example" element={<ExamplePage />} />

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Button } from '@libs/ui-web';
 
-import storage from '@hotel/utils/storage';
+import { useAuthStore } from '@hotel/features/auth/store/auth';
 
 import { getUser } from '../../auth';
 import MyButton from '../components/MyButton';
@@ -23,6 +23,8 @@ const fetchUser = async () => {
 function ExamplePage() {
   const [username, setUsername] = useState('kein username geladen');
   const [loading, setLoading] = useState(false);
+  const logoutUser = useAuthStore((state) => state.logoutUser);
+  const authUser = useAuthStore((state) => state.user);
 
   /* useEffect(() => {
     const fetchUsername = async () => {
@@ -37,11 +39,21 @@ function ExamplePage() {
 
   return (
     <div className="p-12 h-full space-y-2">
-      <div>{loading ? 'loading...' : username}</div>
+      <div>{loading ? 'loading...' : authUser?.email}</div>
       <MyButton />
       <div className="space-x-2">
         <Button onClick={() => fetchUser()}>Button</Button>
         <Button variant="secondary">Second</Button>
+        <Button
+          onClick={() => {
+            logoutUser();
+            console.log('logoutUser', logoutUser);
+            //console.log('authUser', authUser);
+          }}
+          variant="destructive"
+        >
+          Logout
+        </Button>
       </div>
     </div>
   );

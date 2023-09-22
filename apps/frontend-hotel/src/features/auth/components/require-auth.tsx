@@ -1,6 +1,8 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-import useAuth from '../hooks/use-auth';
+import { MainLayout } from '@hotel/components/layout/main-layout';
+
+import { useAuthStore } from '../store/auth';
 import { Role } from '../types';
 
 type RequireAuthProps = {
@@ -8,19 +10,23 @@ type RequireAuthProps = {
 };
 
 const RequireAuth = ({ allowedRoles }: RequireAuthProps) => {
-  const { auth } = useAuth();
+  const authUser = useAuthStore((state) => state.user);
   const location = useLocation();
 
-  console.log('auth', auth);
+  console.log('authUser', authUser);
 
-  if (!auth?.accessToken) {
+  if (!authUser) {
     return <Navigate to="/auth/signin" state={{ from: location }} replace />;
   }
 
-  if (allowedRoles?.includes(auth?.role)) {
-    return <Outlet />;
+  if (allowedRoles?.includes(authUser?.role)) {
+    return (
+      <MainLayout>
+        <Outlet />
+      </MainLayout>
+    );
   } else {
-    return <Navigate to="/unauthorized" state={{ from: location }} replace />;
+    return <Navigate to="/unauthorized2" state={{ from: location }} replace />;
   }
 };
 

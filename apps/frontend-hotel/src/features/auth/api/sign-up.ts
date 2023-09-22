@@ -11,8 +11,7 @@ export type SignUpDto = {
   lastName: string;
 };
 
-export const signUp = async (data: SignUpDto) => {
+export const signUp = async (data: SignUpDto): Promise<AuthUser> => {
   const user = await axios.post(`/auth/signup`, data);
-  storage.setToken(user.accessToken);
   return user;
 };
