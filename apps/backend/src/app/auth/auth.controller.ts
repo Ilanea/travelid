@@ -1,35 +1,32 @@
-import { Body, Controller, Get, Post, Req, UnauthorizedException, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, Req, UnauthorizedException, UseGuards, Res } from "@nestjs/common";
+import { Response } from 'express';
 import { AuthService } from "./auth.service";
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { LoginDto, SignupDto } from "./dto";
 import { AuthGuard } from "@nestjs/passport";
+import { LocalAuthGuard } from "./guard/auth.guard";
+
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController{
   constructor(private authService: AuthService) {}
 
-  @ApiOperation({ summary: 'Creates a new user' })
   @Post('signup')
-  async signup(@Body() dto: SignupDto) {
-    try {
-      return this.authService.signup(dto);
-    } catch (error) {
-      throw new UnauthorizedException('Signup failed');
-    }
+  async signup(@Body() dto: SignupDto, @Req() request) {
+    const user = await this.authService.signup(dto);
+    request.session.user = user;
+    return user;
   }
 
-  @ApiOperation({ summary: 'Login existing user' })
   @Post('login')
-  async login(@Body() dto: LoginDto) {
-    try {
-      return this.authService.login(dto);
-    } catch (error) {
-      throw new UnauthorizedException('Login failed');
-    }
+  @UseGuards(LocalAuthGuard)
+  async login(@Body() dto: LoginDto, @Req() request){
+    const user = await this.authService.validateUser(dto.email, dto.password);
+    request.session.user = user;
+    return user;
   }
 
-  @ApiOperation({ summary: 'Start Google Oauth procedure' })
   @Get('google')
   @UseGuards(AuthGuard('google'))
   async googleOAuth() {
@@ -38,11 +35,22 @@ export class AuthController{
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  async googleOAuthCallback(@Req() req) {
-    try {
-      return this.authService.handleGoogleOAuth(req);
-    } catch (error) {
-      throw new UnauthorizedException('Google OAuth failed');
+  async googleOAuthCallback(@Req() request) {
+    const user = await this.authService.validateOauthUser(request.user);
+    if (!user) {
+      throw new UnauthorizedException();
     }
+
+    request.session.user = user;
+    return user;
   }
+
+  @Get('logout')
+  async logout(@Req() request, @Res({ passthrough: true }) response: Response) {
+    console.log(request)
+    request.session.destroy();
+    response.clearCookie('connect.sid');
+    return { message: 'Logout successful' };
+  }
+
 }

@@ -1,5 +1,10 @@
-import { Button } from '@libs/ui-web';
 import { useEffect, useState } from 'react';
+
+import { Button } from '@libs/ui-web';
+
+import { useAuthStore } from '@hotel/features/auth/store/auth';
+
+import { getUser } from '../../auth';
 import MyButton from '../components/MyButton';
 
 const fetchUserAPI = async () => {
@@ -10,11 +15,18 @@ const fetchUserAPI = async () => {
   return data;
 };
 
+const fetchUser = async () => {
+  const user = await getUser();
+  console.log('uesr', user);
+};
+
 function ExamplePage() {
   const [username, setUsername] = useState('kein username geladen');
   const [loading, setLoading] = useState(false);
+  const logoutUser = useAuthStore((state) => state.logoutUser);
+  const authUser = useAuthStore((state) => state.user);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchUsername = async () => {
       const data = await fetchUserAPI();
       setUsername(data.username);
@@ -23,15 +35,25 @@ function ExamplePage() {
 
     setLoading(true);
     fetchUsername();
-  }, []);
+  }, []); */
 
   return (
     <div className="p-12 h-full space-y-2">
-      <div>{loading ? 'loading...' : username}</div>
+      <div>{loading ? 'loading...' : authUser?.email}</div>
       <MyButton />
       <div className="space-x-2">
-        <Button>Button</Button>
+        <Button onClick={() => fetchUser()}>Button</Button>
         <Button variant="secondary">Second</Button>
+        <Button
+          onClick={() => {
+            logoutUser();
+            console.log('logoutUser', logoutUser);
+            //console.log('authUser', authUser);
+          }}
+          variant="destructive"
+        >
+          Logout
+        </Button>
       </div>
     </div>
   );

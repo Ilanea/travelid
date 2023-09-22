@@ -15,8 +15,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@libs/icons-web": ["libs/icons-web/src/index.ts"],
       "@libs/ui-web": ["libs/ui-web/src/index.ts"],
-      "@libs/utils": ["libs/utils/src/index.ts"]
+      "@libs/utils": ["libs/utils/src/index.ts"],
+      "@hotel/*": ["apps/frontend-hotel/src/*"],
+      "@hotel/public/*": ["apps/frontend-hotel/public/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
