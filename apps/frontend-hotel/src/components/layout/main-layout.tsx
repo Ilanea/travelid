@@ -6,6 +6,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { Icons } from '@libs/icons-web';
 
 import Logo from '@hotel/components/logo';
+import { signOut } from '@hotel/features/auth/api/sign-out';
 import { useAuthStore } from '@hotel/features/auth/store/auth';
 
 import { Role } from '../../features/auth/types';
@@ -73,6 +74,7 @@ const UserNavigation = () => {
       name: 'Sign out',
       to: '/auth/signin',
       onClick: () => {
+        signOut();
         logout();
       },
     },

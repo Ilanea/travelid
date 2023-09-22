@@ -1,3 +1,4 @@
+import { stat } from 'fs';
 import { useEffect, useState } from 'react';
 
 import { Button } from '@libs/ui-web';
@@ -18,6 +19,11 @@ const fetchUserAPI = async () => {
 const fetchUser = async () => {
   const user = await getUser();
   console.log('uesr', user);
+};
+
+const storeHandler = () => {
+  const authUser = useAuthStore.setState({ user: null });
+  console.log('authUser', authUser);
 };
 
 function ExamplePage() {
@@ -43,7 +49,9 @@ function ExamplePage() {
       <MyButton />
       <div className="space-x-2">
         <Button onClick={() => fetchUser()}>Button</Button>
-        <Button variant="secondary">Second</Button>
+        <Button variant="secondary" onClick={() => storeHandler()}>
+          Second
+        </Button>
         <Button
           onClick={() => {
             logoutUser();
