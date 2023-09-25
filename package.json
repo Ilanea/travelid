@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev:backend": "nx run apps/backend:serve",
-    "dev:user": "nx run-many -t serve -p apps/backend apps/frontend-user",
+    "dev:guest": "nx run-many -t serve -p apps/backend apps/mobile-guest",
     "dev:hotel": "nx run-many -t serve -p apps/backend apps/frontend-hotel",
     "storybook": "nx run libs/ui-web:storybook ",
     "prisma:studio": "cd apps/backend && npx prisma studio",
