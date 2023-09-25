@@ -10,10 +10,14 @@ export class HotelService {
     private authService: AuthService,
     ) {}
 
-  async getAllHotels() {
-    const hotels = await this.prisma.hotel.findMany();
-    return hotels;
-  }
+    async getAllHotels(page: number, pageSize: number) {
+      const skip = (page - 1) * pageSize;
+      const hotels = await this.prisma.hotel.findMany({
+        skip,
+        take: pageSize,
+      });
+      return hotels;
+    }
 
   async getHotel(hotelId: number) {
     const hotel = await this.prisma.hotel.findUnique({

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { AuthenticatedGuard } from '../auth/guard';
 import { HotelService } from './hotel.service';
 import { ApiTags, ApiCookieAuth } from '@nestjs/swagger';
@@ -12,9 +12,12 @@ export class HotelController {
   constructor(private hotelService: HotelService) {}
 
   @Get('')
-  async getAllHotels() {
-    return this.hotelService.getAllHotels();
-  }
+    async getAllHotels(
+      @Query('page') page: string,
+      @Query('pageSize') pageSize: string,
+    ) {
+      return this.hotelService.getAllHotels(parseInt(page), parseInt(pageSize));
+    }
 
   @Get('/:hotelId')
   async getHotel(@Param('hotelId') hotelId: string) {
