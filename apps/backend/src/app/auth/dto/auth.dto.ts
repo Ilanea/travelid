@@ -22,7 +22,7 @@ export class SignupDto {
 
   @ApiPropertyOptional()
   @IsString()
-  lastname: string
+  lastName: string
 }
 
 export class LoginDto {

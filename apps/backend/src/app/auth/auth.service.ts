@@ -28,18 +28,15 @@ export class AuthService {
               userName: dto.username,
               email: dto.email,
               passwordHash: passwordHash,
-              firstName: dto.firstname,
-              lastName: dto.lastname
+              firstName: dto.firstName,
+              lastName: dto.lastName
           },
       });
 
       delete user.passwordHash;
       return user;
     } catch (error) {
-      if (
-        error instanceof
-        PrismaClientKnownRequestError
-      ) {
+      if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new ForbiddenException('User already exists');
         }
