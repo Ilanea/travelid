@@ -2,11 +2,12 @@ import { Body, Controller, Delete, Get, Param, Patch, Req, UnauthorizedException
 import { AuthenticatedGuard, RolesGuard } from '../auth/guard';
 import { ChangePasswordDto, ChangeRoleDto, EditUserDto } from './dto';
 import { UserService } from './user.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiCookieAuth } from '@nestjs/swagger';
 import { Roles } from '../auth/decorator';
 import { Role } from '../auth/roles/role.enum';
 
 @ApiTags('users')
+@ApiCookieAuth()
 @Controller('users')
 @UseGuards(AuthenticatedGuard, RolesGuard)
 export class UserController {

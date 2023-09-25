@@ -30,6 +30,7 @@ async function bootstrap() {
     .setTitle('TravelID API')
     .setDescription('The TravelID API description')
     .setVersion('1.0')
+    .addCookieAuth('connect.sid')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);

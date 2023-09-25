@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthenticatedGuard } from '../auth/guard';
 import { HotelService } from './hotel.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiCookieAuth } from '@nestjs/swagger';
 import { CreateHotelDto } from './dto';
 import { Roles } from '../auth/decorator';
 import { Role } from '../auth/roles/role.enum';
@@ -13,7 +13,6 @@ export class HotelController {
   constructor(private hotelService: HotelService) {}
 
   @Get('')
-  @Roles(Role.ADMIN)
   async getAllHotels() {
     return this.hotelService.getAllHotels();
   }
@@ -24,6 +23,7 @@ export class HotelController {
     return hotel;
   }
 
+  @ApiCookieAuth()
   @Post('')
   @Roles(Role.HOTELMANAGER || Role.ADMIN)
   async createHotel(@Body() dto: CreateHotelDto, @Req() request) {
@@ -31,6 +31,7 @@ export class HotelController {
     return hotel;
   }
 
+  @ApiCookieAuth()
   @Patch('/:hotelId')
   @Roles(Role.HOTELMANAGER || Role.ADMIN)
   async editHotel(@Param('hotelId') hotelId: string, @Body() dto: CreateHotelDto) {
@@ -38,6 +39,7 @@ export class HotelController {
     return hotel;
   }
 
+  @ApiCookieAuth()
   @Delete('/:hotelId')
   @Roles(Role.ADMIN)
   async deleteHotel(@Param('hotelId') hotelId: string) {
@@ -45,6 +47,7 @@ export class HotelController {
     return hotel;
   }
 
+  @ApiCookieAuth()
   @Get('/:hotelId/bookings')
   @Roles(Role.HOTELMANAGER || Role.ADMIN)
   async getHotelBookings(@Param('hotelId') hotelId: string) {
