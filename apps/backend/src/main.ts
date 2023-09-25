@@ -5,7 +5,7 @@
 
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { SwaggerModule, DocumentBuilder, SwaggerDocumentOptions } from '@nestjs/swagger';
 import { AppModule } from './app/app.module';
 import { ConfigService } from '@nestjs/config';
 import { createClient } from 'redis';
@@ -26,13 +26,20 @@ async function bootstrap() {
   app.use(cookieParser());
   const port = process.env.PORT || 3333;
 
+  const options: SwaggerDocumentOptions =  {
+    operationIdFactory: (
+      controllerKey: string,
+      methodKey: string
+    ) => methodKey
+  };
+
   const config = new DocumentBuilder()
     .setTitle('TravelID API')
     .setDescription('The TravelID API description')
     .setVersion('1.0')
     .addCookieAuth('connect.sid')
     .build();
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('api-docs', app, document);
 
   const redisClient = await createClient({
