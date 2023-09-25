@@ -139,4 +139,23 @@ export class UserService {
     return user;
   }
 
+  async changeActive(userId: number, dto) {
+    const user = await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        active: dto.active,
+      },
+    });
+
+    if(!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    delete user.passwordHash;
+
+    return user;
+  }
+
 }

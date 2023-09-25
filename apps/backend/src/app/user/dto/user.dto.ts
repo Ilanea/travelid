@@ -1,4 +1,4 @@
-import { IsEmail, IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsEmail, IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Role } from '../../auth/roles/role.enum';
 
@@ -35,4 +35,10 @@ export class ChangeRoleDto {
     message: `Invalid role. Role must be one of: ${Object.values(Role).join(', ')}`,
   })
   role: Role;
+}
+
+export class ChangeActiveDto {
+  @ApiProperty()
+  @IsBoolean()
+  active: boolean;
 }

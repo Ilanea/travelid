@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { AuthenticatedGuard, RolesGuard } from '../auth/guard';
-import { ChangePasswordDto, ChangeRoleDto, EditUserDto } from './dto';
+import { ChangePasswordDto, ChangeRoleDto, EditUserDto, ChangeActiveDto } from './dto';
 import { UserService } from './user.service';
 import { ApiTags, ApiCookieAuth } from '@nestjs/swagger';
 import { Roles } from '../auth/decorator';
@@ -63,6 +63,17 @@ export class UserController {
   async changeRole(@Param('userId') userId: string, @Body() dto: ChangeRoleDto, @Req() request) {
     if (request.session.user.id === parseInt(userId)) {
       const user = await this.userService.changeRole(parseInt(userId), dto);
+      return user;
+    } else {
+      throw new UnauthorizedException('You are not authorized to perform this action.');
+    }
+  }
+
+  @Patch('/:userId/active')
+  @Roles(Role.ADMIN)
+  async changeActive(@Param('userId') userId: string, @Body() dto: ChangeActiveDto, @Req() request) {
+    if (request.session.user.id === parseInt(userId)) {
+      const user = await this.userService.changeActive(parseInt(userId), dto);
       return user;
     } else {
       throw new UnauthorizedException('You are not authorized to perform this action.');
