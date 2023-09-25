@@ -30,8 +30,13 @@ export class UserService {
     return user;
   }
 
-  async getAllUsers() {
-    const users = await this.prisma.user.findMany();
+  async getAllUsers(page: number, pageSize: number) {
+    const skip = (page - 1) * pageSize;
+    const users = await this.prisma.user.findMany({
+      skip,
+      take: pageSize,
+    });
+
     users.forEach(user => {
       delete user.passwordHash;
     });

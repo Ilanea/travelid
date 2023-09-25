@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Query, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { AuthenticatedGuard, RolesGuard } from '../auth/guard';
 import { ChangePasswordDto, ChangeRoleDto, EditUserDto, ChangeActiveDto } from './dto';
 import { UserService } from './user.service';
@@ -15,8 +15,11 @@ export class UserController {
 
   @Get('')
   @Roles(Role.ADMIN)
-  async getAllUsers() {
-    return this.userService.getAllUsers();
+  async getAllUsers(
+    @Query('page') page: string,
+    @Query('pageSize') pageSize: string,
+  ) {
+    return this.userService.getAllUsers(parseInt(page), parseInt(pageSize));
   }
 
   @Get('/:userId')
