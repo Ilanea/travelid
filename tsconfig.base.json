@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@hotel/*": ["apps/frontend-hotel/src/*"],
+      "@hotel/public/*": ["apps/frontend-hotel/public/*"],
+      "@libs/icons-web": ["libs/icons-web/src/index.ts"],
       "@libs/ui-web": ["libs/ui-web/src/index.ts"],
       "@libs/utils": ["libs/utils/src/index.ts"]
     }
