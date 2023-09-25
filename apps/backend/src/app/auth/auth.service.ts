@@ -75,7 +75,12 @@ export class AuthService {
       delete user.passwordHash;
       return user;
     } else {
-      const uniqueUserName = googleUser.username.replace(/\s/g, '');
+      let uniqueUserName;
+      if(!googleUser.username){ 
+        uniqueUserName = googleUser.email.split('@')[0].replace(/[^a-zA-Z0-9]/g, '');
+      } else {
+        uniqueUserName = googleUser.username.replace(/[^a-zA-Z0-9]/g, '');
+      }
       let randomDigits = Math.floor(1000 + Math.random() * 9000);
 
       while (await this.isUserNameTaken(uniqueUserName + randomDigits)) {
