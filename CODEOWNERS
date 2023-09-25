@@ -7,3 +7,6 @@
 
 # Users Frontend Codeowners
 /apps/frontend-user/ @ek0402 @ep2277 @Janok321 @Tixerio @nix9n
+
+# Libraries
+/libs/ @ghostsxxx @Ilanea
