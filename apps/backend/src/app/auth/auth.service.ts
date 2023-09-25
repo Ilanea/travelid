@@ -25,6 +25,7 @@ export class AuthService {
     try {
       const user = await this.prisma.user.create({
           data: {
+              userName: dto.userName,
               email: dto.email,
               passwordHash: passwordHash,
               firstName: dto.firstName,
@@ -71,13 +72,27 @@ export class AuthService {
       delete user.passwordHash;
       return user;
     } else {
+      let uniqueUserName;
+      if(!googleUser.username){ 
+        uniqueUserName = googleUser.email.split('@')[0].replace(/[^a-zA-Z0-9]/g, '');
+      } else {
+        uniqueUserName = googleUser.username.replace(/[^a-zA-Z0-9]/g, '');
+      }
+      let randomDigits = Math.floor(1000 + Math.random() * 9000);
+
+      while (await this.isUserNameTaken(uniqueUserName + randomDigits)) {
+        randomDigits = Math.floor(1000 + Math.random() * 9000);
+      }
+
       const user = await this.prisma.user.create({
         data: {
+          userName: uniqueUserName + randomDigits,
           email: googleUser.email,
           firstName: googleUser.firstName,
           lastName: googleUser.lastName,
         },
       });
+      
       delete user.passwordHash;
       return user;
     }
@@ -88,20 +103,17 @@ export class AuthService {
       where: { id: userId },
     });
 
-    //console.log('user.refreshTokenHash: ', user.refreshTokenHash);
-    //const hashedRefreshToken = await argon.hash(refreshToken);
-    //console.log('hashedRefreshToken: ', hashedRefreshToken);
-
-    // unhash refresh token
-    //const unhashedRefreshToken = await argon.verify(user.refreshTokenHash, refreshToken);
-    //console.log('unhashed refreshToken: ', unhashedRefreshToken);
-    
-    
-    
     if(!user){
       throw new ForbiddenException('User not found');
     }
     return user;
+  }
+
+  async isUserNameTaken(userName: string) {
+    const existingUser = await this.prisma.user.findUnique({
+      where: { userName: userName },
+    });
+    return existingUser;
   }
 
 }
