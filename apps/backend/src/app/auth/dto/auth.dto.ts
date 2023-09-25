@@ -3,7 +3,6 @@ import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class SignupDto {
   @ApiPropertyOptional()
-  @IsNotEmpty()
   userName: string;
 
   @ApiProperty()
