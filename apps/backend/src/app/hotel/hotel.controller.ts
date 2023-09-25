@@ -8,7 +8,6 @@ import { Role } from '../auth/roles/role.enum';
 
 @ApiTags('hotel')
 @Controller('hotel')
-@UseGuards(AuthenticatedGuard)
 export class HotelController {
   constructor(private hotelService: HotelService) {}
 
@@ -23,6 +22,7 @@ export class HotelController {
     return hotel;
   }
 
+  @UseGuards(AuthenticatedGuard)
   @ApiCookieAuth()
   @Post('')
   @Roles(Role.HOTELMANAGER || Role.ADMIN)
@@ -31,6 +31,7 @@ export class HotelController {
     return hotel;
   }
 
+  @UseGuards(AuthenticatedGuard)
   @ApiCookieAuth()
   @Patch('/:hotelId')
   @Roles(Role.HOTELMANAGER || Role.ADMIN)
@@ -39,6 +40,7 @@ export class HotelController {
     return hotel;
   }
 
+  @UseGuards(AuthenticatedGuard)
   @ApiCookieAuth()
   @Delete('/:hotelId')
   @Roles(Role.ADMIN)
@@ -47,6 +49,7 @@ export class HotelController {
     return hotel;
   }
 
+  @UseGuards(AuthenticatedGuard)
   @ApiCookieAuth()
   @Get('/:hotelId/bookings')
   @Roles(Role.HOTELMANAGER || Role.ADMIN)
