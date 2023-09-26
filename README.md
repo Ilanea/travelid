@@ -41,3 +41,6 @@ npx prisma migrate dev
 ## Use the VSCode Plugin
 
 https://marketplace.visualstudio.com/items?itemName=nrwl.angular-console
+
+## Swagger API Documentation
+http://localhost:3333/api-docs
