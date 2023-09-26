@@ -7,6 +7,7 @@ import { useAuthStore } from '@hotel/features/auth/store/auth';
 
 import { getUser } from '../../auth';
 import MyButton from '../components/MyButton';
+import SettingsForm from "@hotel/features/settings/components/settings-form";
 
 const fetchUserAPI = async () => {
   const response = await fetch('/api/username');
@@ -47,28 +48,7 @@ function SettingsPage() {
     <div className="p-12 h-full space-y-2">
       <h1> Profile Settings for: <div>{loading ? 'loading...' : authUser?.email}</div></h1>
 
-
-      
-
-      <MyButton />
-      <div className="space-x-2">
-        <p> this is the username: </p>
-        <Button onClick={() => fetchUser()}>HIII</Button>
-        <Button variant="secondary" onClick={() => storeHandler()}>
-          Second
-        </Button>
-        <Button
-          onClick={() => {
-            logoutUser();
-            console.log('logoutUser', logoutUser);
-            //console.log('authUser', authUser);
-          }}
-          variant="destructive"
-        >
-          Logout
-        </Button>
-
-      </div>
+      <SettingsForm/>
 
     </div>
   );
