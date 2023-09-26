@@ -1,0 +1,14 @@
+# Backend Codeowners
+/apps/backend/ @Ilanea @mariobedenk @Janok321
+/apps/backend-e2e/ @Ilanea @mariobedenk @Janok321
+
+# Hotel Frontend Codeowners
+/apps/frontend-hotel/ @ghostsxxx @Obanzi @ZELLECH @DominikB90 @ChrisCodeKing @pascalexander @Ilanea
+
+# Users Frontend Codeowners
+/apps/mobile-guest/ @ek0402 @ep2277 @Janok321 @Tixerio @nix9n
+/apps/mobile-guest-e2e/ @ek0402 @ep2277 @Janok321 @Tixerio @nix9n
+/tools/ @ek0402 @ep2277 @Janok321 @Tixerio @nix9n
+
+# Libraries
+/libs/ @ghostsxxx @Ilanea

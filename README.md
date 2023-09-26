@@ -16,12 +16,31 @@ npm -i
 
 ## Run the dev server from console
 
-This will serve 2 or more apps parallel from one console.
+This will serve 2 or more apps parallel from one console, or use nx console.
 
 ```
-nx run-many -t serve -p apps/backend apps/frontend-user
+nx run-many -t serve -p apps/backend apps/mobile-guest
+```
+
+## Get the backend up and running
+Download and install Docker Desktop from https://www.docker.com/
+
+Start the docker compose in the apps/backend folder from a shell, or use the VSCode Docker plugin (Rightclick on the file -> Compose Up)
+
+```
+docker compose up
+```
+
+Configure Prisma DB and Prisma Client
+(from apps/backend)
+```
+npx prisma generate
+npx prisma migrate dev
 ```
 
 ## Use the VSCode Plugin
 
 https://marketplace.visualstudio.com/items?itemName=nrwl.angular-console
+
+## Swagger API Documentation
+http://localhost:3333/api-docs
