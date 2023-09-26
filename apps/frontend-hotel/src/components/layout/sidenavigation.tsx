@@ -3,8 +3,9 @@ import { NavLink } from 'react-router-dom';
 
 import { Icons } from '@libs/icons-web';
 
-import { Role } from '@hotel/features/auth';
 import { useAuthStore } from '@hotel/features/auth/store/auth';
+
+import { Role } from '../../features/auth/types';
 
 type SideNavigationItem = {
   name: string;
