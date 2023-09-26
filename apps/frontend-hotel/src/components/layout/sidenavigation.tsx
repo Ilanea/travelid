@@ -35,17 +35,16 @@ const SideNavigation = () => {
           to={item.to}
           className={({ isActive }) => {
             return clsx(
-              'hover:bg-gray-900 hover:text-white',
+              'hover:bg-gray-100/10 hover:text-white',
               'group flex items-center px-2 py-2 text-base font-medium rounded-md ease-in transition-all',
-              isActive ? 'bg-gray-100 text-gray-800' : 'text-gray-100'
+              isActive
+                ? 'bg-gray-100 text-gray-800 hover:bg-gray-100 hover:text-gray-800'
+                : 'text-gray-100'
             );
           }}
         >
           <item.icon
-            className={clsx(
-              ' group-hover:text-gray-100',
-              'mr-4 flex-shrink-0 h-6 w-6'
-            )}
+            className={clsx('mr-4 flex-shrink-0 h-6 w-6')}
             aria-hidden="true"
           />
           {item.name}
