@@ -69,7 +69,7 @@ const UserNavigation = () => {
   const logout = useAuthStore((state) => state.logoutUser);
 
   const userNavigation = [
-    { name: 'Your Profile', to: './profile' },
+    { name: 'Your Profile / Settings', to: './settings' },
     {
       name: 'Sign out',
       to: '/auth/signin',
