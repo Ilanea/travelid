@@ -31,6 +31,8 @@ model User {
   firstName String?
   lastName  String?
 
+  avatar String?
+
   HotelManager Hotel[]
   Booking      Booking[]
 
