@@ -6,8 +6,8 @@ import { CreateHotelDto } from './dto';
 import { Roles } from '../auth/decorator';
 import { Role } from '../auth/roles/role.enum';
 
-@ApiTags('hotel')
-@Controller('hotel')
+@ApiTags('hotels')
+@Controller('hotels')
 export class HotelController {
   constructor(private hotelService: HotelService) {}
 
