@@ -19,7 +19,7 @@ npm -i
 This will serve 2 or more apps parallel from one console, or use nx console.
 
 ```
-nx run-many -t serve -p apps/backend apps/frontend-user
+nx run-many -t serve -p apps/backend apps/mobile-guest
 ```
 
 ## Get the backend up and running
@@ -41,3 +41,6 @@ npx prisma migrate dev
 ## Use the VSCode Plugin
 
 https://marketplace.visualstudio.com/items?itemName=nrwl.angular-console
+
+## Swagger API Documentation
+http://localhost:3333/api-docs

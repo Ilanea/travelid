@@ -33,7 +33,26 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+apps/backend/prisma/migrations/
 
 # System Files
 .DS_Store
 Thumbs.db
+
+# Expo
+node_modules/
+.expo/
+.yarn/
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+cache/
+
+
+apps/mobile-guest-e2e/artifacts

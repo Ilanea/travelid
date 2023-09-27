@@ -4,6 +4,18 @@
 
 @layer base {
   :root {
+    --primary-50: 222 63% 97%;
+    --primary-100: 217 62% 93%;
+    --primary-200: 216 66% 87%;
+    --primary-300: 215 65% 78%;
+    --primary-400: 216 65% 68%;
+    --primary-500: 221 62% 60%;
+    --primary-600: 225 57% 53%;
+    --primary-700: 228 52% 46%;
+    --primary-800: 230 48% 40%;
+    --primary-900: 228 44% 33%;
+    --primary-950: 230 38% 21%;
+
     --background: 0 0% 100%;
     --foreground: 222.2 47.4% 11.2%;
 

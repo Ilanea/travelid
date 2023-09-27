@@ -23,8 +23,9 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     _refreshToken: string,
     profile: any,
   ) {
-    const { name, emails } = profile
+    const { displayName, name, emails } = profile
     const googleUser = {
+      username: displayName,
       email: emails[0].value,
       firstName: name.givenName,
       lastName: name.familyName

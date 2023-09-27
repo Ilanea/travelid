@@ -48,7 +48,9 @@ function ExamplePage() {
       <div>{loading ? 'loading...' : authUser?.email}</div>
       <MyButton />
       <div className="space-x-2">
-        <Button onClick={() => fetchUser()}>Button</Button>
+        <Button onClick={() => fetchUser()} className="bg-primary top-8">
+          Button
+        </Button>
         <Button variant="secondary" onClick={() => storeHandler()}>
           Second
         </Button>
