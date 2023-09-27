@@ -12,6 +12,7 @@ import { changePassword } from "../api/change-password";
 const useChangeUser = () => {
   const [isLoading, setIsLoading] = useState(false);
   const setAuthUser = useAuthStore((state) => state.setUser);
+  const authUser = useAuthStore((state) => state.user);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/dashboard';
@@ -21,7 +22,10 @@ const useChangeUser = () => {
     try {
       let userResponse;
       if (type === 'changePassword') {
-        userResponse = await changePassword(signData);
+        const userId = authUser?.id!;
+        console.log('userId', userId);
+        console.log(typeof(userId));
+        userResponse = await changePassword(userId, signData);
         console.log('response', userResponse);
       } else if (type === 'changeUsername') {
         console.log("TODO: change username")
