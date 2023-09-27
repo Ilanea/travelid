@@ -134,8 +134,12 @@ export class UserController {
         });
       },
       filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '_' + Math.round(Math.random() * 1e9);
-        cb(null, uniqueSuffix + '_' + file.originalname);
+        //const uniqueSuffix = Date.now() + '_' + Math.round(Math.random() * 1e9);
+        //cb(null, uniqueSuffix + '_' + file.originalname);
+
+        const extname = path.extname(file.originalname).toLowerCase();
+        const newFilename = `avatar${extname}`;
+        cb(null, newFilename);
       },
     }),
     limits: { fileSize: 3000000 },
@@ -179,8 +183,14 @@ export class UserController {
         throw new NotFoundException('Avatar not found');
       }
   
-      const avatarPath = `../../../apps/backend/uploads/${request.session.user.id}/${avatarFileName}`;
+      // Return Image
+      //const avatarPath = `../../../apps/backend/uploads/${request.session.user.id}/${avatarFileName}`;
+      //res.sendFile(path.join(__dirname, avatarPath));
 
-      res.sendFile(path.join(__dirname, avatarPath));
+      // return URL
+      const userId = request.session.user.id;
+      const serverUrl = process.env.SERVER_URL || 'http://localhost:3333';
+      const avatarUrl = `${serverUrl}/uploads/${userId}/${avatarFileName}`;
+      return res.json({ avatarUrl });
   }
 }
