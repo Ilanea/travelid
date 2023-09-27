@@ -58,7 +58,7 @@ const SettingsForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-2">
         <FormField
           control={form.control}
           name="oldPassword"
@@ -66,7 +66,7 @@ const SettingsForm = () => {
             <FormItem>
               <FormLabel>Old Password</FormLabel>
               <FormControl>
-                <Input placeholder="Your old passwoed" {...field} type="oldPassword" />
+                <Input placeholder="Enter old password" {...field} type="oldPassword" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -79,7 +79,7 @@ const SettingsForm = () => {
             <FormItem>
               <FormLabel>New Password</FormLabel>
               <FormControl>
-                <Input placeholder="Your new password" {...field} type="newPassword" />
+                <Input placeholder="Enter new password" {...field} type="newPassword" />
               </FormControl>
               <FormMessage />
             </FormItem>

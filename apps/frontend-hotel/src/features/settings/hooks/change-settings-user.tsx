@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-/*
-import { signIn } from '../api/sign-in';
-import { signUp } from '../api/sign-up';
-*/
-
 import { useAuthStore } from '../store/auth';
 import { changePassword } from "../api/change-password";
 
@@ -17,6 +12,7 @@ const useChangeUser = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || '/dashboard';
 
+  // separate the functions for changePassword and changeUsername in two hooks
   const changeUser = async (signData: any, type: 'changePassword' | 'changeUsername') => {
     setIsLoading(true);
     try {

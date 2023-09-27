@@ -3,12 +3,12 @@ import { axios } from '../../../lib/axios';
 import { AuthUser } from '../types';
 import { getUser } from './get-user';
 
-export type changePassData = {
+export type changePasswordDto = {
   oldPassword: string;
   newPassword: string;
 };
 
-export const changePassword = async (userId: number, data: changePassData): Promise<AuthUser> => {
+export const changePassword = async (userId: number, data: changePasswordDto): Promise<AuthUser> => {
   const user = await axios.patch(`/users/${userId.toString()}/password`, data);
   return user;
 };
