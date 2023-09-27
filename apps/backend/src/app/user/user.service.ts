@@ -162,24 +162,5 @@ export class UserService {
 
     return user;
   }
-
-  async uploadProfilePicture(userId: number, fileName: string) {
-    const user = await this.prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        avatar: fileName,
-      },
-    });
-
-    if(!user) {
-      throw new BadRequestException('User not found');
-    }
-
-    delete user.passwordHash;
-
-    return user;
-  }
-
+  
 }

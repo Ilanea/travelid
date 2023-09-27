@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, FileTypeValidator, Get, HttpStatus, MaxFileSizeValidator, Param, ParseFilePipe, ParseFilePipeBuilder, Patch, Post, Query, Req, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, FileTypeValidator, Get, HttpStatus, MaxFileSizeValidator, NotFoundException, Param, ParseFilePipe, ParseFilePipeBuilder, Patch, Post, Query, Req, Res, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthenticatedGuard, RolesGuard } from '../auth/guard';
 import { ChangePasswordDto, ChangeRoleDto, EditUserDto, ChangeActiveDto } from './dto';
 import { UserService } from './user.service';
@@ -11,13 +11,17 @@ import { Multer, diskStorage } from 'multer';
 import * as fs from 'fs';
 import Path from 'path'
 import path from 'path';
+import { PrismaService } from '../prisma/prisma.service';
 
 @ApiTags('users')
 @ApiCookieAuth()
 @Controller('users')
 @UseGuards(AuthenticatedGuard, RolesGuard)
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private prisma: PrismaService
+  ) {}
 
   @Get('')
   @Roles(Role.ADMIN)
@@ -103,13 +107,29 @@ export class UserController {
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: (req, file, cb) => {
-        const userId = req.body.userId;
+        const userId = req.params.userId;
         const dest = `apps/backend/uploads/${userId}`;
         fs.access(dest, function (error) {
           if (error) {
-            return fs.mkdir(dest, (error) => cb(error, dest));
+            return fs.mkdir(dest, (mkdirError) => cb(mkdirError, dest));
           } else {
-            return cb(null, dest);
+
+            // Not a nice solution, but it deletes all existing files in the folder to not clutter the filesystem with unused files
+            fs.readdir(dest, (readdirError, files) => {
+              if (readdirError) {
+                return cb(readdirError, dest);
+              }
+  
+              files.forEach((filename) => {
+                fs.unlink(path.join(dest, filename), (unlinkError) => {
+                  if (unlinkError) {
+                    console.error(`Error deleting file ${filename}: ${unlinkError}`);
+                  }
+                });
+              });
+  
+              return cb(null, dest);
+            });
           }
         });
       },
@@ -120,29 +140,47 @@ export class UserController {
     }),
     limits: { fileSize: 3000000 },
     fileFilter: (req, file, cb) => {
-      if(req.session.user.id !== parseInt(req.body.userId)) {
-        cb(new UnauthorizedException('You are not authorized to perform this action.'), false);
-      } else { 
-        const acceptedExtensionsList = [".jpg", ".jpeg", ".png"];
-        const extname = path.extname(file.originalname).toLowerCase();
-        if (acceptedExtensionsList.includes(extname)) {
-          cb(null, true);
-        } else {
-          cb(new BadRequestException('File extension not allowed'), false);
-        }
+      const acceptedExtensionsList = [".jpg", ".jpeg", ".png"];
+      const extname = path.extname(file.originalname).toLowerCase();
+      if (acceptedExtensionsList.includes(extname)) {
+        cb(null, true);
+      } else {
+        cb(new BadRequestException('File extension not allowed'), false);
       }
     }
   }))
   @Post('/:userId/avatar')
   async uploadProfilePicture(
-    @Param('userId') userId: string,
     @Req() request,
+    @Res() res,
     @UploadedFile() file: Express.Multer.File) {
-    if (request.session.user.role === Role.ADMIN || request.session.user.id === parseInt(userId)) {
-      const user = await this.userService.uploadProfilePicture(parseInt(userId), file.filename);
-      return user;
-    } else {
-      throw new UnauthorizedException('You are not authorized to perform this action.');
-    }
+      if (!file) {
+        throw new BadRequestException('File not found');
+      }
+      if(request.session.user.id !== parseInt(request.params.userId)) {
+        throw new UnauthorizedException('You are not authorized to perform this action.');
+      }
+      const user = await this.prisma.user.update({
+        where: {
+          id: request.session.user.id,
+        },
+        data: {
+          avatar: file.filename,
+        },
+      });
+  
+      if (!user) {
+        throw new BadRequestException('User not found');
+      }
+  
+      const avatarFileName = user.avatar;
+  
+      if (!avatarFileName) {
+        throw new NotFoundException('Avatar not found');
+      }
+  
+      const avatarPath = `../../../apps/backend/uploads/${request.session.user.id}/${avatarFileName}`;
+
+      res.sendFile(path.join(__dirname, avatarPath));
   }
 }
