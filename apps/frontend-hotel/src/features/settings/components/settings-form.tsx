@@ -14,10 +14,10 @@ import {
   Input,
 } from '@libs/ui-web';
 
-import useSignInUp from '../../auth/hooks/use-sign-in-up';
+import useChangeUser from '../hooks/change-settings-user';
 
 const formSchema = z.object({
-  firstName: z.string().min(2, {
+  /*firstName: z.string().min(2, {
     message: 'First name must be at least 2 characters.',
   }),
   lastName: z.string().min(2, {
@@ -25,8 +25,14 @@ const formSchema = z.object({
   }),
   email: z.string().email({
     message: 'Please enter a valid email.',
-  }),
-  password: z
+  }),*/
+  oldPassword: z.string().min(8, {
+    message: 'Password must be at least 8 characters.',
+    })
+    .max(32, {
+      message: 'Password must be at most 32 characters.',
+    }),
+  newPassword: z
     .string()
     .min(8, {
       message: 'Password must be at least 8 characters.',
@@ -37,18 +43,16 @@ const formSchema = z.object({
 });
 
 const SettingsForm = () => {
-  const { isLoading, signUser } = useSignInUp();
+  const { isLoading, changeUser } = useChangeUser();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    signUser(values, 'signUp');
+    changeUser(values, 'changePassword');
   }
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
+      oldPassword: '',
+      newPassword: '',
     },
   });
 
@@ -57,12 +61,12 @@ const SettingsForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
         <FormField
           control={form.control}
-          name="firstName"
+          name="oldPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>First Name</FormLabel>
+              <FormLabel>Old Password</FormLabel>
               <FormControl>
-                <Input placeholder="Your first name" {...field} />
+                <Input placeholder="Your old passwoed" {...field} type="oldPassword" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -70,38 +74,12 @@ const SettingsForm = () => {
         />
         <FormField
           control={form.control}
-          name="lastName"
+          name="newPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Last Name</FormLabel>
+              <FormLabel>New Password</FormLabel>
               <FormControl>
-                <Input placeholder="Your last name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="Your email" {...field} type="email" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input placeholder="Your password" {...field} type="password" />
+                <Input placeholder="Your new password" {...field} type="newPassword" />
               </FormControl>
               <FormMessage />
             </FormItem>
