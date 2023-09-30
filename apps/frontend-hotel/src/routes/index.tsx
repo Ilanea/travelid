@@ -4,6 +4,7 @@ import RequireAuth from '@hotel/features/auth/components/require-auth';
 import NotFound from '@hotel/features/misc/pages/not-found';
 import Reports from '@hotel/features/reports/page/reports';
 
+import Report from '../features/HotelPage/pages/Report';
 import SignIn from '../features/auth/pages/signin';
 import SignUp from '../features/auth/pages/signup';
 import { Role } from '../features/auth/types';
@@ -16,12 +17,11 @@ export const AppRoutes = () => {
       <Route path="/auth/signup" element={<SignUp />} />
       <Route path="/auth/signin" element={<SignIn />} />
       <Route path="*" element={<NotFound />} />
-
       {/* protected routes */}
       <Route element={<RequireAuth allowedRoles={[Role.USER, Role.ADMIN]} />}>
         <Route path="/" element={<div>Dashboard</div>} />
         <Route path="/dashboard" element={<div>Dashboard</div>} />
-        <Route path="/reports" element={<Reports />} />
+        <Route path="/report" element={<Report />} />
         <Route path="/example" element={<ExamplePage />} />
       </Route>
       <Route element={<RequireAuth allowedRoles={[Role.ADMIN]} />}></Route>
