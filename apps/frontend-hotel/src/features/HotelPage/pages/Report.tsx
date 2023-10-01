@@ -11,7 +11,6 @@ import {
   FaRegThumbsDown,
   FaRegThumbsUp,
 } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 import {
   Bar,
   BarChart,
@@ -30,6 +29,7 @@ import { utils, write } from 'xlsx';
 import { Button } from '@libs/ui-web';
 
 import BookingsBarChart from '../components/BarChart';
+import BedIcon from '../components/BedIcon';
 import BoxComponent from '../components/BoxComponent';
 // Import the styles
 import StatsBox from '../components/StatsBox';
@@ -257,34 +257,65 @@ function Report() {
   );
 
   return (
-    <div className="min-h-screen relative pt-5 pl-5 pr-5 bg-gradient-to-b from-custom-blue to-gray-300">
+    <div className="min-h-screen relative pl-5 pr-5">
       {' '}
-      {/* Added gradient background */}
-      <div className="flex items-start mb-5 relative">
-        {' '}
-        {/* Adjusted width to full */}
-        <div className="absolute top-10 left-1/4 transform -translate-x-1/2 -translate-y-1/2 text-primary font-bold text-3xl">
-          13
+      <div className="flex justify-end space-x-4 mb-5">
+        {/* Bookings this week */}
+        <div className="text-primary text-xl flex flex-col border rounded p-5 w-1/4 border-primary">
+          <div className="flex justify-between items-center">
+            <div className="text-lg">Bookings this week</div>
+            <BedIcon className="text-primary" />
+          </div>
+          <div className="flex flex-col mb-3 text-2xl pt-2">
+            <div className="font-bold">+13</div>
+            <div className="text-sm text-gray-400 ml-2">
+              +13% seit der letzten Woche
+            </div>
+          </div>
         </div>
-        <div className="absolute top-3/4 left-1/4 transform -translate-x-1/2 -translate-y-1/2 text-primary font-bold text-3xl">
-          Bookings this week
+
+        {/* Bookings this month */}
+        <div className="text-primary text-xl flex flex-col border rounded p-5 w-1/4 border-primary">
+          <div className="flex justify-between items-center">
+            <div className="text-lg">Bookings this month</div>
+            <BedIcon className="text-primary" />
+          </div>
+          <div className="flex flex-col mb-3 text-2xl pt-2">
+            <div className="font-bold">+67</div>
+            <div className="text-sm text-gray-400 ml-2">
+              +33% seit letztem Monat
+            </div>
+          </div>
         </div>
-        <div className="absolute top-10 left-2/4 transform -translate-x-1/2 -translate-y-1/2 text-primary font-bold text-3xl">
-          67
+
+        {/* Bookings this year */}
+        <div className="text-primary text-xl flex flex-col border rounded p-5 w-1/4 border-primary">
+          <div className="flex justify-between items-center">
+            <div className="text-lg">Bookings this year</div>
+            <BedIcon className="text-primary" />
+          </div>
+          <div className="flex flex-col mb-3 text-2xl pt-2">
+            <div className="font-bold">+189</div>
+            <div className="text-sm text-gray-400 ml-2">
+              +89% seit letztem Jahr
+            </div>
+          </div>
         </div>
-        <div className="absolute top-3/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 text-primary font-bold text-3xl">
-          Bookings this month
+
+        {/* Total bookings */}
+        <div className="text-primary text-xl flex flex-col border rounded p-5 w-1/4 border-primary">
+          <div className="flex justify-between items-center">
+            <div className="text-lg">Bookings total</div>
+            <BedIcon className="text-primary" />
+          </div>
+          <div className="flex flex-col mb-3 text-2xl pt-2">
+            <div className="font-bold">+456</div>
+            <div className="text-sm text-gray-400 ml-2">+189% total</div>
+          </div>
         </div>
-        <div className="absolute top-10 left-3/4 transform -translate-x-1/2 -translate-y-1/2 text-primary font-bold text-3xl">
-          145
-        </div>
-        <div className="absolute top-3/4 left-3/4 transform -translate-x-1/2 -translate-y-1/2 text-primary font-bold text-3xl">
-          Bookings this year
-        </div>
-        {/* This is the text overlay. Adjust the position and styles as needed */}
       </div>
       <div className="flex justify-between items-center">
-        <div className="flex space-x-4 justify-center pl-52 pt-20">
+        <div className="flex space-x-4 justify-center pl-52">
           <span className="text-xl font-bold mb-4 text-primary flex-grow">
             Start Datum:
           </span>
@@ -308,15 +339,15 @@ function Report() {
             endDate={endDate}
             minDate={startDate}
           />
-        </div>
-        <div className="flex space-x-4 justify-center pb-4">
-          <Button
-            onClick={() =>
-              exportComponentAsPDF('wrapperdiv', 'exported-file.pdf')
-            }
-          >
-            Export as PDF
-          </Button>
+          <div className="flex space-x-4 justify-center pb-4 pl-96">
+            <Button
+              onClick={() =>
+                exportComponentAsPDF('wrapperdiv', 'exported-file.pdf')
+              }
+            >
+              Export as PDF
+            </Button>
+          </div>
         </div>
       </div>
       <div id="wrapperdiv" className="flex space-x-4">
@@ -406,7 +437,7 @@ function Report() {
               Buchungs-Herkunft:
             </h2>
             <button
-              className="bg-green-500 hover:bg-green-700 text-primary font-bold py-2 px-4 rounded text-sm"
+              className="bg-green-500 hover:bg-green-700 text-primary font-bold py-2 px-4 rounded text-xs w-1/2"
               onClick={() => exportToExcelBH(bookingSourcesData)}
             >
               Export to Excel
