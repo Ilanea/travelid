@@ -1,9 +1,11 @@
+import { set } from 'date-fns';
 import { saveAs } from 'file-saver';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { get } from 'react-hook-form';
 import {
   FaBed,
   FaCookieBite,
@@ -28,6 +30,7 @@ import { utils, write } from 'xlsx';
 
 import { Button } from '@libs/ui-web';
 
+import { getDailyBookings } from '../api/daily-bookings';
 import BookingsBarChart from '../components/BarChart';
 import BedIcon from '../components/BedIcon';
 import BookingBarChart from '../components/BookingBarChart';
@@ -42,41 +45,21 @@ function Report() {
   );
   const [endDate, setEndDate] = useState<Date | null>(new Date());
   const [view, setView] = useState<'daily' | 'monthly' | 'yearly'>('daily');
+  const [dailyBookings, setDailyBookings] = useState<DataEntry[]>([]);
 
   interface BookingData {
     day: string;
     Bookings: number;
   }
 
-  const mockupDailyBookings = [
-    { day: '2023-01-01', Bookings: 12 },
-    { day: '2023-01-02', Bookings: 8 },
-    { day: '2023-01-03', Bookings: 10 },
-    { day: '2023-01-04', Bookings: 15 },
-    { day: '2023-01-05', Bookings: 9 },
-    { day: '2023-01-06', Bookings: 7 },
-    { day: '2023-02-07', Bookings: 10 },
-    { day: '2023-02-08', Bookings: 13 },
-    { day: '2023-02-09', Bookings: 8 },
-    { day: '2023-03-10', Bookings: 11 },
-    { day: '2023-03-11', Bookings: 14 },
-    { day: '2023-04-12', Bookings: 6 },
-    { day: '2023-04-13', Bookings: 10 },
-    { day: '2023-05-14', Bookings: 12 },
-    { day: '2023-05-15', Bookings: 8 },
-    { day: '2023-05-16', Bookings: 9 },
-    { day: '2023-06-17', Bookings: 13 },
-    { day: '2023-06-18', Bookings: 15 },
-    { day: '2023-06-19', Bookings: 10 },
-    { day: '2023-07-20', Bookings: 12 },
-    { day: '2023-07-21', Bookings: 8 },
-    { day: '2023-07-22', Bookings: 9 },
-    { day: '2023-08-23', Bookings: 13 },
-    { day: '2023-08-24', Bookings: 15 },
-    { day: '2023-08-25', Bookings: 10 },
-    { day: '2023-09-26', Bookings: 12 },
-    { day: '2023-09-27', Bookings: 8 },
-  ];
+  useEffect(() => {
+    const getDailyBookingsHandler = async () => {
+      const myDailyBookings = await getDailyBookings();
+      setDailyBookings(myDailyBookings);
+    };
+
+    getDailyBookingsHandler();
+  }, []);
 
   const boxData = [
     { keyword: 'Treuepunkte vergeben', value: '323' },
@@ -119,7 +102,7 @@ function Report() {
     },
   ];
 
-  const filteredData = mockupDailyBookings.filter((item: any) => {
+  const filteredData = dailyBookings.filter((item: any) => {
     const itemDate = new Date(item.day); // Convert to format "YYYY-MM-DD" for Date object
 
     if (startDate && endDate) {
@@ -269,7 +252,11 @@ function Report() {
       </div>
       <div id="wrapperdiv" className="flex space-x-4">
         {/* Bar Chart */}
-        <BookingBarChart filteredData={filteredData} />
+        {dailyBookings ? (
+          <BookingBarChart filteredData={filteredData} />
+        ) : (
+          <div>loading...</div>
+        )}
         {/* Pie Chart */}
         <BookingOriginChart />
         <div className="w-1/4  text-primary border pl-5 rounded border-black bg-gray-200 text-sm">
