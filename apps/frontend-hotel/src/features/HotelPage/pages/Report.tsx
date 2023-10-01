@@ -34,7 +34,6 @@ import { getDailyBookings } from '../api/daily-bookings';
 import BookingsBarChart from '../components/BarChart';
 import BedIcon from '../components/BedIcon';
 import BookingBarChart from '../components/BookingBarChart';
-import BookingOriginChart from '../components/BookingOriginChart';
 import BoxComponent from '../components/BoxComponent';
 // Import the styles
 import StatsBox from '../components/StatsBox';
@@ -60,6 +59,40 @@ function Report() {
 
     getDailyBookingsHandler();
   }, []);
+
+  interface BuchungsHerkunft {
+    source: string;
+    bookings: number;
+  }
+  const exportToExcel = (data: BookingData[]) => {
+    const ws = utils.json_to_sheet(data);
+    const wb = utils.book_new();
+    utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    const excelBuffer = write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
+    });
+    saveAs(blob, 'MonthlyBookings.xlsx');
+  };
+
+  const exportToExcelBH = (data: BuchungsHerkunft[]) => {
+    const ws = utils.json_to_sheet(data);
+    const wb = utils.book_new();
+    utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    const excelBuffer = write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
+    });
+    saveAs(blob, 'MonthlyBookings.xlsx');
+  };
+
+  const bookingSourcesData = [
+    { source: 'Everyhome', bookings: 1200 },
+    { source: 'Mail', bookings: 300 },
+    { source: 'Phone', bookings: 20 },
+  ];
 
   const boxData = [
     { keyword: 'Treuepunkte vergeben', value: '323' },
@@ -155,6 +188,52 @@ function Report() {
       Bookings: number;
     };
   };
+
+  const chartData: DataEntry[] =
+    view === 'daily'
+      ? filteredData
+      : view === 'monthly'
+      ? consolidateToMonthly(filteredData)
+      : view === 'yearly'
+      ? consolidateToYearly(filteredData)
+      : [];
+
+  function consolidateToMonthly(data: DataEntry[]): DataEntry[] {
+    const monthlyData: { [key: number]: DataEntry } = {};
+
+    data.forEach((entry) => {
+      const month = new Date(entry.day!).getMonth() + 1;
+      if (!monthlyData[month]) {
+        monthlyData[month] = {
+          month,
+          Bookings: 0,
+        };
+      }
+      monthlyData[month].Bookings += entry.Bookings;
+    });
+
+    return Object.values(monthlyData);
+  }
+
+  function consolidateToYearly(data: DataEntry[]): DataEntry[] {
+    const yearlyData: { [key: number]: DataEntry } = {};
+
+    data.forEach((entry) => {
+      const year = new Date(entry.day!).getFullYear();
+      if (!yearlyData[year]) {
+        yearlyData[year] = {
+          year,
+          Bookings: 0,
+        };
+      }
+      yearlyData[year].Bookings += entry.Bookings;
+    });
+
+    return Object.values(yearlyData);
+  }
+  const maxY = Math.ceil(
+    Math.max(...chartData.map((item) => item.Bookings)) * 1.1
+  );
 
   return (
     <div className="min-h-screen relative pl-5 pr-5">
@@ -258,7 +337,43 @@ function Report() {
           <div>loading...</div>
         )}
         {/* Pie Chart */}
-        <BookingOriginChart />
+        <div className="w-1/4  text-white border pl-5 rounded border-black bg-gray-200">
+          <div className="flex justify-between items-center p-3">
+            {' '}
+            {/* This is the flex container */}
+            <h2 className="text-xl font-bold mb-4 text-primary pl-3 pt-3 pr-3">
+              Buchungs-Herkunft:
+            </h2>
+            <button
+              className="bg-green-500 hover:bg-green-700 text-primary font-bold py-2 px-4 rounded text-xs w-1/2"
+              onClick={() => exportToExcelBH(bookingSourcesData)}
+            >
+              Export to Excel
+            </button>
+          </div>
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={bookingSourcesData}
+                cx="50%"
+                cy="50%"
+                outerRadius={130}
+                fill="#8884d8"
+                dataKey="bookings"
+                nameKey="source"
+              >
+                {bookingSourcesData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
         <div className="w-1/4  text-primary border pl-5 rounded border-black bg-gray-200 text-sm">
           <BoxComponent data={boxData} />
         </div>
