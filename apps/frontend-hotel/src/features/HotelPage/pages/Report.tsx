@@ -1,11 +1,9 @@
-import { set } from 'date-fns';
 import { saveAs } from 'file-saver';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { get } from 'react-hook-form';
 import {
   FaBed,
   FaCookieBite,
@@ -29,6 +27,8 @@ import {
 import { utils, write } from 'xlsx';
 
 import { Button } from '@libs/ui-web';
+
+import BookingOriginChart from '@hotel/features/HotelPage/components/BookingOriginChart';
 
 import { getDailyBookings } from '../api/daily-bookings';
 import BookingsBarChart from '../components/BarChart';
@@ -337,43 +337,7 @@ function Report() {
           <div>loading...</div>
         )}
         {/* Pie Chart */}
-        <div className="w-1/4  text-white border pl-5 rounded border-black bg-gray-200">
-          <div className="flex justify-between items-center p-3">
-            {' '}
-            {/* This is the flex container */}
-            <h2 className="text-xl font-bold mb-4 text-primary pl-3 pt-3 pr-3">
-              Buchungs-Herkunft:
-            </h2>
-            <button
-              className="bg-green-500 hover:bg-green-700 text-primary font-bold py-2 px-4 rounded text-xs w-1/2"
-              onClick={() => exportToExcelBH(bookingSourcesData)}
-            >
-              Export to Excel
-            </button>
-          </div>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={bookingSourcesData}
-                cx="50%"
-                cy="50%"
-                outerRadius={130}
-                fill="#8884d8"
-                dataKey="bookings"
-                nameKey="source"
-              >
-                {bookingSourcesData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+        <BookingOriginChart />
         <div className="w-1/4  text-primary border pl-5 rounded border-black bg-gray-200 text-sm">
           <BoxComponent data={boxData} />
         </div>
