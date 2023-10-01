@@ -13,6 +13,7 @@ import RedisStore from "connect-redis"
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import passport from 'passport';
+import * as express from 'express'; 
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -23,6 +24,9 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
   }));
+  app.use(express.json({ limit: '50mb' }));
+  app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+  app.use('/uploads', express.static('apps/backend/uploads'));
   app.use(cookieParser());
   const port = process.env.PORT || 3333;
 
