@@ -37,7 +37,7 @@ export class HotelService {
     const hotel = await this.prisma.hotel.create({
       data: {
         ...dto,
-        managedBy: {
+        admins: {
           connect: { id: hotelmanager.id },
         },
       },

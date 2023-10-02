@@ -101,6 +101,10 @@ export class AuthService {
   async getUserById(userId: number){
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
+      include: {
+        hotelsAsAdmin: true,
+        hotelsAsReceptionist: true,
+      },
     });
 
     if(!user){

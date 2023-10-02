@@ -13,7 +13,8 @@ datasource db {
 enum Role {
   USER
   ADMIN
-  HOTELMANAGER
+  HOTELADMIN
+  HOTELRECEPTIONIST
 }
 
 model User {
@@ -31,8 +32,10 @@ model User {
   firstName String?
   lastName  String?
 
-  HotelManager Hotel[]
-  Booking      Booking[]
+  hotelsAsAdmin        Hotel[] @relation(name: "Admins")
+  hotelsAsReceptionist Hotel[] @relation(name: "Receptionists")
+
+  Booking Booking[]
 
   @@map("users")
 }
@@ -48,8 +51,8 @@ model Hotel {
   address     String
   description String?
 
-  managedBy   User @relation(fields: [managedById], references: [id])
-  managedById Int
+  admins        User[] @relation(name: "Admins")
+  receptionists User[] @relation(name: "Receptionists")
 
   Booking Booking[]
 

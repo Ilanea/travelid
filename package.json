@@ -27,6 +27,8 @@
   },
   "private": true,
   "dependencies": {
+    "@casl/ability": "^6.5.0",
+    "@casl/prisma": "^1.4.1",
     "@expo/metro-config": "~0.10.7",
     "@headlessui/react": "^1.7.17",
     "@hookform/resolvers": "^3.3.1",
