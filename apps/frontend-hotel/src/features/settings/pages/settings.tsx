@@ -1,14 +1,7 @@
-import { stat } from 'fs';
-import { useEffect, useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@libs/ui-web';
 
-import { Button } from '@libs/ui-web';
-
-import { useAuthStore } from '@hotel/features/auth/store/auth';
-import SettingsForm from '@hotel/features/settings/components/settings-form';
-
-import { getUser } from '../../auth';
-import MyButton from '../components/MyButton';
 import SecurityForm from '../components/security-form';
+import UserForm from '../components/user-form';
 
 const fetchUserAPI = async () => {
   const response = await fetch('/api/username');
@@ -18,22 +11,7 @@ const fetchUserAPI = async () => {
   return data;
 };
 
-const fetchUser = async () => {
-  const user = await getUser();
-  console.log('user', user);
-};
-
-const storeHandler = () => {
-  const authUser = useAuthStore.setState({ user: null });
-  console.log('authUser', authUser);
-};
-
 function SettingsPage() {
-  const [username, setUsername] = useState('kein username geladen');
-  const [loading, setLoading] = useState(false);
-  const logoutUser = useAuthStore((state) => state.logoutUser);
-  const authUser = useAuthStore((state) => state.user);
-
   /* useEffect(() => {
     const fetchUsername = async () => {
       const data = await fetchUserAPI();
@@ -46,15 +24,21 @@ function SettingsPage() {
   }, []); */
 
   return (
-    <div className="p-12 h-full space-y-2">
-      <h1>
-        {' '}
-        Profile Settings for:{' '}
-        <div>{loading ? 'loading...' : authUser?.email}</div>
-      </h1>
+    <div className="p-12 h-full space-y-2 justify-center flex">
+      {/* <SecurityForm /> */}
 
-      {/* <SettingsForm/> */}
-      <SecurityForm />
+      <Tabs defaultValue="account" className="w-[600px]">
+        <TabsList>
+          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="password">Password</TabsTrigger>
+        </TabsList>
+        <TabsContent value="account">
+          <UserForm />
+        </TabsContent>
+        <TabsContent value="password">
+          <SecurityForm />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
