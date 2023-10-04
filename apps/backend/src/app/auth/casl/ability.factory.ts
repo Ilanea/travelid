@@ -1,6 +1,6 @@
 // AbilityFactory.ts
 import { Hotel, Role, User } from '@prisma/client';
-import { AbilityBuilder, PureAbility } from '@casl/ability';
+import { AbilityBuilder, ExtractSubjectType, PureAbility, subject } from '@casl/ability';
 import { createPrismaAbility, PrismaQuery, Subjects } from '@casl/prisma';
 
 export enum Action {
@@ -18,7 +18,7 @@ export type AppAbility = PureAbility<
 >;
 
 export class AbilityFactory {
-  createForUser(user: User | null, hotelId?: number) {
+  createForUser(user: User | null) {
     const builder = new AbilityBuilder<AppAbility>(createPrismaAbility);
 
     if (user?.role === Role.ADMIN) {
@@ -27,22 +27,20 @@ export class AbilityFactory {
     } else if (user) {
       builder.can(Action.Read, 'User', { id: user.id });
       builder.can(Action.Edit, 'User', { id: user.id });
+      builder.can(Action.Read, 'Hotel');
 
-      if (user.role === Role.USER) {
-        // You can define permissions for regular users here.
-      } else if (user.role === Role.HOTELADMIN || user.role === Role.HOTELRECEPTIONIST) {
-        if (hotelId) {
-          if (user['hotelsAsAdmin'].some((h) => h.id === hotelId)) {
-            builder.can(Action.Manage, 'Hotel');
-          }
-          if (user['hotelsAsReceptionist'].some((h) => h.id === hotelId)) {
-            builder.can(Action.Read, 'Hotel');
-            builder.can(Action.Edit, 'Hotel');
-          }
-        }
+      if (user.role === Role.HOTELADMIN || user.role === Role.HOTELRECEPTIONIST) {
+        user['hotelsAsAdmin'].forEach((hotel: Hotel) => {
+          builder.can(Action.Manage, 'Hotel', { id: hotel.id });
+        });
+        user['hotelsAsReceptionist'].forEach((hotel: Hotel) => {
+          builder.can(Action.Edit, 'Hotel', { id: hotel.id });
+        });
       }
     }
 
-    return builder.build();
+    return builder.build({
+      detectSubjectType: type => type.constructor as ExtractSubjectType<AppSubjects>
+    });
   }
 }

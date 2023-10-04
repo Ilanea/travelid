@@ -3,13 +3,16 @@ import { AuthenticatedGuard, RolesGuard } from '../auth/guard';
 import { ChangePasswordDto, ChangeRoleDto, EditUserDto, ChangeActiveDto } from './dto';
 import { UserService } from './user.service';
 import { ApiTags, ApiCookieAuth } from '@nestjs/swagger';
-import { Roles } from '../auth/decorator';
+import { Roles } from '../auth/roles/role.decorator';
 import { Role } from '../auth/roles/role.enum';
+import { PoliciesGuard } from '../auth/guard/policies.guard';
+import { CheckPolicies } from '../auth/casl/policies.decorator';
+import { ReadUserHandler } from '../auth/casl/policies/user.handler';
 
 @ApiTags('users')
 @ApiCookieAuth()
 @Controller('users')
-@UseGuards(AuthenticatedGuard, RolesGuard)
+@UseGuards(AuthenticatedGuard, RolesGuard, PoliciesGuard)
 export class UserController {
   constructor(private userService: UserService) {}
 
@@ -22,13 +25,10 @@ export class UserController {
     return this.userService.getAllUsers(parseInt(page), parseInt(pageSize));
   }
 
+  @CheckPolicies(ReadUserHandler)
   @Get('/:userId')
-  async getUser(@Param('userId') userId: string,  @Req() request) {
-    if (request.session.user.role === Role.ADMIN || request.session.user.id === parseInt(userId)) {
-      return this.userService.getUser(parseInt(userId));
-    } else {
-      throw new UnauthorizedException('You are not authorized to perform this action.');
-    } 
+  async getUser(@Param('userId') userId: string) {
+    return this.userService.getUser(parseInt(userId));
   }
 
   @Patch('/:userId')

@@ -1,16 +1,15 @@
 import { IPolicyHandler } from '../policies-handler.interface';
 import { Action, AppAbility } from '../ability.factory';
 import { subject } from '@casl/ability';
-import { Hotel, User } from '@prisma/client';
+import { User } from '@prisma/client';
 
-export class HotelHandler implements IPolicyHandler {
+export class ReadUserHandler implements IPolicyHandler {
   constructor(
-    private hotel: Hotel,
     private user: User
     ) {}
 
   handle(ability: AppAbility) {
-    console.log(this.hotel)
-    return ability.can(Action.Manage, subject('Hotel', this.hotel));
+    if (!this.user) return false;
+    return ability.can(Action.Read, subject('User', this.user));
   }
 }

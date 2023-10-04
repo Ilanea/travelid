@@ -1,10 +1,10 @@
 import { Global, Module } from '@nestjs/common';
 import { AbilityFactory } from './ability.factory';
-import { HotelHandler } from './policies/hotel.handler';
+import { ReadUserHandler } from './policies/user.handler';
 
 @Global()
 @Module({
-  providers: [AbilityFactory, HotelHandler],
-  exports: [AbilityFactory, HotelHandler],
+  providers: [AbilityFactory, ReadUserHandler],
+  exports: [AbilityFactory],
 })
 export class CaslModule {}

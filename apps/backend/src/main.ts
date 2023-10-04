@@ -6,6 +6,7 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder, SwaggerDocumentOptions } from '@nestjs/swagger';
+import fs from 'fs';
 import { AppModule } from './app/app.module';
 import { ConfigService } from '@nestjs/config';
 import { createClient } from 'redis';
@@ -40,6 +41,7 @@ async function bootstrap() {
     .addCookieAuth('connect.sid')
     .build();
   const document = SwaggerModule.createDocument(app, config, options);
+  fs.writeFileSync("./swagger-spec.json", JSON.stringify(document));
   SwaggerModule.setup('api-docs', app, document);
 
   const redisClient = await createClient({

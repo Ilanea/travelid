@@ -47,20 +47,19 @@ export class PoliciesGuard implements CanActivate {
           { strict: false },
         );
       }
+      console.log(policyHandler)
       policyHandlers.push(policyHandler);
     }
 
-    const request = ctx.switchToHttp().getRequest<Request>();
     const user = ctx.switchToHttp().getRequest().user;
-    const hotelId = parseInt(request['params'].hotelId);
 
 
     const ability: AppAbility = this.abilityFactory.createForUser(
       user,
-      hotelId,
     );
 
     console.log(ability)
+    console.log(ability['A'])
 
     return policyHandlers.every((handler) => handler.handle(ability));
   }

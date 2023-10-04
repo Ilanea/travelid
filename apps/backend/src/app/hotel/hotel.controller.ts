@@ -3,11 +3,10 @@ import { AuthenticatedGuard } from '../auth/guard';
 import { HotelService } from './hotel.service';
 import { ApiTags, ApiCookieAuth } from '@nestjs/swagger';
 import { CreateHotelDto } from './dto';
-import { Roles } from '../auth/decorator';
 import { Role } from '../auth/roles/role.enum';
 import { PoliciesGuard } from '../auth/guard/policies.guard';
-import { CheckPolicies } from '../auth/casl/policies.decorator';
-import { HotelHandler } from '../auth/casl/policies/hotel.handler';
+import { Roles } from '../auth/roles/role.decorator';
+
 
 @ApiTags('hotels')
 @Controller('hotels')
@@ -39,8 +38,6 @@ export class HotelController {
   }
 
   @UseGuards(AuthenticatedGuard)
-  @UseGuards(PoliciesGuard)
-  @CheckPolicies(HotelHandler)
   @ApiCookieAuth()
   @Patch('/:hotelId')
   async editHotel(@Param('hotelId') hotelId: string, @Body() dto: CreateHotelDto) {
@@ -50,7 +47,6 @@ export class HotelController {
   }
 
   @UseGuards(AuthenticatedGuard)
-  @UseGuards(PoliciesGuard)
   @ApiCookieAuth()
   @Delete('/:hotelId')
   @Roles(Role.ADMIN)
@@ -60,7 +56,6 @@ export class HotelController {
   }
 
   @UseGuards(AuthenticatedGuard)
-  @UseGuards(PoliciesGuard)
   @ApiCookieAuth()
   @Get('/:hotelId/bookings')
   @Roles(Role.HOTELADMIN || Role.ADMIN)
