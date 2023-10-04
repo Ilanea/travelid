@@ -4,12 +4,22 @@ import { subject } from '@casl/ability';
 import { User } from '@prisma/client';
 
 export class ReadUserHandler implements IPolicyHandler {
-  constructor(
-    private user: User
-    ) {}
+  handle(ability: AppAbility, request) {
+    const userId = parseInt(request['params'].userId)
 
-  handle(ability: AppAbility) {
-    if (!this.user) return false;
-    return ability.can(Action.Read, subject('User', this.user));
+    const dummyUser: User = {
+      id: userId,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      active: true,
+      role: 'GUEST',
+      userName: '',
+      email: '',
+      passwordHash: '',
+      firstName: '',
+      lastName: '',
+    };
+  
+    return ability.can(Action.Read, subject('User', dummyUser));
   }
 }

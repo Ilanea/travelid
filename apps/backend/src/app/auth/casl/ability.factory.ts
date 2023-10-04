@@ -39,8 +39,6 @@ export class AbilityFactory {
       }
     }
 
-    return builder.build({
-      detectSubjectType: type => type.constructor as ExtractSubjectType<AppSubjects>
-    });
+    return builder.build();
   }
 }

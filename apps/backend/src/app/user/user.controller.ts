@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Query, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Query, Req, UnauthorizedException, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthenticatedGuard, RolesGuard } from '../auth/guard';
 import { ChangePasswordDto, ChangeRoleDto, EditUserDto, ChangeActiveDto } from './dto';
 import { UserService } from './user.service';
@@ -28,7 +28,8 @@ export class UserController {
   @CheckPolicies(ReadUserHandler)
   @Get('/:userId')
   async getUser(@Param('userId') userId: string) {
-    return this.userService.getUser(parseInt(userId));
+    const user = this.userService.getUser(parseInt(userId));
+    return user;
   }
 
   @Patch('/:userId')
