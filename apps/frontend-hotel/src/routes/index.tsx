@@ -9,6 +9,7 @@ import SignIn from '../features/auth/pages/signin';
 import SignUp from '../features/auth/pages/signup';
 import { Role } from '../features/auth/types';
 import ExamplePage from '../features/example/pages/Example';
+import SettingsPage from "../features/settings/pages/settings";
 
 export const AppRoutes = () => {
   return (
@@ -24,6 +25,7 @@ export const AppRoutes = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="/example" element={<ExamplePage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Route>
       <Route element={<RequireAuth allowedRoles={[Role.ADMIN]} />}></Route>
     </Routes>
