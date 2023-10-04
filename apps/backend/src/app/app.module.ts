@@ -4,7 +4,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { HotelModule } from './hotel/hotel.module';
-import { CaslModule } from './auth/casl/casl.module';
+import { AuthzModule } from './authz/authz.module';
 import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
@@ -14,6 +14,6 @@ import { MulterModule } from '@nestjs/platform-express';
   MulterModule.register({
     dest: 'apps/backend/uploads/',
   }),
-  AuthModule, CaslModule, PrismaModule, UserModule, HotelModule],
+  AuthModule, AuthzModule, PrismaModule, UserModule, HotelModule],
 })
 export class AppModule {}

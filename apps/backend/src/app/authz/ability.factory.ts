@@ -1,6 +1,5 @@
-// AbilityFactory.ts
 import { Hotel, Role, User } from '@prisma/client';
-import { AbilityBuilder, ExtractSubjectType, PureAbility, subject } from '@casl/ability';
+import { AbilityBuilder, PureAbility } from '@casl/ability';
 import { createPrismaAbility, PrismaQuery, Subjects } from '@casl/prisma';
 
 export enum Action {

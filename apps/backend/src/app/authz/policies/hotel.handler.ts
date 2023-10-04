@@ -1,4 +1,4 @@
-import { IPolicyHandler } from '../policies-handler.interface';
+import { IPolicyHandler } from '../decorator/policies-handler.interface';
 import { Action, AppAbility } from '../ability.factory';
 import { subject } from '@casl/ability';
 import { Hotel } from '@prisma/client';

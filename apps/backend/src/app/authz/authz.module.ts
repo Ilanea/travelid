@@ -8,4 +8,4 @@ import { EditHotelHandler, ManageHotelHandler, ReadHotelHandler } from './polici
   providers: [AbilityFactory, ReadUserHandler, EditUserHandler, ManageUserHandler, ReadHotelHandler, EditHotelHandler, ManageHotelHandler],
   exports: [AbilityFactory],
 })
-export class CaslModule {}
+export class AuthzModule {}

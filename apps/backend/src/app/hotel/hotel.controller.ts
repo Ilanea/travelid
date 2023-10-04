@@ -4,10 +4,10 @@ import { HotelService } from './hotel.service';
 import { ApiTags, ApiCookieAuth } from '@nestjs/swagger';
 import { CreateHotelDto } from './dto';
 import { Role } from '../auth/roles/role.enum';
-import { PoliciesGuard } from '../auth/guard/policies.guard';
+import { PoliciesGuard } from '../authz/guard/policies.guard';
 import { Roles } from '../auth/roles/role.decorator';
-import { EditHotelHandler, ManageHotelHandler, ReadHotelHandler } from '../auth/casl/policies/hotel.handler';
-import { CheckPolicies } from '../auth/casl/policies.decorator';
+import { EditHotelHandler, ManageHotelHandler } from '../authz/policies/hotel.handler';
+import { CheckPolicies } from '../authz/decorator/policies.decorator';
 
 
 @ApiTags('hotels')

@@ -48,7 +48,7 @@ model Hotel {
 
   name        String  @unique
   email       String  @unique
-  phoneNumber String  @unique
+  phoneNumber String
   address     String
   description String?
 
