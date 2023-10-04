@@ -31,6 +31,7 @@ model User {
 
   firstName String?
   lastName  String?
+  avatar    String?
 
   hotelsAsAdmin        Hotel[] @relation(name: "Admins")
   hotelsAsReceptionist Hotel[] @relation(name: "Receptionists")
