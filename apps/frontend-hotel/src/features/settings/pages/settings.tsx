@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react';
 import { Button } from '@libs/ui-web';
 
 import { useAuthStore } from '@hotel/features/auth/store/auth';
+import SettingsForm from '@hotel/features/settings/components/settings-form';
 
 import { getUser } from '../../auth';
 import MyButton from '../components/MyButton';
-import SettingsForm from "@hotel/features/settings/components/settings-form";
+import SecurityForm from '../components/security-form';
 
 const fetchUserAPI = async () => {
   const response = await fetch('/api/username');
@@ -46,10 +47,14 @@ function SettingsPage() {
 
   return (
     <div className="p-12 h-full space-y-2">
-      <h1> Profile Settings for: <div>{loading ? 'loading...' : authUser?.email}</div></h1>
+      <h1>
+        {' '}
+        Profile Settings for:{' '}
+        <div>{loading ? 'loading...' : authUser?.email}</div>
+      </h1>
 
-      <SettingsForm/>
-
+      {/* <SettingsForm/> */}
+      <SecurityForm />
     </div>
   );
 }

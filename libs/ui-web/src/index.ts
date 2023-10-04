@@ -6,6 +6,7 @@ export * from './components/badge';
 export * from './components/breadcrumb';
 export * from './components/button';
 export * from './components/calendar';
+export * from './components/card';
 export * from './components/checkbox';
 export * from './components/command';
 export * from './components/context-menu';
