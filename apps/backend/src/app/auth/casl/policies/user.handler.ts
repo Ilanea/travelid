@@ -22,7 +22,6 @@ export class ReadUserHandler implements IPolicyHandler {
 
     dummyUser.id = userId;
   
-    console.log(ability.can(Action.Read, subject('User', dummyUser)))
     return ability.can(Action.Read, subject('User', dummyUser));
   }
 }
