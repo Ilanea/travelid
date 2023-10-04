@@ -10,10 +10,8 @@ import { PoliciesGuard } from '../auth/guard/policies.guard';
 import { CheckPolicies } from '../auth/casl/policies.decorator';
 import { EditUserHandler, ManageUserHandler, ReadUserHandler } from '../auth/casl/policies/user.handler';
 import { FileInterceptor } from '@nestjs/platform-express';
-// This is a hack to make Multer available in the Express namespace
 import { Multer, diskStorage } from 'multer';
 import * as fs from 'fs';
-import Path from 'path'
 import path from 'path';
 
 @ApiTags('users')

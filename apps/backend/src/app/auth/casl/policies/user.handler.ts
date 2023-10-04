@@ -14,6 +14,7 @@ const dummyUser: User = {
   passwordHash: '',
   firstName: '',
   lastName: '',
+  avatar: '',
 };
 
 export class ReadUserHandler implements IPolicyHandler {
