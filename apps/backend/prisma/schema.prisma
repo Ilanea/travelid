@@ -11,9 +11,10 @@ datasource db {
 }
 
 enum Role {
-  USER
+  GUEST
   ADMIN
-  HOTELMANAGER
+  HOTELADMIN
+  HOTELRECEPTIONIST
 }
 
 model User {
@@ -22,7 +23,7 @@ model User {
   updatedAt DateTime @updatedAt
   active    Boolean  @default(true)
 
-  role Role @default(USER)
+  role Role @default(GUEST)
 
   userName     String? @unique
   email        String  @unique
@@ -30,11 +31,12 @@ model User {
 
   firstName String?
   lastName  String?
+  avatar    String?
 
-  avatar String?
+  hotelsAsAdmin        Hotel[] @relation(name: "Admins")
+  hotelsAsReceptionist Hotel[] @relation(name: "Receptionists")
 
-  HotelManager Hotel[]
-  Booking      Booking[]
+  Booking Booking[]
 
   @@map("users")
 }
@@ -46,12 +48,12 @@ model Hotel {
 
   name        String  @unique
   email       String  @unique
-  phoneNumber String  @unique
+  phoneNumber String
   address     String
   description String?
 
-  managedBy   User @relation(fields: [managedById], references: [id])
-  managedById Int
+  admins        User[] @relation(name: "Admins")
+  receptionists User[] @relation(name: "Receptionists")
 
   Booking Booking[]
 
