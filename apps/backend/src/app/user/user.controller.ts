@@ -7,7 +7,7 @@ import { Roles } from '../auth/roles/role.decorator';
 import { Role } from '../auth/roles/role.enum';
 import { PoliciesGuard } from '../auth/guard/policies.guard';
 import { CheckPolicies } from '../auth/casl/policies.decorator';
-import { ReadUserHandler } from '../auth/casl/policies/user.handler';
+import { EditUserHandler, ManageUserHandler, ReadUserHandler } from '../auth/casl/policies/user.handler';
 
 @ApiTags('users')
 @ApiCookieAuth()
@@ -28,59 +28,38 @@ export class UserController {
   @CheckPolicies(ReadUserHandler)
   @Get('/:userId')
   async getUser(@Param('userId') userId: string) {
-    const user = this.userService.getUser(parseInt(userId));
-    return user;
+    return await this.userService.getUser(parseInt(userId));
   }
 
+  @CheckPolicies(EditUserHandler)
   @Patch('/:userId')
-  async editUser(@Param('userId') userId: string, @Body() dto: EditUserDto, @Req() request) {
-    if (request.session.user.role === Role.ADMIN || request.session.user.id === parseInt(userId)) {
-      const user = await this.userService.editUser(parseInt(userId), dto);
-      return user;
-    } else {
-      throw new UnauthorizedException('You are not authorized to perform this action.');
-    }
+  async editUser(@Param('userId') userId: string, @Body() dto: EditUserDto) {
+    return await this.userService.editUser(parseInt(userId), dto);
   }
 
+  @CheckPolicies(ManageUserHandler)
   @Delete('/:userId')
-  async deleteUser(@Param('userId') userId: string, @Req() request) {
-    if (request.session.user.role === Role.ADMIN || request.session.user.id === parseInt(userId)) {
-      const user = await this.userService.deleteUser(parseInt(userId));
-      return user;
-    } else {
-      throw new UnauthorizedException('You are not authorized to perform this action.');
-    }
+  async deleteUser(@Param('userId') userId: string) {
+    return await this.userService.deleteUser(parseInt(userId));
   }
 
+  @CheckPolicies(EditUserHandler)
   @Patch('/:userId/password')
-  async changePassword(@Param('userId') userId: string, @Body() dto: ChangePasswordDto, @Req() request) {
-    if (request.session.user.role === Role.ADMIN || request.session.user.id === parseInt(userId)) {
-      const user = await this.userService.changePassword(parseInt(userId), dto);
-      return user;
-    } else {
-      throw new UnauthorizedException('You are not authorized to perform this action.');
-    }
+  async changePassword(@Param('userId') userId: string, @Body() dto: ChangePasswordDto) {
+    return await this.userService.changePassword(parseInt(userId), dto);
   }
 
+  @Roles(Role.ADMIN)
+  @CheckPolicies(ManageUserHandler)
   @Patch('/:userId/role')
-  @Roles(Role.ADMIN)
-  async changeRole(@Param('userId') userId: string, @Body() dto: ChangeRoleDto, @Req() request) {
-    if (request.session.user.id === parseInt(userId)) {
-      const user = await this.userService.changeRole(parseInt(userId), dto);
-      return user;
-    } else {
-      throw new UnauthorizedException('You are not authorized to perform this action.');
-    }
+  async changeRole(@Param('userId') userId: string, @Body() dto: ChangeRoleDto) {
+    return await this.userService.changeRole(parseInt(userId), dto);
   }
 
-  @Patch('/:userId/active')
   @Roles(Role.ADMIN)
-  async changeActive(@Param('userId') userId: string, @Body() dto: ChangeActiveDto, @Req() request) {
-    if (request.session.user.id === parseInt(userId)) {
-      const user = await this.userService.changeActive(parseInt(userId), dto);
-      return user;
-    } else {
-      throw new UnauthorizedException('You are not authorized to perform this action.');
-    }
+  @CheckPolicies(ManageUserHandler)
+  @Patch('/:userId/active')
+  async changeActive(@Param('userId') userId: string, @Body() dto: ChangeActiveDto) {
+    return await this.userService.changeActive(parseInt(userId), dto);
   }
 }
