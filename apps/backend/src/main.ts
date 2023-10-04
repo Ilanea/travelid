@@ -39,8 +39,8 @@ async function bootstrap() {
   };
 
   const config = new DocumentBuilder()
-    .setTitle('TravelID API')
-    .setDescription('The TravelID API description')
+    .setTitle('BonAway API')
+    .setDescription('BonAway API description')
     .setVersion('1.0')
     .addCookieAuth('connect.sid')
     .build();
