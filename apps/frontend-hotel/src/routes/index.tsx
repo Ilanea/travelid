@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 
 import RequireAuth from '@hotel/features/auth/components/require-auth';
+import Dashboard from '@hotel/features/dashboard/pages/dashboard';
 import NotFound from '@hotel/features/misc/pages/not-found';
 import Reports from '@hotel/features/reports/page/reports';
 
@@ -20,7 +21,7 @@ export const AppRoutes = () => {
       {/* protected routes */}
       <Route element={<RequireAuth allowedRoles={[Role.USER, Role.ADMIN]} />}>
         <Route path="/" element={<div>Dashboard</div>} />
-        <Route path="/dashboard" element={<div>Dashboard</div>} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="/example" element={<ExamplePage />} />
       </Route>

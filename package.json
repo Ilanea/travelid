@@ -92,6 +92,7 @@
     "react-native-svg-transformer": "1.0.0",
     "react-native-web": "~0.19.8",
     "react-router-dom": "^6.15.0",
+    "recharts": "^2.8.0",
     "redis": "^4.6.9",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
