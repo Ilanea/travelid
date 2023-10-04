@@ -32,7 +32,7 @@ export class AbilityFactory {
       if (user.role === Role.HOTELADMIN || user.role === Role.HOTELRECEPTIONIST) {
         user['hotelsAsAdmin'].forEach((hotel: Hotel) => {
           builder.can(Action.Edit, 'Hotel', { id: hotel.id });
-          builder.can(Action.Delete, 'Hotel', { id: hotel.id })
+          builder.can(Action.Delete, 'Hotel', { id: hotel.id });
         });
         user['hotelsAsReceptionist'].forEach((hotel: Hotel) => {
           builder.can(Action.Edit, 'Hotel', { id: hotel.id });
