@@ -23,8 +23,6 @@ export class HotelController {
       return this.hotelService.getAllHotels(parseInt(page), parseInt(pageSize));
     }
 
-  @UseGuards(PoliciesGuard)
-  @CheckPolicies(ReadHotelHandler)
   @Get('/:hotelId')
   async getHotel(@Param('hotelId') hotelId: string) {
     return await this.hotelService.getHotel(parseInt(hotelId));
