@@ -47,3 +47,12 @@ export class ChangeActiveDto {
   @IsBoolean()
   active: boolean;
 }
+
+export class UploadAvatarDto {
+  @ApiProperty()
+  @IsString()
+  userId: string;
+
+  @ApiProperty()
+  file: BinaryData;
+}

@@ -3,8 +3,12 @@ import { AuthenticatedGuard } from '../auth/guard';
 import { HotelService } from './hotel.service';
 import { ApiTags, ApiCookieAuth } from '@nestjs/swagger';
 import { CreateHotelDto } from './dto';
-import { Roles } from '../auth/decorator';
 import { Role } from '../auth/roles/role.enum';
+import { PoliciesGuard } from '../authz/guard/policies.guard';
+import { Roles } from '../auth/roles/role.decorator';
+import { EditHotelHandler, ManageHotelHandler } from '../authz/policies/hotel.handler';
+import { CheckPolicies } from '../authz/decorator/policies.decorator';
+
 
 @ApiTags('hotels')
 @Controller('hotels')
@@ -21,44 +25,46 @@ export class HotelController {
 
   @Get('/:hotelId')
   async getHotel(@Param('hotelId') hotelId: string) {
-    const hotel = await this.hotelService.getHotel(parseInt(hotelId));
-    return hotel;
+    return await this.hotelService.getHotel(parseInt(hotelId));
   }
 
+  @Roles(Role.HOTELADMIN || Role.ADMIN)
   @UseGuards(AuthenticatedGuard)
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ManageHotelHandler)
   @ApiCookieAuth()
   @Post('')
-  @Roles(Role.HOTELMANAGER || Role.ADMIN)
   async createHotel(@Body() dto: CreateHotelDto, @Req() request) {
-    const hotel = await this.hotelService.createHotel(dto, request.session.user.id);
-    return hotel;
+    return await this.hotelService.createHotel(dto, request.session.user.id);
   }
 
   @UseGuards(AuthenticatedGuard)
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(EditHotelHandler)
   @ApiCookieAuth()
   @Patch('/:hotelId')
-  @Roles(Role.HOTELMANAGER || Role.ADMIN)
   async editHotel(@Param('hotelId') hotelId: string, @Body() dto: CreateHotelDto) {
-    const hotel = await this.hotelService.editHotel(parseInt(hotelId), dto);
-    return hotel;
+    return await this.hotelService.editHotel(parseInt(hotelId), dto);
   }
 
+  @Roles(Role.ADMIN)
   @UseGuards(AuthenticatedGuard)
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ManageHotelHandler)
   @ApiCookieAuth()
   @Delete('/:hotelId')
-  @Roles(Role.ADMIN)
   async deleteHotel(@Param('hotelId') hotelId: string) {
-    const hotel = await this.hotelService.deleteHotel(parseInt(hotelId));
-    return hotel;
+    return await this.hotelService.deleteHotel(parseInt(hotelId));
   }
 
+  @Roles(Role.HOTELADMIN || Role.ADMIN)
   @UseGuards(AuthenticatedGuard)
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(EditHotelHandler)
   @ApiCookieAuth()
   @Get('/:hotelId/bookings')
-  @Roles(Role.HOTELMANAGER || Role.ADMIN)
   async getHotelBookings(@Param('hotelId') hotelId: string) {
-    const bookings = await this.hotelService.getHotelBookings(parseInt(hotelId));
-    return bookings;
+    return await this.hotelService.getHotelBookings(parseInt(hotelId));
   }
 
 }
