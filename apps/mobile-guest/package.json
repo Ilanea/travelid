@@ -10,7 +10,7 @@
     "@testing-library/react-native": "*",
     "date-fns": "*",
     "expo": "*",
-    "expo-router": "^2.0.0",
+    "expo-router": "^2.0.9",
     "expo-status-bar": "~1.6.0",
     "metro-config": "*",
     "react": "*",

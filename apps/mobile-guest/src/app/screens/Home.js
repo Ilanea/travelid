@@ -1,12 +1,14 @@
-import {  StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, TextInput } from 'react-native';
-import { Link } from 'expo-router';
+import { Pressable, StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, Image, TextInput, KeyboardAvoidingView, Platform  } from 'react-native';
+import { Link, Stack } from 'expo-router';
 import { theme } from '../theme/theme.js';
-import { getUserData,  } from '../utils/apiFunctions.js';
+import { getUserData } from '../utils/apiFunctions.js';
 import React from 'react'
-import { formatDate } from '../utils/internalFunctions.js';
+import { formatDate, filterHotels } from '../utils/internalFunctions.js';
 import { StatusBar } from 'expo-status-bar';
 import { FontAwesome5 } from '@expo/vector-icons'; 
-
+import { Calendar } from 'react-native-calendars';
+import { useState } from 'react';
+const { parseISO } = require('date-fns')
 
 //platzhalter für später, soll user daten simulieren.
 const user = getUserData()
@@ -14,19 +16,42 @@ const user = getUserData()
 export default function Home() {
 
   const [value, onChangeText] = React.useState('');
-  const [chosenDateStart, onChangeDateStartk] = React.useState(new Date);
 
   const date = new Date() //creates new reference to the Date Object to use as End Date by adding a week to today
   date.setDate(date.getDate() + 7)
 
-  const [chosenDateEnd, onChangeDateEnd] = React.useState(date);
-  const [formattedDate, changeFormattedDate] = React.useState(formatDate(chosenDateStart, chosenDateEnd)); 
+ 
+  const [formattedDate, changeFormattedDate] = React.useState(formatDate(new Date, new Date(date))); 
   const [amountGuests, onChangeAmountGuests] = React.useState(2); 
+  const [isCalendarVisible, setCalendarVisible] = useState(false);
+  const [hotelList, onChangeHotelList] = useState();
+
+  const [dateRange, setDateRange] = useState({
+    startDate: null,
+    endDate: null,
+  });
+
+  // Function to handle date selection
+  const handleDateSelect = (day) => {
+    if (!dateRange.startDate || (dateRange.startDate && dateRange.endDate)) {
+      // Start a new range when no start date is selected or both start and end dates are selected.
+      setDateRange({
+        startDate: day.timestamp,
+        endDate: null,
+      });
+    } else {
+      // Complete the range by selecting an end date.
+      setDateRange({
+        startDate: dateRange.startDate,
+        endDate: day.timestamp,
+      });
+      changeFormattedDate(formatDate(dateRange.startDate, day.timestamp));
+      setCalendarVisible(false);
+    }
+  };
    
   return (
-
-      <ScrollView contentContainerStyle={styles.container}> 
-        <StatusBar translucent={true} backgroundColor="transparent" />
+      <ScrollView contentContainerStyle={styles.container} > 
         <View style={styles.topContainer}>
           <Link href="screens/Profile" asChild>
             <TouchableOpacity style={styles.profileButton}>
@@ -51,22 +76,29 @@ export default function Home() {
             placeholder="Location"
             placeholderTextColor="black"
           />
-          <TextInput 
-            style={styles.searchInput}
-            onChangeText={changeFormattedDate}
-            value={value}
-            placeholder= {formattedDate}
-            editable = {false}
-            placeholderTextColor="black"
-          />
-          <View style={ styles.guestsInputView }>
+          <TouchableOpacity  onPress={() => setCalendarVisible(true)}>
             <TextInput 
-              style={{ fontSize: 18,}}
-              onChangeText={onChangeAmountGuests}
-              value={value}
-              placeholder={amountGuests + " Guests"}
+              style={styles.searchInput}
+              onChangeText={changeFormattedDate}
+              value={formattedDate}
+              placeholder= {formattedDate}
               editable = {false}
               placeholderTextColor="black"
+            />
+          </TouchableOpacity>
+          {isCalendarVisible && (
+            <Calendar
+              onDayPress={(day) => handleDateSelect(day)}
+              // Customize the appearance of the calendar here if needed
+            />
+          )}     
+          <View style={ styles.guestsInputView }>
+            <TextInput 
+              style={{ fontSize: 18, color: "black"}}
+              onChangeText={onChangeAmountGuests}
+              value={amountGuests + " Guests"}
+              placeholder={amountGuests + " Guests"}
+              editable = {false}      
             />
             <View style={{ flexDirection: "row", justifyContent: "flex-end", alignItems: "center", flex: 1 }}>
               <TouchableOpacity onPress={() => onChangeAmountGuests(amountGuests + 1)}>
@@ -79,18 +111,28 @@ export default function Home() {
             </View>
 
           </View>
+          
         </View>
         <View>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={filterHotels}>
             <Text style={styles.buttonText}>
               Search
-            </Text>
+            </Text>   
           </TouchableOpacity>
+          <Text>
+            {hotelList}
+          </Text>
+         
         </View>
-   
-      <View style={styles.bottomContainer}>
-        
-      </View>
+        <View style={styles.bottomContainer}>
+        <TouchableOpacity style={styles.mainButtonLeft}>
+          <FontAwesome5 name="home" size={24} color="#45cfb2" /> 
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.mainButtonRight}>
+          <FontAwesome5 name="user" size={24} color="black" />
+        </TouchableOpacity>
+        </View> 
+     
     </ScrollView> 
   );
 }
@@ -111,15 +153,14 @@ const styles = StyleSheet.create({
     padding: 20,  
   },
   bottomContainer: {
-
+    flex: 1,
+    alignItems: "flex-end", // Center the content horizontally
+    justifyContent: 'center', // Push the content to the bottom of the screen
+    marginBottom: 0, // Adjust the margin as needed
     backgroundColor: theme.backgroundDarkBlue,
-    height: 400,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
-    position: 'absolute', // Use absolute positioning for the bottomContainer
-    bottom: 0, // Position it at the bottom
-    left: 0, // Align it with the left edge of the container
-    right: 0, // Align it with the right edge of the container
+    flexDirection: "row"
   },
   guestsInputView: {
     flexDirection: 'row',
@@ -163,6 +204,7 @@ const styles = StyleSheet.create({
     borderRadius: 40
   },
   searchInput: {
+    color: "black",
     backgroundColor: "white",
     marginBottom: 13,
     height: 48,
@@ -188,4 +230,17 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     padding: 10
   },
+  mainButtonLeft: {
+    marginRight: 70,
+    borderWidth: 1,
+    padding: 7,
+    marginBottom: 40,
+    borderRadius: 40,
+    backgroundColor: "white"
+  },
+  mainButtonRight: {
+
+    padding: 7,
+    marginBottom: 40,
+  }
 });

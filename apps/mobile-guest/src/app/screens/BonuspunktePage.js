@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { theme } from '../theme/theme.js';
 import { Redirect, Stack } from 'expo-router';
 
-export default function About() {
+export default function BonuspunktePage() {
   return (
     <View style={styles.container}>
       <Stack />

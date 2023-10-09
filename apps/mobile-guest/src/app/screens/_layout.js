@@ -7,20 +7,18 @@ export default function AboutLayout() {
     <Stack.Screen name="Home" options={{
         headerShown: false
     }} />
+    <Stack.Screen name="Profile" options={{
+        headerShown: false
+    }} />
     <Stack.Screen name="About" options={{
         headerTransparent: true,
         
         headerStyle:{
-          height:200,            // i tried to put height
+          height:200,         
           backgroundColor: 'red'
         }
     }}/>
-    <Stack.Screen name="Profile" options={{
-      title: null,
-        headerStyle:{
-                    // i tried to put height
-        }
-    }}/>
+
   </Stack>;
   
 }
