@@ -32,12 +32,37 @@ const GuestBookings: React.FC<GuestBookingsProps> = ({ bookings }) => {
     const [filterDate, setFilterDate] = useState(new Date());
     const [columnToFilter, setColumnToFilter] = useState<keyof Booking | ''>('');
     const [filterValue, setFilterValue] = useState<string | number | Date>('');
+    // State for pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [bookingsPerPage, setBookingsPerPage] = useState(10);
 
-    const handleExportToExcel = () => {
+  const [rowsPerPageOptions, setRowsPerPageOptions] = useState([5, 10, 15, 20]);
+
+  const handleExportToExcel = () => {
         exportToExcel(filteredBookings, 'FilteredBookings');
     };
 
-    const handleFilter = () => {
+  const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setBookingsPerPage(Number(event.target.value));
+    setCurrentPage(1); // Reset to first page whenever rows per page changes
+  };
+
+    // Implement logic to handle page change
+    const handlePageChange = (pageNumber: number) => {
+      setCurrentPage(pageNumber);
+    };
+
+  // Logic to get current bookings
+  const indexOfLastBooking = currentPage * bookingsPerPage;
+  const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
+  const currentBookings = filteredBookings.slice(indexOfFirstBooking, indexOfLastBooking);
+
+  // Calculate page numbers
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(filteredBookings.length / bookingsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+  const handleFilter = () => {
         if (
             columnToFilter &&
             isKeyOfBooking(columnToFilter) &&
@@ -257,7 +282,7 @@ const GuestBookings: React.FC<GuestBookingsProps> = ({ bookings }) => {
         </tr>
         </thead>
         <tbody>
-        {filteredBookings.map((booking) => (
+        {currentBookings.map((booking) => (
           <tr key={booking.id} className="border-t border-gray-200">
             <td className="py-2 px-4">{booking.id}</td>
             <td className="py-2 px-4">{booking.guestName}</td>
@@ -277,6 +302,38 @@ const GuestBookings: React.FC<GuestBookingsProps> = ({ bookings }) => {
         ))}
         </tbody>
       </table>
+      {/* Adding Pagination */}
+        <tfoot>
+        <tr>
+            <td colSpan={14} className="py-2">
+                <div className="flex justify-center items-center mr-4">
+                    <span className="mr-2">Rows per page:</span>
+                    <select
+                        value={bookingsPerPage}
+                        onChange={handleRowsPerPageChange}
+                        className="p-1 border rounded mr-4"
+                    >
+                        {rowsPerPageOptions.map((option) => (
+                            <option key={option} value={option}>
+                                {option}
+                            </option>
+                        ))}
+                    </select>
+                    {pageNumbers.map((num) => (
+                        <button
+                            key={num}
+                            onClick={() => handlePageChange(num)}
+                            className={`p-2 m-1 ${
+                                currentPage === num ? 'bg-primary text-white' : 'text-primary'
+                            }`}
+                        >
+                            {num}
+                        </button>
+                    ))}
+                </div>
+            </td>
+        </tr>
+        </tfoot>
     </div>
 
   );

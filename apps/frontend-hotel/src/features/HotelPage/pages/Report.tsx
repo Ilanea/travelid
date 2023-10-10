@@ -344,8 +344,23 @@ function Report() {
       specialRequests: "Early check-in",
       contactNumber: "+1 129-456-7899",
       emailAddress: "joey@example.com",
+    },
+    {
+      id: "11",
+      guestName: "John Doe",
+      roomNumber: 101,
+      checkInDate: "2023-10-01",
+      checkOutDate: "2023-10-05",
+      bookingDate: "2023-09-01",
+      numberOfNights: 4,
+      numberOfGuests: 2,
+      roomType: "Double",
+      paymentStatus: "Paid",
+      totalAmount: 500,
+      specialRequests: "Near elevator",
+      contactNumber: "+1 123-456-7890",
+      emailAddress: "test@mail.com",
     }
-
   ];
 
   return (
