@@ -25,6 +25,7 @@ import BoxComponent from '../components/BoxComponent';
 // Import the styles
 import StatsBox from '../components/StatsBox';
 import ListReport from "@hotel/features/HotelPage/components/ListReport";
+import WorldMapBookings from "@hotel/features/HotelPage/components/WorldMapBookings";
 
 function Report() {
   const [startDate, setStartDate] = useState<Date | null>(
@@ -197,10 +198,13 @@ function Report() {
       numberOfGuests: 2,
       roomType: "Double",
       paymentStatus: "Paid",
+        loyaltyPointsUsed: 'Yes',
+        amountOfLoyalPoints: 321,
       totalAmount: 500,
       specialRequests: "Near elevator",
       contactNumber: "+1 123-456-7890",
       emailAddress: "john@example.com",
+      from: 'Austria',
     },  {
       id: "2",
       guestName: "Jane Smith",
@@ -212,6 +216,8 @@ function Report() {
       numberOfGuests: 1,
       roomType: "Single",
       paymentStatus: "Paid",
+          loyaltyPointsUsed: 'No',
+          amountOfLoyalPoints: 0,
       totalAmount: 400,
       specialRequests: "Quiet area",
       contactNumber: "+1 123-456-7891",
@@ -228,6 +234,8 @@ function Report() {
       numberOfGuests: 2,
       roomType: "Double",
       paymentStatus: "Pending",
+        loyaltyPointsUsed: 'Yes',
+        amountOfLoyalPoints: 100,
       totalAmount: 600,
       specialRequests: "Near gym",
       contactNumber: "+1 123-456-7892",
@@ -244,6 +252,8 @@ function Report() {
       numberOfGuests: 2,
       roomType: "Suite",
       paymentStatus: "Paid",
+      loyaltyPointsUsed: 'Yes',
+      amountOfLoyalPoints: 100,
       totalAmount: 1400,
       specialRequests: "Higher floor",
       contactNumber: "+1 123-456-7893",
@@ -260,6 +270,8 @@ function Report() {
       numberOfGuests: 1,
       roomType: "Single",
       paymentStatus: "Cancelled",
+        loyaltyPointsUsed: 'No',
+        amountOfLoyalPoints: 0,
       totalAmount: 400,
       specialRequests: "Near pool",
       contactNumber: "+1 124-456-7894",
@@ -276,6 +288,8 @@ function Report() {
       numberOfGuests: 1,
       roomType: "Single",
       paymentStatus: "Paid",
+        loyaltyPointsUsed: 'Yes',
+        amountOfLoyalPoints: 220,
       totalAmount: 320,
       specialRequests: "Lower floor",
       contactNumber: "+1 125-456-7895",
@@ -292,6 +306,8 @@ function Report() {
       numberOfGuests: 2,
       roomType: "Double",
       paymentStatus: "Pending",
+        loyaltyPointsUsed: 'Yes',
+        amountOfLoyalPoints: 100,
       totalAmount: 700,
       specialRequests: "Near restaurant",
       contactNumber: "+1 126-456-7896",
@@ -308,6 +324,8 @@ function Report() {
       numberOfGuests: 2,
       roomType: "Suite",
       paymentStatus: "Paid",
+        loyaltyPointsUsed: 'Yes',
+        amountOfLoyalPoints: 100,
       totalAmount: 600,
       specialRequests: "Quiet area",
       contactNumber: "+1 127-456-7897",
@@ -324,6 +342,8 @@ function Report() {
       numberOfGuests: 1,
       roomType: "Single",
       paymentStatus: "Paid",
+        loyaltyPointsUsed: 'Yes',
+        amountOfLoyalPoints: 500,
       totalAmount: 200,
       specialRequests: "Extra towels",
       contactNumber: "+1 128-456-7898",
@@ -340,6 +360,8 @@ function Report() {
       numberOfGuests: 1,
       roomType: "Single",
       paymentStatus: "Pending",
+        loyaltyPointsUsed: 'No',
+        amountOfLoyalPoints: 0,
       totalAmount: 220,
       specialRequests: "Early check-in",
       contactNumber: "+1 129-456-7899",
@@ -347,7 +369,7 @@ function Report() {
     },
     {
       id: "11",
-      guestName: "John Doe",
+      guestName: "John Doe!!",
       roomNumber: 101,
       checkInDate: "2023-10-01",
       checkOutDate: "2023-10-05",
@@ -356,6 +378,8 @@ function Report() {
       numberOfGuests: 2,
       roomType: "Double",
       paymentStatus: "Paid",
+        loyaltyPointsUsed: 'No',
+        amountOfLoyalPoints: 0,
       totalAmount: 500,
       specialRequests: "Near elevator",
       contactNumber: "+1 123-456-7890",
@@ -376,7 +400,7 @@ function Report() {
             Bookings Report
           </Tab>
           <Tab className="py-2 px-4 cursor-pointer font-semibold text-gray-600 hover:text-blue-500 focus:outline-none" selectedClassName="border-b-2 border-blue-500 text-blue-500">
-            Settings
+            World Map View
           </Tab>
         </TabList>
 
@@ -499,8 +523,7 @@ function Report() {
         </TabPanel>
 
         <TabPanel>
-          {/* Your yearly report components here */}
-          <div>Your Yearly Report Contents...</div>
+          <WorldMapBookings bookingsData={bookings} />
         </TabPanel>
       </Tabs>
     </div>

@@ -2,22 +2,24 @@ import React, {useEffect, useState} from 'react';
 import { exportToExcel } from '@hotel/utils/exports'
 
 interface Booking {
-    [key: string]: string | number | Date | boolean;
-    id: string;
-    guestName: string;
-    roomNumber: number;
-    checkInDate: string;
-    checkOutDate: string;
-    bookingDate: string;
-    numberOfNights: number;
-    numberOfGuests: number;
-    roomType: string;
-    paymentStatus: string;
-    totalAmount: number;
-    specialRequests: string;
-    contactNumber: string;
-    emailAddress: string;
+  id: string;
+  guestName: string;
+  roomNumber: number;
+  checkInDate: Date;
+  checkOutDate: Date;
+  bookingDate: Date;
+  numberOfNights: number;
+  numberOfGuests: number;
+  roomType: string;
+  paymentStatus: string;
+  loyaltyPointsUsed: string;
+  amountOfLoyalPoints: number;
+  totalAmount: number;
+  specialRequests: string;
+  contactNumber: string;
+  emailAddress: string;
 }
+
 
 
 interface GuestBookingsProps {
@@ -35,8 +37,9 @@ const GuestBookings: React.FC<GuestBookingsProps> = ({ bookings }) => {
     // State for pagination
     const [currentPage, setCurrentPage] = useState(1);
     const [bookingsPerPage, setBookingsPerPage] = useState(10);
-
-  const [rowsPerPageOptions, setRowsPerPageOptions] = useState([5, 10, 15, 20]);
+    const [rowsPerPageOptions, setRowsPerPageOptions] = useState([5, 10, 15, 20]);
+    const [isColumnSelectorVisible, setIsColumnSelectorVisible] = useState(false);
+    const [visibleColumns, setVisibleColumns] = useState<string[]>(Object.keys(bookings[0] || {}));
 
   const handleExportToExcel = () => {
         exportToExcel(filteredBookings, 'FilteredBookings');
@@ -62,56 +65,57 @@ const GuestBookings: React.FC<GuestBookingsProps> = ({ bookings }) => {
   for (let i = 1; i <= Math.ceil(filteredBookings.length / bookingsPerPage); i++) {
     pageNumbers.push(i);
   }
-  const handleFilter = () => {
-        if (
-            columnToFilter &&
-            isKeyOfBooking(columnToFilter) &&
-            (typeof filterValue === "string" ? filterValue !== "" : true)
-        ) {
-            // Implement dynamic filtering based on the column and type of filterValue
-            setFilteredBookings(bookings.filter(booking => {
-                const bookingValue = booking[columnToFilter];
-                if (typeof bookingValue === 'string') {
-                    if (typeof filterValue === 'string') {
-                        return bookingValue.toLowerCase().includes(filterValue.toLowerCase());
-                    }
-                } else if (typeof bookingValue === 'number') {
-                    const numFilterValue = Number(filterValue);
-                    if (!isNaN(numFilterValue)) {
-                        return bookingValue === numFilterValue;
-                    }
-                }else if (
-                    ["checkInDate", "checkOutDate", "bookingDate"].includes(columnToFilter as string) &&
-                    typeof filterValue === 'string'
-                ) {
-                    if (
-                        (bookingValue instanceof Date || typeof bookingValue === 'string' || typeof bookingValue === 'number')
-                    ) {
-                        const formattedBookingValue = new Date(bookingValue).toISOString().split('T')[0];
-                        const formattedFilterValue = new Date(filterValue).toISOString().split('T')[0];
-                        return formattedBookingValue === formattedFilterValue;
-                    }
-                }
 
-                return true;
-            }));
-            setShowFilterModal(false);
-        }
+  const handleFilter = () => {
+    if (!showFilterModal || !isKeyOfBooking(columnToFilter)) {
+      console.error('Invalid filter column!!:', columnToFilter);
+      return;
+    }
+
+    // String filter
+    const stringFilter = (bookingValue: string, filterVal: string) =>
+      bookingValue.toLowerCase().includes(filterVal.toLowerCase());
+
+    // Number filter
+    const numberFilter = (bookingValue: number, filterVal: string | number | Date) => {
+      const numFilterValue = Number(filterVal);
+      return !isNaN(numFilterValue) && bookingValue === numFilterValue;
     };
 
+    // Date filter
+    const dateFilter = (bookingValue: any, filterVal: string | number | Date) => {
+      if (!["checkInDate", "checkOutDate", "bookingDate"].includes(columnToFilter)) return true;
 
-    useEffect(() => {
-        if (filterType === 'Name') {
+      if (!(bookingValue instanceof Date || typeof bookingValue === 'string' || typeof bookingValue === 'number')) return false;
+
+      const formattedBookingValue = new Date(bookingValue).toISOString().split('T')[0];
+      const formattedFilterValue = new Date(filterVal).toISOString().split('T')[0];
+
+      return formattedBookingValue === formattedFilterValue;
+    };
+
+    const filterFn = (booking: Booking) => {
+      const bookingValue = booking[columnToFilter];
+      if (typeof bookingValue === 'string' && typeof filterValue === 'string') {
+        return stringFilter(bookingValue, filterValue);
+      } else if (typeof bookingValue === 'number') {
+        return numberFilter(bookingValue, filterValue);
+      } else {
+        return dateFilter(bookingValue, filterValue);
+      }
+    };
+
+    setFilteredBookings(bookings.filter(filterFn));
+    setShowFilterModal(false);
+  };
+
+
+
+  useEffect(() => {
+        if (filterType === '') {
             setFilteredBookings(
                 bookings.filter(booking =>
                     String((booking as any)[filterType]).toLowerCase().includes(filter.toLowerCase())
-                )
-            );
-        } else if (filterType === 'Date') {
-            setFilteredBookings(
-                bookings.filter(booking =>
-                    new Date(booking.checkInDate).toDateString() === filterDate.toDateString() ||
-                    new Date(booking.checkOutDate).toDateString() === filterDate.toDateString()
                 )
             );
         }
@@ -119,7 +123,9 @@ const GuestBookings: React.FC<GuestBookingsProps> = ({ bookings }) => {
 
     const resetFilter = () => {
         setFilter('');
-        setFilterType('Name');
+        setColumnToFilter('');
+        setFilterType('');
+        setFilterValue('');
         setFilterDate(new Date());
         setFilteredBookings(bookings);
     };
@@ -136,30 +142,41 @@ const GuestBookings: React.FC<GuestBookingsProps> = ({ bookings }) => {
         "Number of Guests": "numberOfGuests",
         "Room Type": "roomType",
         "Payment Status": "paymentStatus",
+        "Loyalty Points Used": "loyaltyPointsUsed",
+        "Amount of Loyalty Points": "amountOfLoyalPoints",
         "Total Amount": "totalAmount",
         "Special Requests": "specialRequests",
         "Contact Number": "contactNumber",
         "Email Address": "emailAddress"
     };
-    function isKeyOfBooking(key: string | number | symbol): key is keyof Booking {
-        return key in {
-            id: true,
-            guestName: true,
-            roomNumber: true,
-            checkInDate: true,
-            checkOutDate: true,
-            bookingDate: true,
-            numberOfNights: true,
-            numberOfGuests: true,
-            roomType: true,
-            paymentStatus: true,
-            totalAmount: true,
-            specialRequests: true,
-            contactNumber: true,
-            emailAddress: true
-        };
-    }
 
+  const reverseFilterMapping = Object.fromEntries(
+    Object.entries(filterMapping).map(([label, key]) => [key, label])
+  );
+  function isKeyOfBooking(key: string): key is keyof Booking {
+      console.log('Column to Filter:', columnToFilter);
+
+      return key in BookingPrototype;
+  }
+
+  const BookingPrototype: Booking = {
+    id: "",
+    guestName: '',
+    roomNumber: 1,
+    checkInDate: new Date(),
+    checkOutDate: new Date(),
+    bookingDate: new Date(),
+    numberOfNights: 1,
+    numberOfGuests: 1,
+    roomType: '',
+    paymentStatus: '',
+    loyaltyPointsUsed: '',
+    amountOfLoyalPoints: 1,
+    totalAmount: 1,
+    specialRequests: '',
+    contactNumber: '',
+    emailAddress: ''
+      };
 
     useEffect(() => {
         // Ensure filterType is a key of Booking before proceeding with filtering.
@@ -176,6 +193,20 @@ const GuestBookings: React.FC<GuestBookingsProps> = ({ bookings }) => {
             )
         );
     }, [filter, bookings, filterType]);
+    const toggleColumn = (columnName: string) => {
+        setVisibleColumns(prev =>
+            prev.includes(columnName)
+                ? prev.filter(col => col !== columnName)
+                : [...prev, columnName]
+        );
+    };
+    useEffect(() => {
+        setVisibleColumns(Object.keys(bookings[0] || {}));
+    }, [bookings]);
+
+    const toggleColumnSelector = () => {
+        setIsColumnSelectorVisible(prev => !prev);
+    };
 
 
     return (
@@ -207,6 +238,43 @@ const GuestBookings: React.FC<GuestBookingsProps> = ({ bookings }) => {
             >
                 Export to Excel
             </button>
+            <button
+                onClick={toggleColumnSelector}
+                className=" ml-2 bg-purple-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-purple-600 focus:outline-none focus:border-purple-700 focus:ring focus:ring-purple-200 active:bg-purple-700 transition duration-150 ease-in-out"
+            >
+                Select Visible Columns
+            </button>
+            {isColumnSelectorVisible && (
+                <div
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-md shadow-lg z-50 border border-black"
+                >
+                    <div className="border-b border-gray-300 pb-2 mb-4">
+                        <h3 className="text-lg font-semibold">Select Visible Columns</h3>
+                    </div>
+
+                    {Object.keys(bookings[0] || {}).map(column => (
+                        <div key={column} className="flex items-center my-2">
+                            <input
+                                type="checkbox"
+                                id={column}
+                                checked={visibleColumns.includes(column)}
+                                onChange={() => toggleColumn(column)}
+                                className="mr-2"
+                            />
+                            <label htmlFor={column} className="cursor-pointer">
+                                {reverseFilterMapping[column]}
+                            </label>
+                        </div>
+                    ))}
+
+                    <button
+                        onClick={toggleColumnSelector}
+                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none mt-4"
+                    >
+                        Done
+                    </button>
+                </div>
+            )}
         </div>
         </div>
       <div className="mb-4 flex justify-between items-center">
@@ -214,46 +282,53 @@ const GuestBookings: React.FC<GuestBookingsProps> = ({ bookings }) => {
               <div className="fixed top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50 flex justify-center items-center">
                   <div className="bg-white p-8 rounded-lg">
                       <h2 className="text-2xl mb-4">Filter Options</h2>
-                      <select
-                          value={filterType}
-                          onChange={(e) => {
-                              const selectedFilter = filterMapping[e.target.value];
-                              if (selectedFilter) {
-                                  setFilterType(selectedFilter);
-                              }
-                          }}
-                          className="mb-4 p-2 border rounded-lg focus:outline-none focus:border-blue-500 w-full"
-                      >
-                          <option value="">Select Column</option>
-                          {Object.keys(filterMapping).map((displayName) => (
-                              <option value={displayName} key={displayName}>
-                                  {displayName}
-                              </option>
-                          ))}
-                      </select>
-
-                      {columnToFilter && (
+                    <select
+                      value={reverseFilterMapping[filterType]}
+                      onChange={(e) => {
+                        const selectedFilter = filterMapping[e.target.value];
+                        setColumnToFilter(selectedFilter)
+                        if (selectedFilter) {
+                          setFilterType(selectedFilter);
+                          console.log('Filter Type Updated to:', selectedFilter);
+                        }
+                      }}
+                      className="mb-4 p-2 border rounded-lg focus:outline-none focus:border-blue-500 w-full"
+                    >
+                      {Object.keys(filterMapping).map((filterLabel) => (
+                        <option key={filterLabel} value={filterLabel}>
+                          {filterLabel}
+                        </option>
+                      ))}
+                    </select>
+                      {showFilterModal && (
                           <input
                               type={['checkInDate', 'checkOutDate', 'bookingDate'].includes(columnToFilter) ? 'date' : 'text'}
                               placeholder={`Filter by ${columnToFilter}`}
                               value={(filterValue instanceof Date) ? filterValue.toISOString().split('T')[0] : String(filterValue)}
-                              onChange={(e) => setFilterValue(e.target.value)}
+                              onChange={(e) => {
+                                setFilterValue(e.target.value);
+                                console.log('Filter Value Updated to:', e.target.value);
+                              }}
                               className="p-2 border rounded-lg focus:outline-none focus:border-blue-500 w-full"
                           />
                       )}
-
-
                     <div className="mt-4 flex justify-end">
                           <button
-                              onClick={() => setShowFilterModal(false)}
+                              onClick={() => {
+                                setShowFilterModal(false)
+                                console.log('Filter Modal Closed');
+                              }}
                               className="bg-red-500 text-white p-2 ml-2 rounded-lg hover:bg-red-600 focus:outline-none"
                           >
                               Cancel
                           </button>
                           <button
-                              onClick={handleFilter}
+                              onClick={() => {
+                                handleFilter();
+                                console.log('Filter Applied');
+                              }}
                               className="bg-green-500 text-white p-2 ml-2 rounded-lg hover:bg-green-600 focus:outline-none"
-                              disabled={!columnToFilter || filterValue === ''}
+                              //disabled={!columnToFilter || filterValue === ''}
                           >
                               Apply Filter
                           </button>
@@ -265,43 +340,31 @@ const GuestBookings: React.FC<GuestBookingsProps> = ({ bookings }) => {
       <table className="w-full bg-white rounded-lg overflow-hidden">
         <thead className="bg-primary text-white">
         <tr>
-          <th className="py-2 px-4">ID</th>
-          <th className="py-2 px-4">Guest Name</th>
-          <th className="py-2 px-4">Room</th>
-          <th className="py-2 px-4">Check-in</th>
-          <th className="py-2 px-4">Check-out</th>
-          <th className="py-2 px-4">Booked on</th>
-          <th className="py-2 px-4">Nights</th>
-          <th className="py-2 px-4">Guests</th>
-          <th className="py-2 px-4">Room Type</th>
-          <th className="py-2 px-4">Payment</th>
-          <th className="py-2 px-4">Total</th>
-          <th className="py-2 px-4">Requests</th>
-          <th className="py-2 px-4">Contact</th>
-          <th className="py-2 px-4">Email</th>
+            {Object.keys(bookings[0] || {}).map(column => (
+                visibleColumns.includes(column) && (
+                    <th key={column} className="py-2 px-4">
+                        {reverseFilterMapping[column]}
+                    </th>
+                )
+            ))}
         </tr>
         </thead>
         <tbody>
         {currentBookings.map((booking) => (
           <tr key={booking.id} className="border-t border-gray-200">
-            <td className="py-2 px-4">{booking.id}</td>
-            <td className="py-2 px-4">{booking.guestName}</td>
-            <td className="py-2 px-4">{booking.roomNumber}</td>
-            <td className="py-2 px-4">{new Date(booking.checkInDate).toLocaleDateString()}</td>
-            <td className="py-2 px-4">{new Date(booking.checkOutDate).toLocaleDateString()}</td>
-            <td className="py-2 px-4">{new Date(booking.bookingDate).toLocaleDateString()}</td>
-            <td className="py-2 px-4">{booking.numberOfNights}</td>
-            <td className="py-2 px-4">{booking.numberOfGuests}</td>
-            <td className="py-2 px-4">{booking.roomType}</td>
-            <td className="py-2 px-4">{booking.paymentStatus}</td>
-            <td className="py-2 px-4">${booking.totalAmount}</td>
-            <td className="py-2 px-4">{booking.specialRequests}</td>
-            <td className="py-2 px-4">{booking.contactNumber}</td>
-            <td className="py-2 px-4">{booking.emailAddress}</td>
+              {Object.keys(booking).map((column) => (
+                  visibleColumns.includes(column) && (
+                  <td key={column} className="py-2 px-4">
+                      {column.includes('Date') ?
+                          new Date((booking as any)[column]).toLocaleDateString() :
+                          (booking as any)[column]
+                      }
+                  </td>
+                  )
+              ))}
           </tr>
         ))}
         </tbody>
-      </table>
       {/* Adding Pagination */}
         <tfoot>
         <tr>
@@ -334,6 +397,7 @@ const GuestBookings: React.FC<GuestBookingsProps> = ({ bookings }) => {
             </td>
         </tr>
         </tfoot>
+      </table>
     </div>
 
   );
