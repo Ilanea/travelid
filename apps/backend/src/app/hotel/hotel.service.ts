@@ -79,7 +79,7 @@ export class HotelService {
         id: hotelId,
       },
     });
-    
+
     if (!deleteHotel) {
       return { message: 'Hotel deleted' };
     } else {
