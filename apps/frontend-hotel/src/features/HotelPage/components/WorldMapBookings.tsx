@@ -6,8 +6,10 @@ import {
   Geographies,
   Geography,
   Sphere,
-  Graticule
+  Graticule,
+  ZoomableGroup
 } from "react-simple-maps";
+import ReactTooltip from 'react-tooltip';
 
 const geoUrl = "/features.json";
 
@@ -16,6 +18,13 @@ const MapChart = () => {
   const [maxPeople, setMaxPeople] = useState(0);
   const [topCountries, setTopCountries] = useState([]);
   const [bottomCountries, setBottomCountries] = useState([]);
+
+  const [tooltipContent, setTooltipContent] = useState("Country");
+
+  const getTooltipContent = (countryCode: string | number, count: never) => {
+    const countryName = countryNames[countryCode] || countryCode;
+    return `${countryName}: ${count || "No"} bookings`;
+  };
 
   useEffect(() => {
     csv(`/vulnerability.csv`).then((peopleData) => {
@@ -183,7 +192,8 @@ const MapChart = () => {
             scale: 147
           }}
         >
-          <Sphere stroke="#E4E5E6" strokeWidth={0.5}/>
+          <ZoomableGroup>
+        <Sphere stroke="#E4E5E6" strokeWidth={0.5}/>
           <Graticule stroke="#E4E5E6" strokeWidth={0.5}/>
           <Geographies geography={geoUrl}>
             {({geographies}) => geographies.map((geo) => (
@@ -191,11 +201,20 @@ const MapChart = () => {
                 key={geo.rsmKey}
                 geography={geo}
                 fill={data[geo.id] ? colorScale(data[geo.id]) : "#F5F4F6"}
+                onMouseEnter={() => {
+                  setTooltipContent(getTooltipContent(geo.id, data[geo.id]));
+                }}
+                onMouseLeave={() => {
+                  setTooltipContent("");
+                }}
+                data-tip={tooltipContent} // This is the content for the tooltip
               />
             ))}
           </Geographies>
+            </ZoomableGroup>
         </ComposableMap>
       </div>
+
       <div className="flex justify-center mt-8 space-x-16">
         <div className="text-left">
           <h2 className="text-4xl font-bold mb-4 text-blue-600">Top 5 Countries</h2>
