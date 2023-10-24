@@ -76,3 +76,18 @@ model Booking {
 
   @@map("bookings")
 }
+
+model BonusPoints {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  email       String
+  points      Int
+  used        Boolean @default(false)
+
+  user   User @relation(fields: [email], references: [email])
+  email String
+
+  @@map("bonuspoints")
+}
