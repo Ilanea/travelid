@@ -36,6 +36,8 @@ model User {
   hotelsAsAdmin        Hotel[] @relation(name: "Admins")
   hotelsAsReceptionist Hotel[] @relation(name: "Receptionists")
 
+  bonusPoint BonusPoint[]
+
   Booking Booking[]
 
   @@map("users")
@@ -77,17 +79,17 @@ model Booking {
   @@map("bookings")
 }
 
-model BonusPoints {
+model BonusPoint {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  email       String
+  email  String
   points      Int
   used        Boolean @default(false)
 
-  user   User @relation(fields: [email], references: [email])
-  email String
+  user   User @relation(fields: [bonusEmail], references: [email])
+  bonusEmail String
 
-  @@map("bonuspoints")
+  @@map("bonuspoint")
 }
