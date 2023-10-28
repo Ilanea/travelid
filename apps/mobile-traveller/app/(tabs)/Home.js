@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, Image, TextInput, FlatList } from 'react-native';
+import { SafeAreaView, Pressable, StyleSheet, Text, View, StatusBar, ScrollView, TouchableOpacity, Image, TextInput, FlatList } from 'react-native';
 import { Link, Stack } from 'expo-router';
 import { theme } from '../theme/theme.js';
 import { getUserData } from '../utils/apiFunctions.js';
@@ -108,9 +108,10 @@ export default function Home() {
   );
    
   return (
-      <View style={styles.container} > 
+      <SafeAreaView style={styles.container} >
+        <StatusBar barStyle="dark-content" backgroundColor={theme.backgroundLightBlue} /> 
         <View style={styles.topContainer}>
-          <Link href="tabs/Profile" asChild>
+          <Link href="/Profile" asChild>
             <TouchableOpacity style={styles.profileButton}>
               <Image
                 source={require('../pics/doggo.jpg')} // Use require to specify the image source
@@ -176,14 +177,17 @@ export default function Home() {
           
         </View>
         <View>
-          <TouchableOpacity style={styles.button} onPress={filterHotels}>
-            <Text style={styles.buttonText}>
-              Search
-            </Text>   
-          </TouchableOpacity>
+          <Link href="/Results" asChild>
+            <TouchableOpacity style={styles.button} onPress={filterHotels}>
+              <Text style={styles.buttonText}>
+                Search
+              </Text>   
+            </TouchableOpacity>
+          </Link>
           <Text>
             {hotelList}
           </Text>
+            
          
         </View>
         <View style={styles.bottomContainer}>
@@ -199,7 +203,8 @@ export default function Home() {
           </View>
         </View> 
      
-    </View> 
+    </SafeAreaView> 
+    
   );
 }
 
@@ -208,7 +213,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: theme.backgroundLightBlue,
     justifyContent: "flex-start", // Align items vertically with space-between
-    keyboardShouldPersistTaps:"handled"
+    keyboardShouldPersistTaps:"handled",
+    marginTop: StatusBar.currentHeight || 0,
   },
   topContainer: {
     marginTop: 20,

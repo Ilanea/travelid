@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, Image, TextInput, KeyboardAvoidingView, Platform  } from 'react-native';
+import { Pressable, StyleSheet, Text, View, SafeAreaView, StatusBar, ScrollView, TouchableOpacity, Image, TextInput, KeyboardAvoidingView, Platform  } from 'react-native';
 import { Link, Stack } from 'expo-router';
 import { theme } from '../theme/theme.js';
 import React from 'react'
@@ -10,7 +10,8 @@ export default function Profile() {
   return (
     
         <View style={styles.container}>
-            <View style={styles.topContainer}>
+          <StatusBar barStyle="dark-content" backgroundColor={theme.backgroundLightBlue} /> 
+          <View style={styles.topContainer}>
           <Link href="tabs/Profile" asChild>
             <TouchableOpacity style={styles.profileButton}>
               <Image
@@ -49,7 +50,7 @@ export default function Profile() {
             <TextInput style={styles.normalInput} />
         </View>   
         <View style={styles.bottomContainer}>
-            <Link href="tabs/Home" asChild>
+            <Link href="/Home" asChild>
                 <TouchableOpacity style={styles.mainButtonLeft}>
                     <FontAwesome5 name="home" size={24} color="#45cfb2" /> 
                 </TouchableOpacity>
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.backgroundLightBlue,
-
+    marginTop: StatusBar.currentHeight || 0,
   },
   topContainer: {
     marginTop: 20,
