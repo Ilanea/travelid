@@ -6,10 +6,10 @@ import { Badge, Checkbox } from '@libs/ui-web';
 
 import { labels, priorities, statuses } from '../data/data';
 import { Task } from '../data/schema';
-import { DataTableColumnHeader } from './bookings-table-column-header';
-import { DataTableRowActions } from './bookings-table-row-actions';
+import { BookingsTableColumnHeader } from './bookings-table-column-header';
+import { BookingsTableRowActions } from './bookings-table-row-actions';
 
-export const columns: ColumnDef<Task>[] = [
+export const BookingTableColumns: ColumnDef<Task>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -34,7 +34,7 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'id',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="ID" />
+      <BookingsTableColumnHeader column={column} title="ID" />
     ),
     cell: ({ row }) => <div className="w-[80px]">{row.getValue('id')}</div>,
     enableSorting: false,
@@ -43,7 +43,7 @@ export const columns: ColumnDef<Task>[] = [
   /*  {
     accessorKey: 'type',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Type" />
+      <BookingsTableColumnHeader column={column} title="Type" />
     ),
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label);
@@ -61,7 +61,7 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'fullName',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Fullname" />
+      <BookingsTableColumnHeader column={column} title="Fullname" />
     ),
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label);
@@ -79,7 +79,7 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'email',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="E-Mail" />
+      <BookingsTableColumnHeader column={column} title="E-Mail" />
     ),
     cell: ({ row }) => {
       return (
@@ -94,7 +94,7 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'checkIn',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Check-In" />
+      <BookingsTableColumnHeader column={column} title="Check-In" />
     ),
     cell: ({ row }) => {
       return (
@@ -109,7 +109,7 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'checkOut',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Check-Out" />
+      <BookingsTableColumnHeader column={column} title="Check-Out" />
     ),
     cell: ({ row }) => {
       return (
@@ -124,7 +124,7 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'status',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <BookingsTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
       const status = statuses.find(
@@ -151,7 +151,7 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'priority',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Priority" />
+      <BookingsTableColumnHeader column={column} title="Priority" />
     ),
     cell: ({ row }) => {
       const priority = priorities.find(
@@ -177,6 +177,6 @@ export const columns: ColumnDef<Task>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }) => <BookingsTableRowActions row={row} />,
   },
 ];

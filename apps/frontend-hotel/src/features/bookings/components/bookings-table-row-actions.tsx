@@ -8,26 +8,18 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@libs/ui-web';
 
-import { labels } from '../data/data';
 import { taskSchema } from '../data/schema';
 
-interface DataTableRowActionsProps<TData> {
+interface BookingsTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
-export function DataTableRowActions<TData>({
+export function BookingsTableRowActions<TData>({
   row,
-}: DataTableRowActionsProps<TData>) {
+}: BookingsTableRowActionsProps<TData>) {
   const task = taskSchema.parse(row.original);
 
   return (

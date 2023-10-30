@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
+import Report from '@hotel/features/HotelPage/pages/Report';
 import RequireAuth from '@hotel/features/auth/components/require-auth';
 import Bookings from '@hotel/features/bookings/pages/bookings';
 import Dashboard from '@hotel/features/dashboard/pages/dashboard';
@@ -27,7 +28,7 @@ export const AppRoutes = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/hotel-profile" element={<HotelProfile />} />
         <Route path="/bookings" element={<Bookings />} />
-        <Route path="/reports" element={<Reports />} />
+        <Route path="/reports" element={<Report />} />
         <Route path="/example" element={<ExamplePage />} />
         <Route path="/settings" element={<SettingsPage />} />
       </Route>

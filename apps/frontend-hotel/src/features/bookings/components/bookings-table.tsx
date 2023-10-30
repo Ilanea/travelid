@@ -25,8 +25,8 @@ import {
   TableRow,
 } from '@libs/ui-web';
 
-import { DataTablePagination } from './bookings-table-pagination';
-import { DataTableToolbar } from './bookings-table-toolbar';
+import { BookingsTablePagination } from './bookings-table-pagination';
+import { BookingsTableToolbar } from './bookings-table-toolbar';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -69,7 +69,7 @@ export function BookingsTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <BookingsTableToolbar table={table} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -120,7 +120,7 @@ export function BookingsTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      <BookingsTablePagination table={table} />
     </div>
   );
 }

@@ -5,15 +5,15 @@ import { Button, Input } from '@libs/ui-web';
 
 //import { DataTableViewOptions } from "@/app/examples/tasks/components/data-table-view-options"
 import { priorities, statuses } from '../data/data';
-import { DataTableFacetedFilter } from './bookings-table-faceted-filter';
+import { BookingsTableFacetedFilter } from './bookings-table-faceted-filter';
 
-interface DataTableToolbarProps<TData> {
+interface BookingsTableToolbarProps<TData> {
   table: Table<TData>;
 }
 
-export function DataTableToolbar<TData>({
+export function BookingsTableToolbar<TData>({
   table,
-}: DataTableToolbarProps<TData>) {
+}: BookingsTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
@@ -28,14 +28,14 @@ export function DataTableToolbar<TData>({
           className="h-8 w-[150px] lg:w-[250px]"
         />
         {table.getColumn('status') && (
-          <DataTableFacetedFilter
+          <BookingsTableFacetedFilter
             column={table.getColumn('status')}
             title="Status"
             options={statuses}
           />
         )}
         {table.getColumn('priority') && (
-          <DataTableFacetedFilter
+          <BookingsTableFacetedFilter
             column={table.getColumn('priority')}
             title="Priority"
             options={priorities}
