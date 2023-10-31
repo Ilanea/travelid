@@ -6,7 +6,6 @@ import Bookings from '@hotel/features/bookings/pages/bookings';
 import Dashboard from '@hotel/features/dashboard/pages/dashboard';
 import HotelProfile from '@hotel/features/hotel-profile/pages/hotel-profile';
 import NotFound from '@hotel/features/misc/pages/not-found';
-import Reports from '@hotel/features/reports/page/reports';
 import EditReward from '@hotel/features/rewards/pages/edit-reward';
 import Rewards from '@hotel/features/rewards/pages/rewards';
 
