@@ -7,6 +7,8 @@ import Dashboard from '@hotel/features/dashboard/pages/dashboard';
 import HotelProfile from '@hotel/features/hotel-profile/pages/hotel-profile';
 import NotFound from '@hotel/features/misc/pages/not-found';
 import Reports from '@hotel/features/reports/page/reports';
+import EditReward from '@hotel/features/rewards/pages/edit-reward';
+import Rewards from '@hotel/features/rewards/pages/rewards';
 
 import SignIn from '../features/auth/pages/signin';
 import SignUp from '../features/auth/pages/signup';
@@ -28,6 +30,8 @@ export const AppRoutes = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/hotel-profile" element={<HotelProfile />} />
         <Route path="/bookings" element={<Bookings />} />
+        <Route path="/rewards" element={<Rewards />} />
+        <Route path="/rewards/edit" element={<EditReward />} />
         <Route path="/reports" element={<Report />} />
         <Route path="/example" element={<ExamplePage />} />
         <Route path="/settings" element={<SettingsPage />} />
