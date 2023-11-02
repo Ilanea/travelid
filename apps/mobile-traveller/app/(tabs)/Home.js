@@ -33,7 +33,7 @@ export default function Home() {
     }
     else{
       return(
-      <View style={{  justifyContent: 'center', alignItems: 'center', paddingTop: 5}}>            
+      <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 5}}>            
             <FlatList
               data={listFilters}
               renderItem={renderItem}
@@ -111,15 +111,7 @@ export default function Home() {
       <SafeAreaView style={styles.container} >
         <StatusBar barStyle="dark-content" backgroundColor={theme.backgroundLightBlue} /> 
         <View style={styles.topContainer}>
-          <Link href="/Profile" asChild>
-            <TouchableOpacity style={styles.profileButton}>
-              <Image
-                source={require('../pics/doggo.jpg')} // Use require to specify the image source
-                style={styles.buttonImage}
-              />
-            </TouchableOpacity>
-          </Link>
-          <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center', marginTop: 13, paddingLeft: 40}}>
+          <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center', marginTop: 13,}}>
             {!filterView ? "Hello " + user.firstname : "Customize Filter"}
           </Text> 
         </View>
@@ -186,20 +178,28 @@ export default function Home() {
           </Link>
           <Text>
             {hotelList}
-          </Text>
-            
-         
+          </Text>   
         </View>
         <View style={styles.bottomContainer}>
           {showFilterView() 
           }
-          <View style={{flexDirection: "row", justifyContent: "center", alignItems: "flex-end", flex: 1}}>
-            <TouchableOpacity style={styles.mainButtonLeft}>
-              <FontAwesome5 name="home" size={24} color="#45cfb2" /> 
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.mainButtonRight}>
-              <FontAwesome5 name="user" size={24} color="black" />
-            </TouchableOpacity>
+          <View style={styles.mainButtonContainer}>
+          <View style={styles.mainButtonLeft}>
+            <FontAwesome5 name="home" size={24} color="white" />
+          </View>
+          <View style={styles.mainButtonSeparator} /> 
+          <View style={styles.mainButtonMiddle}>
+            <Link href="/Profile" asChild>
+              <FontAwesome5 name="user" size={24} color="white" />
+            </Link>
+          </View>
+          <View style={styles.mainButtonSeparator} /> 
+          <View style={styles.mainButtonRight}>
+            <Text style={{ color: "white" }}>
+              Points
+            </Text>
+          </View>
+
           </View>
         </View> 
      
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     marginTop: 20,
-    flexDirection: 'row',
+    alignItems: "center",
     paddingHorizontal: 20,
   },
   searchContainer: {
@@ -227,11 +227,11 @@ const styles = StyleSheet.create({
   bottomContainer: {
     flex: 1,
     justifyContent: "center",
+    alignItems: "center",
     marginBottom: 0, // Adjust the margin as needed
     backgroundColor: theme.backgroundDarkBlue,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
-   
   },
   inputView: {
     flexDirection: 'row',
@@ -255,58 +255,42 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20
   },
-  profileButton: {
-    backgroundColor: 'white',
-    padding: 3,
-    borderRadius: 40,
-    marginRight: 10,
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    marginLeft: 25
-  },
   buttonImage: {
     width: 50,
     height: 50,
     borderRadius: 40
   },
-
-  notificationIcon: {
-    position: 'absolute',
-    top: 10,  // Adjust the top value to position the icon vertically
-    right: 20, // Adjust the right value to position the icon horizontally
-    backgroundColor: "white",
-    borderRadius: 60,
-    marginRight: 10,
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.30,
-    shadowRadius: 4.65,
-    elevation: 8,
-    marginLeft: 25,
-    padding: 10
-  },
-  mainButtonLeft: {
-    marginRight: 70,
-    borderWidth: 1,
-    padding: 7,
-    marginBottom: 40,
-    borderRadius: 40,
-    backgroundColor: "white"
-  },
-  mainButtonRight: {
-
-    padding: 7,
-    marginBottom: 40,
-  },
+  //Main buttons
+      mainButtonContainer: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 25,
+        backgroundColor: theme.mainButton,
+        width: "80%",
+        height: "15%",
+        marginTop: "10%"
+      },
+      mainButtonLeft: {
+        marginRight: 20,
+        padding: 7,
+      },
+      mainButtonMiddle: {
+        marginHorizontal: 20, // Adjust the margin between the middle button and the separators
+        padding: 7,
+      },
+      mainButtonRight: {
+        marginLeft: 20,
+        padding: 7,
+      },
+      mainButtonSeparator: {
+        width: 3, // Adjust the width of the separator line as needed
+        borderColor: 'white', // Add a border color to make it more visible
+        borderWidth: 1, // Add a border width to make it more visible
+        height: "30%",
+        backgroundColor: "white",
+        borderRadius: 30,
+      },
   filterContainer: {
     padding: 10,
     alignItems: "center",
