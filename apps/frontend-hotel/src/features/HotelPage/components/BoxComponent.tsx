@@ -15,7 +15,7 @@ const BoxComponent: React.FC<BoxProps> = ({ data }) => {
         {data.map((item, index) => (
           <div
             key={index}
-            className="mb-2 font-bold pt-3 border-b text-1xl text-primary"
+            className="mb-2 font-bold pt-3 border-b text-1xl text-primary pl-2"
           >
             {item.keyword}
           </div>

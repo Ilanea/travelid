@@ -26,6 +26,11 @@ import BoxComponent from '../components/BoxComponent';
 import StatsBox from '../components/StatsBox';
 import ListReport from "@hotel/features/HotelPage/components/ListReport";
 import WorldMapBookings from "@hotel/features/HotelPage/components/WorldMapBookings";
+import {DateRangePicker} from "@hotel/features/HotelPage/components/DateRangePicker";
+import {DateRange} from "react-day-picker";
+import {addDays} from "date-fns";
+import {AiFillCreditCard} from "react-icons/ai";
+import DashboardCardMini from "@hotel/components/DashboardCardMini";
 
 function Report() {
   const [startDate, setStartDate] = useState<Date | null>(
@@ -35,6 +40,11 @@ function Report() {
   const [view, setView] = useState<'daily' | 'monthly' | 'yearly'>('daily');
   const [dailyBookings, setDailyBookings] = useState<DataEntry[]>([]);
   const [tabIndex, setTabIndex] = useState(0);
+
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: addDays(new Date(), -90),
+    to: new Date(),
+  })
   interface BookingData {
     day: string;
     Bookings: number;
@@ -96,8 +106,8 @@ function Report() {
   const filteredData = dailyBookings.filter((item: any) => {
     const itemDate = new Date(item.day); // Convert to format "YYYY-MM-DD" for Date object
 
-    if (startDate && endDate) {
-      return itemDate >= startDate && itemDate <= endDate;
+    if (date) {
+      return itemDate >= date.from && itemDate <= date.to;
     }
 
     return true; // or false, depending on your desired behavior when the dates are null
@@ -204,7 +214,7 @@ function Report() {
       specialRequests: "Near elevator",
       contactNumber: "+1 123-456-7890",
       emailAddress: "john@example.com",
-      from: 'Austria',
+      bookingOrigin: "Phone",
     },  {
       id: "2",
       guestName: "Jane Smith",
@@ -222,6 +232,7 @@ function Report() {
       specialRequests: "Quiet area",
       contactNumber: "+1 123-456-7891",
       emailAddress: "jane@example.com",
+      bookingOrigin: "Bon Away",
     },
     {
       id: "3",
@@ -240,6 +251,8 @@ function Report() {
       specialRequests: "Near gym",
       contactNumber: "+1 123-456-7892",
       emailAddress: "michael@example.com",
+      bookingOrigin: "Bon Away",
+
     },
     {
       id: "4",
@@ -258,6 +271,7 @@ function Report() {
       specialRequests: "Higher floor",
       contactNumber: "+1 123-456-7893",
       emailAddress: "emily@example.com",
+      bookingOrigin: "Bon Away",
     },
     {
       id: "5",
@@ -276,6 +290,7 @@ function Report() {
       specialRequests: "Near pool",
       contactNumber: "+1 124-456-7894",
       emailAddress: "rachel@example.com",
+      bookingOrigin: "Bon Away",
     },
     {
       id: "6",
@@ -294,6 +309,7 @@ function Report() {
       specialRequests: "Lower floor",
       contactNumber: "+1 125-456-7895",
       emailAddress: "ross@example.com",
+      bookingOrigin: "Mail",
     },
     {
       id: "7",
@@ -312,6 +328,8 @@ function Report() {
       specialRequests: "Near restaurant",
       contactNumber: "+1 126-456-7896",
       emailAddress: "monica@example.com",
+      bookingOrigin: "Mail",
+
     },
     {
       id: "8",
@@ -330,6 +348,8 @@ function Report() {
       specialRequests: "Quiet area",
       contactNumber: "+1 127-456-7897",
       emailAddress: "chandler@example.com",
+      bookingOrigin: "Mail",
+
     },
     {
       id: "9",
@@ -348,6 +368,7 @@ function Report() {
       specialRequests: "Extra towels",
       contactNumber: "+1 128-456-7898",
       emailAddress: "phoebe@example.com",
+      bookingOrigin: "Phone",
     },
     {
       id: "10",
@@ -366,6 +387,7 @@ function Report() {
       specialRequests: "Early check-in",
       contactNumber: "+1 129-456-7899",
       emailAddress: "joey@example.com",
+      bookingOrigin: "Bon Away",
     },
     {
       id: "11",
@@ -384,6 +406,7 @@ function Report() {
       specialRequests: "Near elevator",
       contactNumber: "+1 123-456-7890",
       emailAddress: "test@mail.com",
+      bookingOrigin: "Bon Away",
     }
   ];
 
@@ -407,95 +430,33 @@ function Report() {
         <TabPanel>
           <div className="flex justify-end space-x-4 mb-5">
             {/* Bookings this week */}
-            <div className="text-primary text-xl flex flex-col border rounded p-5 w-1/4 border-primary">
-              <div className="flex justify-between items-center">
-                <div className="text-lg">Bookings this week</div>
-                <BedIcon className="text-primary" />
-              </div>
-              <div className="flex flex-col mb-3 text-2xl pt-2">
-                <div className="font-bold">+13</div>
-                <div className="text-sm text-gray-400 ml-2">
-                  +13% seit der letzten Woche
-                </div>
-              </div>
-            </div>
-
+            <DashboardCardMini title="Bookings this week" amount="+13" amountLong="+ 13% seit der letzten Woche" icon={<BedIcon className="text-primary" />} />
             {/* Bookings this month */}
-            <div className="text-primary text-xl flex flex-col border rounded p-5 w-1/4 border-primary">
-              <div className="flex justify-between items-center">
-                <div className="text-lg">Bookings this month</div>
-                <BedIcon className="text-primary" />
-              </div>
-              <div className="flex flex-col mb-3 text-2xl pt-2">
-                <div className="font-bold">+67</div>
-                <div className="text-sm text-gray-400 ml-2">
-                  +33% seit letztem Monat
-                </div>
-              </div>
-            </div>
-
+            <DashboardCardMini title="Bookings this month" amount="+67" amountLong="+ 33% seit der letzten Woche" icon={<BedIcon className="text-primary" />} />
             {/* Bookings this year */}
-            <div className="text-primary text-xl flex flex-col border rounded p-5 w-1/4 border-primary">
-              <div className="flex justify-between items-center">
-                <div className="text-lg">Bookings this year</div>
-                <BedIcon className="text-primary" />
-              </div>
-              <div className="flex flex-col mb-3 text-2xl pt-2">
-                <div className="font-bold">+189</div>
-                <div className="text-sm text-gray-400 ml-2">
-                  +89% seit letztem Jahr
-                </div>
-              </div>
+            <DashboardCardMini title="Bookings this month" amount="+189" amountLong="+ 89% seit der letztem Jahr" icon={<BedIcon className="text-primary" />} />
+            {/* Total bookings */}
+            <DashboardCardMini title="Bookings total" amount="+456" amountLong="+ 189% total" icon={<BedIcon className="text-primary" />} />
+
+          </div>
+          <div className="flex justify-between items-center w-full pb-5">
+            {/* Container for DateRangePicker that takes up the available space */}
+            <div className="flex-grow flex justify-start">
+              <DateRangePicker date={date} setDate={setDate}/>
             </div>
 
-            {/* Total bookings */}
-            <div className="text-primary text-xl flex flex-col border rounded p-5 w-1/4 border-primary">
-              <div className="flex justify-between items-center">
-                <div className="text-lg">Bookings total</div>
-                <BedIcon className="text-primary" />
-              </div>
-              <div className="flex flex-col mb-3 text-2xl pt-2">
-                <div className="font-bold">+456</div>
-                <div className="text-sm text-gray-400 ml-2">+189% total</div>
-              </div>
+            {/* Container for Button that is pushed to the far right */}
+            <div className="flex justify-end">
+              <Button
+                onClick={() =>
+                  exportComponentAsPDF('wrapperdiv', 'exported-file.pdf')
+                }
+              >
+                Export as PDF
+              </Button>
             </div>
           </div>
-          <div className="flex justify-between items-center">
-            <div className="flex space-x-4 justify-center pl-52">
-          <span className="text-xl font-bold mb-4 text-primary flex-grow">
-            Start Datum:
-          </span>
-              <DatePicker
-                className="border rounded border-black"
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                selectsStart
-                startDate={startDate}
-                endDate={endDate}
-              />
-              <span className="text-xl font-bold mb-4 text-primary flex-grow">
-            End Datum:
-          </span>
-              <DatePicker
-                className="border rounded border-black"
-                selected={endDate}
-                onChange={(date) => setEndDate(date)}
-                selectsEnd
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate}
-              />
-              <div className="flex space-x-4 justify-center pb-4 pl-96">
-                <Button
-                  onClick={() =>
-                    exportComponentAsPDF('wrapperdiv', 'exported-file.pdf')
-                  }
-                >
-                  Export as PDF
-                </Button>
-              </div>
-            </div>
-          </div>
+
           <div id="wrapperdiv" className="flex space-x-4">
             {/* Bar Chart */}
             {dailyBookings ? (
@@ -504,13 +465,13 @@ function Report() {
               <div>loading...</div>
             )}
             {/* Pie Chart */}
-            <BookingOriginChart />
-            <div className="w-1/4  text-primary border pl-5 rounded border-black bg-gray-200 text-sm">
+            <BookingOriginChart filteredData={filteredData}/>
+            <div className="rounded-xl border bg-card text-card-foreground shadow w-full w-1/4">
               <BoxComponent data={boxData} />
             </div>
           </div>
           <div id="wrapperdiv1" className="flex space-x-4 pt-5 pb-5">
-            <div className="w-full rounded border border-black bg-gray-200 text-primary">
+            <div className="rounded-xl border bg-card text-card-foreground shadow w-full">
               <ResponsiveContainer width="100%" height={300}>
                 <StatsBox data={statData} />
               </ResponsiveContainer>

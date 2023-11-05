@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { exportToExcel } from '@hotel/utils/exports'
+import {Button} from "@libs/ui-web";
 
 interface Booking {
   id: string;
@@ -18,6 +19,7 @@ interface Booking {
   specialRequests: string;
   contactNumber: string;
   emailAddress: string;
+  bookingOrigin: string;
 }
 
 
@@ -147,7 +149,8 @@ const GuestBookings: React.FC<GuestBookingsProps> = ({ bookings }) => {
         "Total Amount": "totalAmount",
         "Special Requests": "specialRequests",
         "Contact Number": "contactNumber",
-        "Email Address": "emailAddress"
+        "Email Address": "emailAddress",
+        "Booking Origin": "bookingOrigin",
     };
 
   const reverseFilterMapping = Object.fromEntries(
@@ -175,7 +178,8 @@ const GuestBookings: React.FC<GuestBookingsProps> = ({ bookings }) => {
     totalAmount: 1,
     specialRequests: '',
     contactNumber: '',
-    emailAddress: ''
+    emailAddress: '',
+    bookingOrigin: '',
       };
 
     useEffect(() => {
@@ -215,7 +219,7 @@ const GuestBookings: React.FC<GuestBookingsProps> = ({ bookings }) => {
 
         <h2 className="text-2xl font-semibold mb-4">Guest Bookings</h2>
         <div>
-            <button
+            <Button
                 onClick={() => setShowFilterModal(true)}
                 className={`bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 focus:outline-none mr-1 ${filteredBookings.length < bookings.length ? 'relative' : ''}`}
             >
@@ -225,25 +229,25 @@ const GuestBookings: React.FC<GuestBookingsProps> = ({ bookings }) => {
             !
         </span>
                 )}
-            </button>
-            <button
+            </Button>
+            <Button
                 onClick={resetFilter}
                 className="bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600 focus:outline-none mr-4"
             >
                 Reset Filter
-            </button>
-            <button
+            </Button>
+            <Button
                 onClick={handleExportToExcel}
                 className="bg-green-500 text-white p-2 rounded-lg hover:bg-green-600 focus:outline-none"
             >
                 Export to Excel
-            </button>
-            <button
+            </Button>
+            <Button
                 onClick={toggleColumnSelector}
                 className=" ml-2 bg-purple-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-purple-600 focus:outline-none focus:border-purple-700 focus:ring focus:ring-purple-200 active:bg-purple-700 transition duration-150 ease-in-out"
             >
                 Select Visible Columns
-            </button>
+            </Button>
             {isColumnSelectorVisible && (
                 <div
                     className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-md shadow-lg z-50 border border-black"

@@ -11,6 +11,7 @@ import {
 } from 'recharts';
 
 import { exportToExcel } from '@hotel/utils/exports';
+import {Button} from "@libs/ui-web";
 
 interface DataEntry {
   day?: string;
@@ -80,7 +81,7 @@ const BookingBarChart = ({ filteredData }: BookingBarChartProps) => {
   return (
     <div
       id="barChart"
-      className="w-1/2 pl-5 pr-5 rounded border border-black bg-gray-200"
+      className="rounded-xl border text-card-foreground shadow w-full w-1/2 hover:bg-amber-50"
     >
       <div className="flex justify-between items-center p-3">
         {' '}
@@ -120,12 +121,12 @@ const BookingBarChart = ({ filteredData }: BookingBarChartProps) => {
             Jährlich
           </label>
         </div>
-        <button
-          className="bg-green-500 hover:bg-green-700 text-primary font-bold py-2 px-4 rounded text-sm"
+        <Button
+          className="bg-green-500"
           onClick={() => exportToExcel(filteredData, 'bookings')}
         >
           Export to Excel
-        </button>
+        </Button>
       </div>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={chartData}>

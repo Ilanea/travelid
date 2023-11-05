@@ -1,49 +1,59 @@
-import {
-  Cell,
-  Legend,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-} from 'recharts';
-
-import { exportToExcel } from '@hotel/utils/exports';
-
+import React from 'react';
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { CHARTS_COLORS } from '../consts/colors';
+import { Button } from "@libs/ui-web";
+import { exportToExcel } from "@hotel/utils/exports";
 
-const bookingSourcesData = [
-  { source: 'Everyhome', bookings: 1200 },
-  { source: 'Mail', bookings: 300 },
-  { source: 'Phone', bookings: 20 },
-];
+type BookingData = {
+  day: string;
+  Bookings: number;
+  BookingsViaPhone: number;
+  BookingsViaMail: number;
+  BookingsViaBonAway: number;
+};
 
-const BookingOriginChart = () => {
+type BookingOriginChartProps = {
+  filteredData: BookingData[];
+};
+
+const BookingOriginChart = ({ filteredData }: BookingOriginChartProps) => {
+  // Transform filteredData into pie chart format
+  const pieChartData = filteredData.reduce((acc, item) => {
+    acc[0].value += item.BookingsViaPhone; // Sum phone bookings
+    acc[1].value += item.BookingsViaMail; // Sum mail bookings
+    acc[2].value += item.BookingsViaBonAway; // Sum Bon Away bookings
+    return acc;
+  }, [
+    { name: 'Phone', value: 0 },
+    { name: 'Mail', value: 0 },
+    { name: 'Bon Away', value: 0 }
+  ]);
+
   return (
-    <div className="w-1/4  text-white border pl-5 rounded border-black bg-gray-200">
+    <div className="rounded-xl border bg-card text-card-foreground shadow w-full w-1/4">
       <div className="flex justify-between items-center p-3">
-        {/* This is the flex container */}
         <h2 className="text-xl font-bold mb-4 text-primary pl-3 pt-3 pr-3">
           Buchungs-Herkunft:
         </h2>
-        <button
-          className="bg-green-500 hover:bg-green-700 text-primary font-bold py-2 px-4 rounded text-xs w-1/2"
-          onClick={() => exportToExcel(bookingSourcesData, 'booking_sources')}
+        <Button
+          className="bg-green-500"
+          onClick={() => exportToExcel(pieChartData, 'booking_sources')}
         >
           Export to Excel
-        </button>
+        </Button>
       </div>
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie
-            data={bookingSourcesData}
+            data={pieChartData}
             cx="50%"
             cy="50%"
             outerRadius={130}
             fill="#8884d8"
-            dataKey="bookings"
-            nameKey="source"
+            dataKey="value"
+            nameKey="name"
           >
-            {bookingSourcesData.map((entry, index) => (
+            {pieChartData.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={CHARTS_COLORS[index % CHARTS_COLORS.length]}
