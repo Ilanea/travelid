@@ -37,6 +37,7 @@ model User {
   hotelsAsReceptionist Hotel[] @relation(name: "Receptionists")
 
   Booking Booking[]
+  reviews Review[]
 
   @@map("users")
 }
@@ -81,6 +82,8 @@ model Review {
   updatedAt DateTime @updatedAt
   hotelId   Int
   hotel     Hotel    @relation(fields: [hotelId], references: [id])
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Booking {
