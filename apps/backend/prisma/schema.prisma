@@ -53,6 +53,7 @@ model Hotel {
   description String?
 
   categories   Category[]
+  reviews     Review[]
 
   admins        User[] @relation(name: "Admins")
   receptionists User[] @relation(name: "Receptionists")
@@ -69,6 +70,16 @@ model Category {
   updatedAt DateTime @updatedAt
 
   hotelId   Int      
+  hotel     Hotel    @relation(fields: [hotelId], references: [id])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  text      String
+  rating    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  hotelId   Int
   hotel     Hotel    @relation(fields: [hotelId], references: [id])
 }
 
