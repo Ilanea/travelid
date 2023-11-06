@@ -2,11 +2,12 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuard
 import { AuthenticatedGuard } from '../auth/guard';
 import { HotelService } from './hotel.service';
 import { ApiTags, ApiCookieAuth } from '@nestjs/swagger';
-import { CreateHotelDto } from './dto';
+import { CreateHotelDto, CreateReviewDto } from './dto';
 import { Role } from '../auth/roles/role.enum';
 import { PoliciesGuard } from '../authz/guard/policies.guard';
 import { Roles } from '../auth/roles/role.decorator';
 import { EditHotelHandler, ManageHotelHandler } from '../authz/policies/hotel.handler';
+import { DeleteReviewHandler, EditReviewHandler } from '../authz/policies/review.handler';
 import { CheckPolicies } from '../authz/decorator/policies.decorator';
 
 
@@ -67,4 +68,38 @@ export class HotelController {
     return await this.hotelService.getHotelBookings(parseInt(hotelId));
   }
 
+  @Get('/:hotelId/reviews')
+    async getAllReviewsForHotel(
+      @Param('hotelId') hotelId: string,
+      @Query('page') page: string,
+      @Query('pageSize') pageSize: string,
+    ) {
+      return this.hotelService.getAllReviewsForHotel(parseInt(hotelId), parseInt(page), parseInt(pageSize));
+    }
+
+  @UseGuards(AuthenticatedGuard)
+  @ApiCookieAuth()
+  @Post('/:hotelId/reviews')
+  async createReview(@Body() dto: CreateReviewDto, @Param('hotelId') hotelId: string, @Req() request) {
+    return await this.hotelService.createReview(dto, parseInt(hotelId), request.session.user.id);
+  }
+
+  @UseGuards(AuthenticatedGuard)
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(EditReviewHandler)
+  @ApiCookieAuth()
+  @Patch('/:hotelId/reviews/:reviewId')
+  async editReview(@Param('hotelId') hotelId: string, @Param('reviewId') reviewId: string, @Body() dto: CreateReviewDto, @Req() request) {
+    return await this.hotelService.editReview(parseInt(hotelId), parseInt(reviewId), dto, request.session.user.id);
+  }
+
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthenticatedGuard)
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(DeleteReviewHandler)
+  @ApiCookieAuth()
+  @Delete('/:hotelId/reviews/:reviewId')
+  async deleteReview(@Param('hotelId') hotelId: string, @Param('reviewId') reviewId: string) {
+    return await this.hotelService.deleteReview(parseInt(hotelId), parseInt(reviewId));
+  }
 }

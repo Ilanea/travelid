@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateHotelDto } from './dto';
+import { CreateHotelDto, CreateReviewDto } from './dto';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable()
@@ -102,6 +102,101 @@ export class HotelService {
       },
     });
     return bookings;
+  }
+
+  async getAllReviewsForHotel(hotelId: number, page: number, pageSize: number) {
+    const skip = (page - 1) * pageSize;
+    const hotel = await this.prisma.hotel.findUnique({
+      where: {
+        id: hotelId,
+      },
+    });
+    if (!hotel) {
+      throw new NotFoundException('Hotel not found');
+    }
+    const reviews = await this.prisma.review.findMany({
+      skip,
+      take: pageSize,
+      where: {
+        hotelId: hotelId,
+      },
+    });
+    return reviews;
+  }
+
+  async createReview(dto: CreateReviewDto, hotelId: number, userId: number) {
+    const user = await this.authService.getUserById(userId);
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+    const hotel = await this.prisma.hotel.findUnique({
+      where: {
+        id: hotelId,
+      },
+    });
+    if (!hotel) {
+      throw new NotFoundException('Hotel not found');
+    }
+
+    const review = await this.prisma.review.create({
+      data: {
+        ...dto,
+        user: {
+          connect: { id: user.id },
+        },
+        hotel: {
+          connect: { id: hotelId },
+        },
+      },
+    });
+    if(!review) {
+      throw new BadRequestException('Review not created');
+    }
+
+    return review;
+  }
+
+  async deleteReview(hotelId: number, reviewId: number) {
+    const review = await this.prisma.review.findUnique({
+      where: {
+        id: reviewId,
+      },
+    });
+    if (!review) {
+      throw new NotFoundException('Review not found');
+    }
+    const deleteReview = await this.prisma.review.delete({
+      where: {
+        id: reviewId,
+      },
+    });
+    
+    if (!deleteReview) {
+      return { message: 'Review deleted' };
+    } else {
+      throw new BadRequestException('Review could not be deleted');
+    }
+  }
+
+  async editReview(hotelId: number, reviewId: number, dto: CreateReviewDto, userId: number) {
+    const checkReview = await this.prisma.review.findUnique({
+      where: {
+        id: reviewId,
+      },
+    });
+    if (!checkReview) {
+      throw new NotFoundException('Review not found');
+    }
+    const review = await this.prisma.review.update({
+      where: {
+        id: reviewId,
+      },
+      data: {
+        ...dto,
+      },
+    });
+
+    return review;
   }
 
 }

@@ -27,3 +27,15 @@ export class CreateHotelDto {
   @IsOptional()
   description?: string;
 }
+
+export class CreateReviewDto {
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  text: string;
+
+  @ApiProperty()
+  @IsEmail()
+  @IsOptional()
+  rating: number;
+}

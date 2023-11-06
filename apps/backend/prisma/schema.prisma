@@ -80,6 +80,7 @@ model Review {
   rating    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
   hotelId   Int
   hotel     Hotel    @relation(fields: [hotelId], references: [id])
   userId    Int
