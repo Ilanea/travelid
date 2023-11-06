@@ -52,12 +52,22 @@ model Hotel {
   address     String
   description String?
 
+  categories   Category[] @relation(name: "Categories")
+
   admins        User[] @relation(name: "Admins")
   receptionists User[] @relation(name: "Receptionists")
 
   Booking Booking[]
 
   @@map("hotels")
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  hotels    Hotel[]  @relation(name: "Categories")
 }
 
 model Booking {
