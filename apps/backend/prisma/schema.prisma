@@ -52,7 +52,7 @@ model Hotel {
   address     String
   description String?
 
-  categories   Category[] @relation(name: "Categories")
+  categories   Category[]
 
   admins        User[] @relation(name: "Admins")
   receptionists User[] @relation(name: "Receptionists")
@@ -67,7 +67,9 @@ model Category {
   name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  hotels    Hotel[]  @relation(name: "Categories")
+
+  hotelId   Int      
+  hotel     Hotel    @relation(fields: [hotelId], references: [id])
 }
 
 model Booking {
