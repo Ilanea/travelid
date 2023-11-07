@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuard
 import { AuthenticatedGuard } from '../auth/guard';
 import { HotelService } from './hotel.service';
 import { ApiTags, ApiCookieAuth } from '@nestjs/swagger';
-import { CreateHotelDto, CreateReviewDto } from './dto';
+import { CreateCategoryDto, CreateHotelDto, CreateReviewDto } from './dto';
 import { Role } from '../auth/roles/role.enum';
 import { PoliciesGuard } from '../authz/guard/policies.guard';
 import { Roles } from '../auth/roles/role.decorator';
@@ -69,13 +69,9 @@ export class HotelController {
   }
 
   @Get('/:hotelId/reviews')
-    async getAllReviewsForHotel(
-      @Param('hotelId') hotelId: string,
-      @Query('page') page: string,
-      @Query('pageSize') pageSize: string,
-    ) {
-      return this.hotelService.getAllReviewsForHotel(parseInt(hotelId), parseInt(page), parseInt(pageSize));
-    }
+  async getAllReviewsForHotel(@Param('hotelId') hotelId: string, @Query('page') page: string, @Query('pageSize') pageSize: string) {
+    return this.hotelService.getAllReviewsForHotel(parseInt(hotelId), parseInt(page), parseInt(pageSize));
+  }
 
   @UseGuards(AuthenticatedGuard)
   @ApiCookieAuth()
@@ -102,4 +98,40 @@ export class HotelController {
   async deleteReview(@Param('hotelId') hotelId: string, @Param('reviewId') reviewId: string) {
     return await this.hotelService.deleteReview(parseInt(hotelId), parseInt(reviewId));
   }
+
+  @Get('/:hotelId/categories')
+  async getAllCategoriesForHotel(@Param('hotelId') hotelId: string) {
+    return this.hotelService.getAllCategoriesForHotel(parseInt(hotelId));
+  }
+
+  @Roles(Role.HOTELADMIN || Role.ADMIN)
+  @UseGuards(AuthenticatedGuard)
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ManageHotelHandler)
+  @ApiCookieAuth()
+  @Post('/:hotelId/categories')
+  async createHotelCategory(@Param('hotelId') hotelId: string, @Body() dto: CreateCategoryDto) {
+    return await this.hotelService.createHotelCategory(parseInt(hotelId), dto);
+  }
+
+  @Roles(Role.HOTELADMIN || Role.ADMIN)
+  @UseGuards(AuthenticatedGuard)
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ManageHotelHandler)
+  @ApiCookieAuth()
+  @Patch('/:hotelId/categories/:categoryId')
+  async editHotelCategory(@Param('hotelId') hotelId: string, @Param('categoryId') categoryId: string, @Body() dto: CreateCategoryDto) {
+    return await this.hotelService.editHotelCategory(parseInt(hotelId), parseInt(categoryId),dto);
+  }
+
+  @Roles(Role.HOTELADMIN || Role.ADMIN)
+  @UseGuards(AuthenticatedGuard)
+  @UseGuards(PoliciesGuard)
+  @CheckPolicies(ManageHotelHandler)
+  @ApiCookieAuth()
+  @Delete('/:hotelId/categories/:categoryId')
+  async deleteHotelCategory(@Param('hotelId') hotelId: string, @Param('categoryId') categoryId: string) {
+    return await this.hotelService.deleteHotelCategory(parseInt(hotelId), parseInt(categoryId));
+  }
+
 }

@@ -1,4 +1,4 @@
-import { IsEmail, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateHotelDto {
@@ -35,7 +35,13 @@ export class CreateReviewDto {
   text: string;
 
   @ApiProperty()
-  @IsEmail()
-  @IsOptional()
+  @IsNumber()
   rating: number;
+}
+
+export class CreateCategoryDto {
+  @ApiProperty()
+  @IsString()
+  name: string;
+
 }

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateHotelDto, CreateReviewDto } from './dto';
+import { CreateCategoryDto, CreateHotelDto, CreateReviewDto } from './dto';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable()
@@ -142,7 +142,7 @@ export class HotelService {
       data: {
         ...dto,
         user: {
-          connect: { id: user.id },
+          connect: { id: userId },
         },
         hotel: {
           connect: { id: hotelId },
@@ -197,6 +197,82 @@ export class HotelService {
     });
 
     return review;
+  }
+
+  async createHotelCategory(hotelId: number, dto: CreateCategoryDto) {
+    const hotel = await this.prisma.hotel.findUnique({
+      where: {
+        id: hotelId,
+      },
+    });
+    if (!hotel) {
+      throw new NotFoundException('Hotel not found');
+    }
+    const category = await this.prisma.category.create({
+      data: {
+        ...dto,
+        hotel: {
+          connect: { id: hotelId },
+        },
+      },
+    });
+    if(!category) {
+      throw new BadRequestException('Category not created');
+    }
+
+    return category;
+  }
+
+  async editHotelCategory(hotelId: number, categoryId: number, dto: CreateCategoryDto) {
+    const category = await this.prisma.category.update({
+      where: {
+        id: categoryId,
+      },
+      data: {
+        ...dto,
+      },
+    });
+
+    return category;
+  }
+
+  async deleteHotelCategory(hotelId: number, categoryId: number) {
+    const category = await this.prisma.category.findUnique({
+      where: {
+        id: categoryId,
+      },
+    });
+    if (!category) {
+      throw new NotFoundException('Category not found');
+    }
+    const deleteCategory = await this.prisma.category.delete({
+      where: {
+        id: categoryId,
+      },
+    });
+    
+    if (!deleteCategory) {
+      return { message: 'Category deleted' };
+    } else {
+      throw new BadRequestException('Category could not be deleted');
+    }
+  }
+
+  async getAllCategoriesForHotel(hotelId: number) {
+    const hotel = await this.prisma.hotel.findUnique({
+      where: {
+        id: hotelId,
+      },
+    });
+    if (!hotel) {
+      throw new NotFoundException('Hotel not found');
+    }
+    const categories = await this.prisma.category.findMany({
+      where: {
+        hotelId: hotelId,
+      },
+    });
+    return categories;
   }
 
 }
