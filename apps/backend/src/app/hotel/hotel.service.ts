@@ -87,7 +87,7 @@ export class HotelService {
     }
   }
 
-  async getHotelBookings(hotelId: number) {
+  async getAllHotelBookings(hotelId: number) {
     const hotel = await this.prisma.hotel.findUnique({
       where: {
         id: hotelId,

@@ -16,6 +16,9 @@ import { CheckPolicies } from '../authz/decorator/policies.decorator';
 export class HotelController {
   constructor(private hotelService: HotelService) {}
 
+
+  // HOTEL
+
   @Get('')
     async getAllHotels(
       @Query('page') page: string,
@@ -58,15 +61,20 @@ export class HotelController {
     return await this.hotelService.deleteHotel(parseInt(hotelId));
   }
 
+  // BOOKINGS
+
   @Roles(Role.HOTELADMIN || Role.ADMIN)
   @UseGuards(AuthenticatedGuard)
   @UseGuards(PoliciesGuard)
   @CheckPolicies(EditHotelHandler)
   @ApiCookieAuth()
   @Get('/:hotelId/bookings')
-  async getHotelBookings(@Param('hotelId') hotelId: string) {
-    return await this.hotelService.getHotelBookings(parseInt(hotelId));
+  async getAllHotelBookings(@Param('hotelId') hotelId: string) {
+    return await this.hotelService.getAllHotelBookings(parseInt(hotelId));
   }
+
+
+  // REVIEWS
 
   @Get('/:hotelId/reviews')
   async getAllReviewsForHotel(@Param('hotelId') hotelId: string, @Query('page') page: string, @Query('pageSize') pageSize: string) {
@@ -98,6 +106,8 @@ export class HotelController {
   async deleteReview(@Param('hotelId') hotelId: string, @Param('reviewId') reviewId: string) {
     return await this.hotelService.deleteReview(parseInt(hotelId), parseInt(reviewId));
   }
+
+  // CATEGORIES
 
   @Get('/:hotelId/categories')
   async getAllCategoriesForHotel(@Param('hotelId') hotelId: string) {
