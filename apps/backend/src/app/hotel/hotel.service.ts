@@ -216,7 +216,8 @@ export class HotelService {
     if (!category) {
       throw new NotFoundException('Category not found');
     }
-    const addCategory = await this.prisma.hotel.update({
+    
+    await this.prisma.hotel.update({
       where: {
         id: hotelId,
       },
@@ -227,15 +228,11 @@ export class HotelService {
       },
     });
     
-    if (!addCategory) {
-      return { message: 'Category added' };
-    } else {
-      throw new BadRequestException('Category could not be added');
-    }
+    return { message: 'Category added' };
   }
 
   async deleteHotelCategory(hotelId: number, categoryId: number) {
-    return await this.prisma.hotel.update({
+    await this.prisma.hotel.update({
       where: {
         id: hotelId,
       },
@@ -245,6 +242,8 @@ export class HotelService {
         },
       },
     });
+
+    return { message: 'Category deleted' };
   }
 
   async getAllCategoriesForHotel(hotelId: number) {
@@ -257,7 +256,14 @@ export class HotelService {
       throw new NotFoundException('Hotel not found');
     }
     
-    return hotel['categories'];
+    return await this.prisma.hotel.findUnique({
+      where: {
+        id: hotelId,
+      },
+      select: {
+        categories: true,
+      }
+    });
   }
 
 }
