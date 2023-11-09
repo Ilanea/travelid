@@ -39,9 +39,8 @@ export class CreateReviewDto {
   rating: number;
 }
 
-export class CreateCategoryDto {
+export class AddCategoryDto {
   @ApiProperty()
-  @IsString()
-  name: string;
-
+  @IsNumber()
+  categoryId: number;
 }

@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuard
 import { AuthenticatedGuard } from '../auth/guard';
 import { HotelService } from './hotel.service';
 import { ApiTags, ApiCookieAuth } from '@nestjs/swagger';
-import { CreateCategoryDto, CreateHotelDto, CreateReviewDto } from './dto';
+import { AddCategoryDto, CreateHotelDto, CreateReviewDto } from './dto';
 import { Role } from '../auth/roles/role.enum';
 import { PoliciesGuard } from '../authz/guard/policies.guard';
 import { Roles } from '../auth/roles/role.decorator';
@@ -120,18 +120,8 @@ export class HotelController {
   @CheckPolicies(ManageHotelHandler)
   @ApiCookieAuth()
   @Post('/:hotelId/categories')
-  async createHotelCategory(@Param('hotelId') hotelId: string, @Body() dto: CreateCategoryDto) {
-    return await this.hotelService.createHotelCategory(parseInt(hotelId), dto);
-  }
-
-  @Roles(Role.HOTELADMIN || Role.ADMIN)
-  @UseGuards(AuthenticatedGuard)
-  @UseGuards(PoliciesGuard)
-  @CheckPolicies(ManageHotelHandler)
-  @ApiCookieAuth()
-  @Patch('/:hotelId/categories/:categoryId')
-  async editHotelCategory(@Param('hotelId') hotelId: string, @Param('categoryId') categoryId: string, @Body() dto: CreateCategoryDto) {
-    return await this.hotelService.editHotelCategory(parseInt(hotelId), parseInt(categoryId),dto);
+  async addHotelCategory(@Param('hotelId') hotelId: string, @Body() dto: AddCategoryDto) {
+    return await this.hotelService.addHotelCategory(parseInt(hotelId), dto.categoryId);
   }
 
   @Roles(Role.HOTELADMIN || Role.ADMIN)
