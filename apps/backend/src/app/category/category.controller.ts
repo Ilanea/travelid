@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthenticatedGuard } from '../auth/guard';
 import { CategoryService } from './category.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { CreateCategoryDto } from './dto';
 import { Role } from '../auth/roles/role.enum';
 import { Roles } from '../auth/roles/role.decorator';
@@ -27,6 +27,7 @@ export class CategoryController {
 
   @Roles(Role.ADMIN)
   @UseGuards(AuthenticatedGuard)
+  @ApiCookieAuth()
   @Post('')
   async createCategory(@Body() dto: CreateCategoryDto) {
     return await this.categoryService.createCategory(dto);
@@ -34,6 +35,7 @@ export class CategoryController {
 
   @Roles(Role.ADMIN)
   @UseGuards(AuthenticatedGuard)
+  @ApiCookieAuth()
   @Patch(':categoryId')
   async editCategory(@Param('categoryId') categoryId: string, @Body() dto: CreateCategoryDto) {
     return await this.categoryService.editCategory(parseInt(categoryId), dto);
@@ -41,6 +43,7 @@ export class CategoryController {
 
   @Roles(Role.ADMIN)
   @UseGuards(AuthenticatedGuard)
+  @ApiCookieAuth()
   @Delete(':categoryId')
   async deleteCategory(@Param('categoryId') categoryId: string) {
     return await this.categoryService.deleteCategory(parseInt(categoryId));
