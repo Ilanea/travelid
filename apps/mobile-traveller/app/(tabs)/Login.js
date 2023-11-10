@@ -17,10 +17,34 @@ import { useState } from 'react';
 */
 //zum testen gibts unten das TouchableObacity mit der "onPress" wo du funktionen reinschmeißen kannst
 
-export default function Login() {
 
-  const [username, setUsername] = useState('');
+
+
+//export default function Login() {
+
+const Login = () =>{
+
+  const [email, setEmail] = useState('');
+  //const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const {onLogin, onRegister} = useAuth();
+
+  const login = async () =>{
+    const result = await onLogin!(email, password);
+    if (result && result.error){
+      alert(result.msg);
+    }
+  };
+
+  // automatically call the login after succesful registration
+  const register = async ()=>{
+    const result = await onRegister!(email, password);
+    if (result && result.error){
+      alert(result.msg);
+    } else{
+      login();
+    }
+  };
 
   return (
     
@@ -44,14 +68,21 @@ export default function Login() {
             value={password}
             />    
             <TouchableOpacity>
-                <Text style={{ borderWidth: 2, borderColor: "black", marginTop: 30, padding: 5}} onPress={() => console.log(username + " " + password)}>
+                <Text style={{ borderWidth: 2, borderColor: "black", marginTop: 30, padding: 5}} onPress={login} title = "Sign in">
+                    Test
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+                <Text style={{ borderWidth: 2, borderColor: "black", marginTop: 30, padding: 5}} onPress={register} title = "Create Account">
                     Test
                 </Text>
             </TouchableOpacity>
         </View>   
        </View>
   );
-}
+};
+
+export default Login;
 
 const styles = StyleSheet.create({
 
