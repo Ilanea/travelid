@@ -18,8 +18,8 @@ import {
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
+import { UserService } from '../../../backend/src/app/user/user.service.ts';
 import { API_URL } from '../context/AuthContext.tsx';
-import { UserService } from '../services/user.service.js';
 import { theme } from '../theme/theme.js';
 import { getUserData } from '../utils/apiFunctions.js';
 import {
