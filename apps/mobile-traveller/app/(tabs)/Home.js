@@ -1,4 +1,5 @@
 import { FontAwesome5 } from '@expo/vector-icons';
+import axios from 'axios';
 import { Link, Stack } from 'expo-router';
 import React from 'react';
 import { useState } from 'react';
@@ -17,6 +18,7 @@ import {
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
+import { API_URL } from '../context/AuthContext.tsx';
 import { UserService } from '../services/user.service.js';
 import { theme } from '../theme/theme.js';
 import { getUserData } from '../utils/apiFunctions.js';
@@ -38,13 +40,13 @@ const user = await userService.getUser(1);
 //const user = getUserData()
 
 export default function Home() {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState < any([]);
   useEffect(() => {
     const loadUser = async () => {
-      try{
+      try {
         const result = await axios.get(`${API_URL}/users`);
         setUsers(result.data);
-      } catch (e:any) {
+      } catch (e) {
         alert(e.message);
       }
     };
