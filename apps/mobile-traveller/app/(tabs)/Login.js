@@ -1,10 +1,23 @@
-import { Pressable, StyleSheet, Text, View, SafeAreaView, StatusBar, ScrollView, TouchableOpacity, Image, TextInput, KeyboardAvoidingView, Platform  } from 'react-native';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { Link, Stack } from 'expo-router';
-import { theme } from '../theme/theme.js';
-import React from 'react'
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import React from 'react';
 import { useState } from 'react';
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
+import { theme } from '../theme/theme.js';
 
 //username und password sind die variablen fürs einloggen
 //wenn du versuchen willst auf den Homescreen zu navigieren änder einfach das TouchableObacity zu:
@@ -18,72 +31,87 @@ import { useState } from 'react';
 */
 //zum testen gibts unten das TouchableObacity mit der "onPress" wo du funktionen reinschmeißen kannst
 
-//export default function Login() {
-
-const Login = () =>{
-
+const Login = () => {
   const [email, setEmail] = useState('');
-  //const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const {onLogin, onRegister} = useAuth();
+  const { onLogin, onRegister } = useAuth();
 
-  const login = async () =>{
-    const result = await onLogin!(email, password);
-    if (result && result.error){
+  const login = async () => {
+    //const result = await onLogin!(email, password);
+    const result = onLogin ? await onLogin(email, password) : null;
+    if (result && result.error) {
       alert(result.msg);
     }
   };
 
   // automatically call the login after succesful registration
-  const register = async ()=>{
-    const result = await onRegister!(email, password);
-    if (result && result.error){
+  const register = async () => {
+    //const result = await onRegister!(email, password);
+    const result = onRegister ? await onRegister(email, password) : null;
+    if (result && result.error) {
       alert(result.msg);
-    } else{
+    } else {
       login();
     }
   };
 
   return (
-    
-        <View style={styles.container}>
-          <StatusBar barStyle="dark-content" backgroundColor={theme.backgroundLightBlue} /> 
-         
-        <View style={styles.middleContainer}>
-            <Text style={styles.text}>
-                Benutzername
-            </Text>
-            <TextInput style={styles.normalInput} 
-            onChangeText={(text) => setEmail(text)}
-            value={username}
-            />    
-            <Text style={styles.text}>
-                Passwort
-            </Text>
-            <TextInput style={styles.normalInput}
-            secureTextEntry={true}  
-            onChangeText={(text) => setPassword(text)}
-            value={password}
-            />    
-            <TouchableOpacity>
-                <Text style={{ borderWidth: 2, borderColor: "black", marginTop: 30, padding: 5}} onPress={login} title = "Sign in">
-                    Test
-                </Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-                <Text style={{ borderWidth: 2, borderColor: "black", marginTop: 30, padding: 5}} onPress={register} title = "Create Account">
-                    Test
-                </Text>
-            </TouchableOpacity>
-        </View>   
-       </View>
+    <View style={styles.container}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={theme.backgroundLightBlue}
+      />
+
+      <View style={styles.middleContainer}>
+        <Text style={styles.text}>Benutzername</Text>
+        <TextInput
+          style={styles.normalInput}
+          onChangeText={(text) => setEmail(text)}
+          value={email}
+        />
+        <Text style={styles.text}>Passwort</Text>
+        <TextInput
+          style={styles.normalInput}
+          secureTextEntry={true}
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+        />
+        <TouchableOpacity>
+          <Text
+            style={{
+              borderWidth: 2,
+              borderColor: 'black',
+              marginTop: 30,
+              padding: 5,
+            }}
+            onPress={login}
+            title="Sign in"
+          >
+            Test
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text
+            style={{
+              borderWidth: 2,
+              borderColor: 'black',
+              marginTop: 30,
+              padding: 5,
+            }}
+            onPress={register}
+            title="Create Account"
+          >
+            Test
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
 export default Login;
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
     backgroundColor: theme.backgroundLightBlue,
@@ -92,18 +120,18 @@ const styles = StyleSheet.create({
   middleContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: "center" // Center content vertically
+    alignItems: 'center', // Center content vertically
   },
-  text:{
+  text: {
     marginTop: 30,
     marginLeft: 50,
     marginRight: 50,
-    fontSize: 15
+    fontSize: 15,
   },
   normalInput: {
     marginTop: 8,
-    width: "60%",
-    borderBottomColor: "black",
+    width: '60%',
+    borderBottomColor: 'black',
     borderBottomWidth: 0.3,
   },
 });

@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: any) => {
         authenticated: true
       });
 
-      axios.defaults.headers.common['Authorization'] = `Bearer`{result.data.token};
+      axios.defaults.headers.common['Authorization'] = `Bearer ${result.data.token}`;
     
       await SecureStore.setItemAsync(TOKEN_KEY,result.data.token);
       return result;
@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }: any) => {
   };
 
 
-  const logout = async (email: string, password: string) => {
+  const logout = async () => {
         //Delete token
       await SecureStore.deleteItemAsync(TOKEN_KEY);
 
