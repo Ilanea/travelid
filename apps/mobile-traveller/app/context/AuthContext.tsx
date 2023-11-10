@@ -10,7 +10,7 @@ interface AuthProps {
 }
 
 const TOKEN_KEY = 'my-jwt';
-export const API_URL = 'https://localhost3333.com';
+export const API_URL = 'https://localhost:3333';
 const AuthContext = createContext<AuthProps>({});
 
 export const useAuth = () => {
