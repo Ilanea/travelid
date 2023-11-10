@@ -38,11 +38,17 @@ const user = await userService.getUser(1);
 //const user = getUserData()
 
 export default function Home() {
-  useEffecr(() => {
-    const testCall = async () => {
-      const result = await axios.get(`${API_URL}/users`);
+  const [users, setUsers] = useState<any[]>([]);
+  useEffect(() => {
+    const loadUser = async () => {
+      try{
+        const result = await axios.get(`${API_URL}/users`);
+        setUsers(result.data);
+      } catch (e:any) {
+        alert(e.message);
+      }
     };
-    testCall();
+    loadUser();
   }, []);
   function showFilterView() {
     if (!filterView) {

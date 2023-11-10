@@ -5,6 +5,7 @@ import React from 'react'
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { useState } from 'react';
 
+
 //username und password sind die variablen fürs einloggen
 //wenn du versuchen willst auf den Homescreen zu navigieren änder einfach das TouchableObacity zu:
 /* ->       <Link href="/Home" asChild>
@@ -16,9 +17,6 @@ import { useState } from 'react';
             </Link>
 */
 //zum testen gibts unten das TouchableObacity mit der "onPress" wo du funktionen reinschmeißen kannst
-
-
-
 
 //export default function Login() {
 
@@ -56,7 +54,7 @@ const Login = () =>{
                 Benutzername
             </Text>
             <TextInput style={styles.normalInput} 
-            onChangeText={(text) => setUsername(text)}
+            onChangeText={(text) => setEmail(text)}
             value={username}
             />    
             <Text style={styles.text}>
