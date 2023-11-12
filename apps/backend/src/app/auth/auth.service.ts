@@ -5,13 +5,22 @@ import * as argon from 'argon2';
 import { SignupDto } from './dto';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     private prisma: PrismaService,
     private config: ConfigService,
+    private jwtService: JwtService,
   ){}
+
+  async login(username: string, password: string): Promise<string> {
+    const user = await this.validateUser(username, password);
+    const payload = { userId: user.id, role: user.role };
+    const token = this.jwtService.sign(payload);
+    return token;
+  }
 
   async signup(dto: SignupDto): Promise<User> {
     if(dto.password.length < 8) {
