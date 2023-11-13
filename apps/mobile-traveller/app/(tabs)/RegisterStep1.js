@@ -1,167 +1,69 @@
-import * as React from "react";
-import {
-  ScrollView,
-  Text,
-  StyleSheet,
-  TextInput,
-  View,
-  Pressable,
-  Image, 
-} from "react-native";
+import React from "react";
+import { ScrollView, Text, StyleSheet, TextInput, View, Pressable, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-//import { Image } from "expo-image";
-import { FontFamily, Padding, FontSize, Color, Border } from "../../GlobalStyles";
-import { Link, Stack } from 'expo-router';
+import { Padding, Color, Border, FontSize } from "../../GlobalStyles";
+import { Link } from 'expo-router';
 
 const RegisterStep1 = () => {
   const navigation = useNavigation();
 
   return (
-    <ScrollView
-      style={styles.registerStep1}
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.registerStep1Content}
-    >
-      <Text style={[styles.headline, styles.headlineTypo]}>Register here</Text>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Gender"
-          placeholderTextColor="#546a83"
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Academic Degree"
-          placeholderTextColor="#546a83"
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Surname"
-          placeholderTextColor="#546a83"
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Name"
-          placeholderTextColor="#546a83"
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Street"
-          placeholderTextColor="#546a83"
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="City"
-          placeholderTextColor="#546a83"
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Country"
-          placeholderTextColor="#546a83"
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Nationality"
-          placeholderTextColor="#546a83"
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Birthday"
-          keyboardType="number-pad"
-          placeholderTextColor="#546a83"
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Document No."
-          placeholderTextColor="#546a83"
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Mobile Phone"
-          keyboardType="phone-pad"
-          placeholderTextColor="#546a83"
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Phone (optional)"
-          keyboardType="phone-pad"
-          placeholderTextColor="#546a83"
-        />
-      </View>
-      <View style={[styles.buttoncontinue, styles.buttonSpaceBlock]}>
-        <Pressable
-          style={[styles.button, styles.buttonSpaceBlock]}
-          onPress={() => navigation.navigate("RegisterStep2Optional")}
-        >
-          <Text style={[styles.labelText, styles.labelTextFlexBox]}>
-            Continue
-          </Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.headline}>Register here</Text>
+      {[
+        "Gender",
+        "Academic Degree",
+        "Surname",
+        "Name",
+        "Street",
+        "City",
+        "Country",
+        "Nationality",
+        "Birthday",
+        "Document No.",
+        "Mobile Phone",
+        "Phone (optional)",
+      ].map((placeholder, index) => (
+        <View key={index} style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder={placeholder}
+            placeholderTextColor="#546a83"
+            keyboardType={index === 10 || index === 11  ? "phone-pad" : index === 8 ? "number-pad" : "default"}
+          />
+        </View>
+      ))}
+      
+        <Link href="RegisterStep2Optional"asChild>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Continue</Text>
           <Image
             style={styles.arrowForwardIcon}
-            contentFit="cover"
             source={require("../../assets/images/arrow-forward.png")}
           />
-        </Pressable>
-      </View>
+          </TouchableOpacity>
+        </Link>
+        
     </ScrollView>
   );
 };
 
+
 const styles = StyleSheet.create({
-  registerStep1Content: {
-    flexDirection: "column",
+  container: {
     paddingHorizontal: 50,
     paddingTop: 70,
     paddingBottom: 71,
     alignItems: "center",
     justifyContent: "flex-start",
   },
-  headlineTypo: {
-    fontWeight: "600",
-  },
-  labelTextFlexBox: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonSpaceBlock: {
-    paddingVertical: Padding.p_3xs,
-    paddingHorizontal: 0,
-    alignItems: "center",
-  },
   headline: {
     fontSize: FontSize.size_base,
     color: Color.m3RefPrimaryPrimary0,
     textAlign: "left",
+    fontWeight: "600",
   },
-  textregister1: {
-    opacity: 0.7,
-    fontSize: FontSize.size_xs,
-    flex: 1,
-  },
-  ovalregister1: {
+  inputContainer: {
     alignSelf: "stretch",
     borderRadius: Border.br_3xs,
     backgroundColor: Color.colorSlategray_200,
@@ -173,22 +75,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     overflow: "hidden",
   },
-  labelText: {
-    letterSpacing: 0,
-    lineHeight: 20,
-    fontWeight: "500",
-    color: Color.m3SysLightOnPrimary,
-    textAlign: "center",
-    display: "flex",
-    width: 66,
+  input: {
+    opacity: 0.7,
     fontSize: FontSize.size_xs,
-    justifyContent: "center",
+    flex: 1,
   },
-  arrowForwardIcon: {
-    width: 24,
-    height: 24,
-    marginLeft: 10,
-    overflow: "hidden",
+  buttonContainer: {
+    paddingVertical: Padding.p_3xs,
+    alignItems: "center",
+    marginTop: 12,
   },
   button: {
     borderRadius: Border.br_81xl,
@@ -198,26 +93,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     overflow: "hidden",
+    alignItems: "center",
+    marginTop: 50,
   },
-  buttoncontinue: {
-    height: 10,
-    marginTop: 12,
-    
+  buttonText: {
+    letterSpacing: 0,
+    lineHeight: 20,
+    fontWeight: "500",
+    color: Color.m3SysLightOnPrimary,
+    textAlign: "center",
+    fontSize: FontSize.size_xs,
   },
-  registerStep1: {
-    backgroundColor: Color.colorGhostwhite,
-    shadowColor: "rgba(63, 82, 108, 0.4)",
-    shadowOffset: {
-      width: 0,
-      height: 40,
-    },
-    shadowRadius: 80,
-    elevation: 80,
-    shadowOpacity: 1,
-    width: "100%",
-    maxWidth: "100%",
-    overflow: "hidden",
-    flex: 1,
+  arrowForwardIcon: {
+    width: 24,
+    height: 24,
+    marginLeft: 10,
   },
 });
 

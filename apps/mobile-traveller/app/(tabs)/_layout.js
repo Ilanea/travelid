@@ -1,4 +1,4 @@
-import { Redirect, Stack, HeaderBackground} from 'expo-router';
+import { Stack } from 'expo-router';
 import { Header } from 'react-native/Libraries/NewAppScreen';
 import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, Text, View, Button, ScrollView, TouchableOpacity, Image, TextInput, FlatList } from 'react-native';
