@@ -53,6 +53,7 @@ const SecurityForm = () => {
   const { isLoading, changeUser } = useChangeUser();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log('values');
     changeUser(values, 'changePassword');
   }
   const form = useForm<z.infer<typeof formSchema>>({
@@ -126,14 +127,15 @@ const SecurityForm = () => {
                 </FormItem>
               )}
             />
+            <Button disabled={isLoading} className="mt-2">
+              {isLoading && <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />}
+              Update password
+            </Button>
           </form>
         </Form>
       </CardContent>
       <CardFooter>
-        <Button disabled={isLoading} className="mt-2">
-          {isLoading && <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />}
-          Update password
-        </Button>
+
       </CardFooter>
     </Card>
   );
