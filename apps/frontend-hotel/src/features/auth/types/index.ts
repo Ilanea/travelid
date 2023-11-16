@@ -11,5 +11,5 @@ export type AuthUser = {
 
 export enum Role {
   ADMIN = 'ADMIN',
-  USER = 'USER',
+  GUEST = 'GUEST',
 }

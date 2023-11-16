@@ -1,4 +1,4 @@
-import { Hotel, Role, User } from '@prisma/client';
+import { Hotel, Role, User, Review } from '@prisma/client';
 import { AbilityBuilder, PureAbility } from '@casl/ability';
 import { createPrismaAbility, PrismaQuery, Subjects } from '@casl/prisma';
 
@@ -10,7 +10,7 @@ export enum Action {
   Delete = 'delete',
 }
 
-type AppSubjects = { User: User; Hotel: Hotel };
+type AppSubjects = { User: User; Hotel: Hotel, Review: Review };
 
 export type AppAbility = PureAbility<
   [Action, Subjects<AppSubjects>],
@@ -24,10 +24,13 @@ export class AbilityFactory {
     if (user?.role === Role.ADMIN) {
       builder.can(Action.Manage, 'User');
       builder.can(Action.Manage, 'Hotel');
+      builder.can(Action.Manage, 'Review');
     } else if (user) {
       builder.can(Action.Read, 'User', { id: user.id });
       builder.can(Action.Edit, 'User', { id: user.id });
       builder.can(Action.Read, 'Hotel');
+      builder.can(Action.Edit, 'Review', { userId: user.id });
+      builder.can(Action.Delete, 'Review', { userId: user.id });
 
       if (user.role === Role.HOTELADMIN || user.role === Role.HOTELRECEPTIONIST) {
         user['hotelsAsAdmin'].forEach((hotel: Hotel) => {
