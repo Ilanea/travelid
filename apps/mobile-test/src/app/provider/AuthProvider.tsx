@@ -99,6 +99,10 @@ export class AuthProviderClass {
     try {
       const result = await axios.post(`${API_URL}/api/auth/login`, { email, password }, { withCredentials: true });
 
+      // Store the session cookie
+      console.log('Show the cookie:', result.headers['set-cookie'])
+      //await SecureStore.setItemAsync('connect.sid', result.headers['set-cookie']);
+
       this.authState = {
         user: result.data,
         authenticated: true,
