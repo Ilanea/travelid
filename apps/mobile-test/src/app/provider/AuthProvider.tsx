@@ -104,7 +104,7 @@ export class AuthProviderClass {
         authenticated: true,
       };
 
-      console.log('AUTHSTATE:', this.authState?.user)
+      console.log('AUTHSTATE IN CLASS:', this.authState?.user)
 
       return result.data;
     } catch (error) {

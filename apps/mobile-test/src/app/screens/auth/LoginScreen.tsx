@@ -7,7 +7,7 @@ const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
-  const { onLogin } = useAuth();
+  const { onLogin, authState } = useAuth();
 
   const handleLogin = async () => {
     if (onLogin) {
@@ -15,7 +15,7 @@ const LoginScreen: React.FC = () => {
         const result = await onLogin(email, password);
 
         console.log('Login result:', result);
-        navigation.navigate('Home');
+        console.log('AUTHSTATE IN SCREEN:', authState?.user)
       } catch (error) {
         console.error('Login failed:', error);
       }
