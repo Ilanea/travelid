@@ -18,7 +18,8 @@
     "@react-navigation/bottom-tabs": "*",
     "@react-navigation/stack": "*",
     "axios": "*",
-    "expo-secure-store": "*"
+    "expo-secure-store": "*",
+    "expo-updates": "*"
   },
   "scripts": {
     "eas-build-pre-install": "cd ../../ && node tools/scripts/eas-build-pre-install.mjs . apps/mobile-test && cp package-lock.json apps/mobile-test",

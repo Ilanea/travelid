@@ -31,7 +31,7 @@ const NonAuthStack = () => (
 const MainNavigator: React.FC<MainNavigatorProps> = ({ isAuthenticated }) => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Auth" component={isAuthenticated ? AuthStack : NonAuthStack} />
+      <Tab.Screen name="Home" component={isAuthenticated ? AuthStack : NonAuthStack} />
     </Tab.Navigator>
   );
 };

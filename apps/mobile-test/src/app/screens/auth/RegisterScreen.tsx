@@ -1,14 +1,36 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useAuth } from '../../provider/AuthProvider'; // Replace with the actual path
+import { useNavigation } from '@react-navigation/native';
 
 const RegisterScreen: React.FC = () => {
   const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
+  const [userName, setUsername] = useState('');
+  const [firstName, setFirstname] = useState('');
+  const [lastName, setLastname] = useState('');
   const [password, setPassword] = useState('');
+  const { onSignup } = useAuth();
+  const navigation = useNavigation();
 
+  const handleSignup = async () => {
+    if (onSignup) {
+      try {
+        const result = await onSignup({
+          userName,
+          email,
+          password,
+          firstName,
+          lastName
+        });
+  
+        console.log('Signup result:', result);
+      } catch (error) {
+        console.error('Signup failed:', error);
+      }
+    } else {
+      console.error('onSignup is undefined');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -24,19 +46,19 @@ const RegisterScreen: React.FC = () => {
       <TextInput
         style={styles.input}
         placeholder="Username"
-        value={username}
+        value={userName}
         onChangeText={(text) => setUsername(text)}
       />
       <TextInput
         style={styles.input}
         placeholder="First Name"
-        value={firstname}
+        value={firstName}
         onChangeText={(text) => setFirstname(text)}
       />
       <TextInput
         style={styles.input}
         placeholder="Last Name"
-        value={lastname}
+        value={lastName}
         onChangeText={(text) => setLastname(text)}
       />
       <TextInput
@@ -46,7 +68,7 @@ const RegisterScreen: React.FC = () => {
         value={password}
         onChangeText={(text) => setPassword(text)}
       />
-      <Button title="Register" />
+      <Button title="Register" onPress={handleSignup}/>
     </View>
   );
 };

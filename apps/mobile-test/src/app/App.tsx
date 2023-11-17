@@ -1,27 +1,16 @@
-import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { AuthProvider, useAuth } from './provider/AuthProvider';
 import MainNavigator from './navigation/MainNavigator';
 
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  // Simulate authentication check
-  useEffect(() => {
-    const checkAuthentication = () => {
-      // Check if the user is authenticated
-      // For example, check if the user is logged in or has a valid token
-      // Set isAuthenticated accordingly
-      // setIsAuthenticated(true); // Uncomment this line to simulate an authenticated user
-    };
-
-    // Perform the authentication check on app start
-    checkAuthentication();
-  }, []);
+  const { authState } = useAuth();
 
   return (
-    <NavigationContainer>
-      <MainNavigator isAuthenticated={isAuthenticated} />
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
+        <MainNavigator isAuthenticated={authState?.authenticated ?? false} />
+      </NavigationContainer>
+    </AuthProvider>
   );
 };
 

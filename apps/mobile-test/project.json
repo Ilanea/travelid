@@ -14,7 +14,7 @@
     "serve": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "nx start apps/mobile-test"
+        "command": "nx start apps/mobile-test --dev-client"
       }
     },
     "run-ios": {

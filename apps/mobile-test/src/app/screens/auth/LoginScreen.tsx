@@ -7,6 +7,23 @@ const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
+  const { onLogin } = useAuth();
+
+  const handleLogin = async () => {
+    if (onLogin) {
+      try {
+        const result = await onLogin(email, password);
+
+        console.log('Login result:', result);
+        navigation.navigate('Home');
+      } catch (error) {
+        console.error('Login failed:', error);
+      }
+    } else {
+      console.error('onLogin is undefined');
+    }
+  };
+
 
   const navigateToRegister = () => {
     navigation.navigate('Register');
@@ -30,7 +47,7 @@ const LoginScreen: React.FC = () => {
         value={password}
         onChangeText={(text) => setPassword(text)}
       />
-      <Button title="Login" />
+      <Button title="Login" onPress={handleLogin}/>
       <TouchableOpacity onPress={navigateToRegister}>
         <Text style={styles.registerLink}>Don't have an account? Register here</Text>
       </TouchableOpacity>
