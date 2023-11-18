@@ -22,7 +22,7 @@ const MainNavigator: React.FC = () => {
 
   return (
     <Stack.Navigator>
-      {authState.authenticated ? (
+      {authenticated ? (
         <Stack.Screen name="Home" component={HomeScreen} />
       ) : (
         <>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { useAuth } from '../../provider/AuthProvider'; // Replace with the actual path
-import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../../provider/AuthProvider';
 
 const RegisterScreen: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -10,7 +9,6 @@ const RegisterScreen: React.FC = () => {
   const [lastName, setLastname] = useState('');
   const [password, setPassword] = useState('');
   const { onSignup } = useAuth();
-  const navigation = useNavigation();
 
   const handleSignup = async () => {
     if (onSignup) {

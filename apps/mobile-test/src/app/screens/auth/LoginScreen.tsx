@@ -11,15 +11,15 @@ const LoginScreen: React.FC = () => {
   const [authenticated, setAuthenticated] = useState(authState?.authenticated);
 
   useEffect(() => {
+    //console.log('Auth state updated:', authState);
     setAuthenticated(authState?.authenticated);
   }, [authState]);
 
   const handleLogin = async () => {
     if (onLogin) {
       try {
-        const result = await onLogin(email, password);
-
-        //console.log('Login result:', result);
+        await onLogin(email, password);
+        console.log('Login successful')
       } catch (error) {
         console.error('Login failed:', error);
       }

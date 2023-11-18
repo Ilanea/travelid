@@ -160,18 +160,14 @@ export const AuthProvider = ({ children }: any) => {
   useEffect(() => {
     const initializeAuthProvider = async () => {
       await authProvider.init();
-      setIsInitialized(true);
+      const newAuthState = authProvider.getAuthState();
+      setAuthState(newAuthState);
     };
-  
+
     initializeAuthProvider();
   }, [authProvider]);
   
-  useEffect(() => {
-    if (isInitialized) {
-      setAuthState(authProvider.getAuthState());
-    }
-  }, [isInitialized, authProvider]);
-
+  
   console.log('AuthProvider - authState:', authState);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
