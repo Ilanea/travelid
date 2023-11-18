@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { useAuth } from '../../provider/AuthProvider';
 
 const RegisterScreen: React.FC = () => {
@@ -13,14 +13,7 @@ const RegisterScreen: React.FC = () => {
   const handleSignup = async () => {
     if (onSignup) {
       try {
-        const result = await onSignup({
-          userName,
-          email,
-          password,
-          firstName,
-          lastName
-        });
-  
+        const result = await onSignup(userName, email, password, firstName, lastName);  
         console.log('Signup result:', result);
       } catch (error) {
         console.error('Signup failed:', error);
@@ -32,10 +25,18 @@ const RegisterScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text>Register Screen</Text>
+      <Text style={styles.title}>Register Screen</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Username"
+        placeholderTextColor="grey"
+        value={userName}
+        onChangeText={(text) => setUsername(text)}
+      />
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor="grey"
         keyboardType="email-address"
         autoCapitalize="none"
         value={email}
@@ -43,30 +44,29 @@ const RegisterScreen: React.FC = () => {
       />
       <TextInput
         style={styles.input}
-        placeholder="Username"
-        value={userName}
-        onChangeText={(text) => setUsername(text)}
-      />
-      <TextInput
-        style={styles.input}
         placeholder="First Name"
+        placeholderTextColor="grey"
         value={firstName}
         onChangeText={(text) => setFirstname(text)}
       />
       <TextInput
         style={styles.input}
         placeholder="Last Name"
+        placeholderTextColor="grey"
         value={lastName}
         onChangeText={(text) => setLastname(text)}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
+        placeholderTextColor="grey"
         secureTextEntry
         value={password}
         onChangeText={(text) => setPassword(text)}
       />
-      <Button title="Register" onPress={handleSignup}/>
+      <TouchableOpacity style={styles.button} onPress={handleSignup}>
+        <Text style={styles.buttonText}>Register</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -76,14 +76,32 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
   input: {
     height: 40,
-    width: '80%',
+    width: '100%',
     borderColor: 'gray',
     borderWidth: 1,
     marginVertical: 10,
     paddingHorizontal: 10,
+  },
+  button: {
+    backgroundColor: '#007BFF',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center',
   },
 });
 

@@ -12,7 +12,7 @@ interface User {
 
 interface AuthProps {
   authState?: { user: User | null; authenticated: boolean | null };
-  onSignup?: (userData: any) => Promise<User>;
+  onSignup?: (userName: string, email: string, password: string, firstName: string, lastName: string) => Promise<User>;
   onLogin?: (email: string, password: string) => Promise<User>;
   onLogout?: () => Promise<any>;
   clearAuthState?: () => void;
@@ -72,11 +72,11 @@ export class AuthProviderClass {
     }
   }
 
-  public async signup(userData: any) {
-    console.log(userData)
+  public async signup(userName: string, email: string, password: string, firstName: string, lastName: string) {
     try {
-      const result = await axios.post(`${API_URL}/api/auth/signup`, userData, { withCredentials: true });
+      const result = await axios.post(`${API_URL}/api/auth/signup`, { userName, email, password, firstName, lastName }, { withCredentials: true });
 
+      console.log(result.data);
       // Set user data in the state after signup
       this.updateAuthState(result.data, true);
 
@@ -85,7 +85,7 @@ export class AuthProviderClass {
 
       return this.authState;
     } catch (error) {
-      return { error: true, msg: (error as any).response.data.msg };
+      return { error: true, msg: (error as any).response.data.message };
     }
   }
 
@@ -102,7 +102,7 @@ export class AuthProviderClass {
 
       return this.authState;
     } catch (error) {
-      return { error: true, msg: (error as any).response.data.msg };
+      return { error: true, msg: (error as any).response.data.message };
     }
   }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../provider/AuthProvider'; // Replace with the actual path
 
@@ -22,17 +22,17 @@ const LoginScreen: React.FC = () => {
     }
   };
 
-
   const navigateToRegister = () => {
     navigation.navigate('Register');
   };
 
   return (
     <View style={styles.container}>
-      <Text>Login Screen</Text>
+      <Text style={styles.title}>Login Screen</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor="grey"
         keyboardType="email-address"
         autoCapitalize="none"
         value={email}
@@ -41,11 +41,14 @@ const LoginScreen: React.FC = () => {
       <TextInput
         style={styles.input}
         placeholder="Password"
+        placeholderTextColor="grey"
         secureTextEntry
         value={password}
         onChangeText={(text) => setPassword(text)}
       />
-      <Button title="Login" onPress={handleLogin}/>
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={navigateToRegister}>
         <Text style={styles.registerLink}>Don't have an account? Register here</Text>
       </TouchableOpacity>
@@ -58,17 +61,35 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
   input: {
     height: 40,
-    width: '80%',
+    width: '100%',
     borderColor: 'gray',
     borderWidth: 1,
     marginVertical: 10,
     paddingHorizontal: 10,
   },
+  button: {
+    backgroundColor: '#007BFF',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center',
+  },
   registerLink: {
-    color: 'blue',
+    color: '#007BFF',
     marginTop: 10,
   },
 });
