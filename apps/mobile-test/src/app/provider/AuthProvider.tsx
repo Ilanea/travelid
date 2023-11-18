@@ -122,7 +122,14 @@ export class AuthProviderClass {
       user: user,
       authenticated: authenticated
     };
+    this.notifyAuthStateChange();
   }
+
+  public setAuthStateChangeCallback(callback: () => void): void {
+    this.notifyAuthStateChange = callback;
+  }
+
+  private notifyAuthStateChange: (() => void) | null = null;
 
   public clearAuthState() {
     this.authState = {
@@ -146,6 +153,8 @@ export const AuthProvider = ({ children }: any) => {
   useEffect(() => {
     const initializeAuthProvider = async () => {
       console.log('Initializing AuthProvider...');
+      // Set the callback function to update authState
+      authProvider.setAuthStateChangeCallback(() => setAuthState(authProvider.getAuthState()));
       await authProvider.init();
       const newAuthState = authProvider.getAuthState();
       console.log('New AuthState after init:', newAuthState);
