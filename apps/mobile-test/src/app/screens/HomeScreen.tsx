@@ -15,6 +15,7 @@ const HomeScreen: React.FC = () => {
   const handleLogout = async () => {
     if(onLogout){
       await onLogout();
+      console.log('Logout successful');
     }
   };
 

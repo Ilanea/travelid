@@ -16,13 +16,20 @@ interface AuthProps {
   onLogin?: (email: string, password: string) => Promise<User>;
   onLogout?: () => Promise<any>;
   clearAuthState?: () => void;
+  getAuthState?: () => { user: User | null; authenticated: boolean | null };
 }
 
 export const API_URL = 'http://192.168.178.41:3333';
 const AuthContext = createContext<AuthProps>({});
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+  const contextValue = useContext(AuthContext);
+  
+  if (!contextValue) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+
+  return contextValue;
 };
 
 export class AuthProviderClass {
@@ -47,19 +54,13 @@ export class AuthProviderClass {
       if(!result.data) {
         console.log('No Cookie exists, please login...');
 
-        this.authState = {
-          user: null,
-          authenticated: false,
-        };
+        this.updateAuthState(null, false);
   
       } else {
         console.log('Cookie exists, verifying session...');
   
         // Set user data in the state after verifying the session
-        this.authState = {
-          user: result.data,
-          authenticated: true,
-        };
+        this.updateAuthState(result.data, true);
     
         // Save User Info in SecureStore
         await SecureStore.setItemAsync('userInfo', JSON.stringify(result.data));
@@ -67,10 +68,7 @@ export class AuthProviderClass {
     } catch (error) {
       console.error('Session verification failed:', error);
   
-      this.authState = {
-        user: null,
-        authenticated: false,
-      };
+      this.updateAuthState(null, false);
     }
   }
 
@@ -80,15 +78,12 @@ export class AuthProviderClass {
       const result = await axios.post(`${API_URL}/api/auth/signup`, userData, { withCredentials: true });
 
       // Set user data in the state after signup
-      this.authState = {
-        user: result.data.user,
-        authenticated: true,
-      };
+      this.updateAuthState(result.data, true);
 
       // Save User Info in SecureStore
       await SecureStore.setItemAsync('userInfo', JSON.stringify(result.data));
 
-      return result.data;
+      return this.authState;
     } catch (error) {
       return { error: true, msg: (error as any).response.data.msg };
     }
@@ -100,15 +95,12 @@ export class AuthProviderClass {
 
       //console.log('Show the cookie:', result.headers['set-cookie'])
 
-      this.authState = {
-        user: result.data,
-        authenticated: true,
-      };
+      this.updateAuthState(result.data, true);
 
       // Save User Info in SecureStore
       await SecureStore.setItemAsync('userInfo', JSON.stringify(result.data));
 
-      return result.data;
+      return this.authState;
     } catch (error) {
       return { error: true, msg: (error as any).response.data.msg };
     }
@@ -122,9 +114,13 @@ export class AuthProviderClass {
     await axios.get(`${API_URL}/api/auth/logout`, { withCredentials: true });
 
     // Reset State
+    this.updateAuthState(null, false);
+  }
+
+  private updateAuthState(user: User | null, authenticated: boolean | null): void {
     this.authState = {
-      user: null,
-      authenticated: false,
+      user: user,
+      authenticated: authenticated
     };
   }
 
@@ -142,33 +138,34 @@ export class AuthProviderClass {
 
 
 export const AuthProvider = ({ children }: any) => {
-  const [authState, setAuthState] = useState({
-    user: null,
-    authenticated: null,
-  });
+  const [authState, setAuthState] = useState({ user: null, authenticated: null });
   const [isInitialized, setIsInitialized] = useState(false);
 
   const authProvider = useMemo(() => new AuthProviderClass(), []);
+
+  useEffect(() => {
+    const initializeAuthProvider = async () => {
+      console.log('Initializing AuthProvider...');
+      await authProvider.init();
+      const newAuthState = authProvider.getAuthState();
+      console.log('New AuthState after init:', newAuthState);
+      setAuthState(newAuthState);
+      setIsInitialized(true);
+    };
+
+    if (!isInitialized) {
+      initializeAuthProvider();
+    }
+  }, [authProvider, isInitialized]);
+
   const value = {
     onSignup: authProvider.signup.bind(authProvider),
     onLogin: authProvider.login.bind(authProvider),
     onLogout: authProvider.logout.bind(authProvider),
     clearAuthState: authProvider.clearAuthState.bind(authProvider),
+    getAuthState: authProvider.getAuthState.bind(authProvider),
     authState,
   };
-
-  useEffect(() => {
-    const initializeAuthProvider = async () => {
-      await authProvider.init();
-      const newAuthState = authProvider.getAuthState();
-      setAuthState(newAuthState);
-    };
-
-    initializeAuthProvider();
-  }, [authProvider]);
-  
-  
-  console.log('AuthProvider - authState:', authState);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../provider/AuthProvider'; // Replace with the actual path
@@ -7,13 +7,7 @@ const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
-  const { onLogin, authState } = useAuth();
-  const [authenticated, setAuthenticated] = useState(authState?.authenticated);
-
-  useEffect(() => {
-    //console.log('Auth state updated:', authState);
-    setAuthenticated(authState?.authenticated);
-  }, [authState]);
+  const { onLogin } = useAuth();
 
   const handleLogin = async () => {
     if (onLogin) {

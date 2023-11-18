@@ -13,6 +13,7 @@ const MainNavigator: React.FC = () => {
   const [authenticated, setAuthenticated] = useState(authState?.authenticated);
 
   useEffect(() => {
+    console.log("MainNavigator - authState:", authState);
     setAuthenticated(authState?.authenticated);
   }, [authState]);
 
