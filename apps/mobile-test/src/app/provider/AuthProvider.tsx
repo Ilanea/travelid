@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 interface User {
   userName: string;
@@ -31,50 +31,46 @@ export class AuthProviderClass {
     authenticated: null,
   };
 
-  constructor() {
-    this.loadToken();
-  }
-
   public async init(): Promise<void> {
     await this.loadToken();
   }
 
   private async loadToken(): Promise<void>{
-    // Check if a session cookie exists
-    const cookie = await SecureStore.getItemAsync('connect.sid');
+    try {
+      // Check if a session cookie exists
+      const result = await axios.get(`${API_URL}/api/auth/verify-session`, {
+        withCredentials: true,
+      });
+  
+      console.log("loadToken Result:", result.data);
+      
+      if(!result.data) {
+        console.log('No Cookie exists, please login...');
 
-    if (cookie) {
-      console.log('Cookie exists, verifying session...')
-      try {
-        // Make a request to the server to fetch user data
-        const response = await axios.get(`${API_URL}/api/auth/verify-session`, {
-          withCredentials: true,
-        });
-
-        // Assuming the response contains the user ID
-        const userId = response.data.userId;
-
-        // Fetch user data using the user ID
-        const userDataResponse = await axios.get(`${API_URL}/api/users/${userId}`, {
-          withCredentials: true,
-        });
-
-        // Set user data in the state after verifying the session
-        this.authState = {
-          user: userDataResponse.data,
-          authenticated: true,
-        };
-      } catch (error) {
-        // Handle the error, e.g., session verification or user data fetching failed
-        console.error('Session verification failed:', error);
-        // Reset the authentication state if verification fails
         this.authState = {
           user: null,
           authenticated: false,
         };
+  
+      } else {
+        console.log('Cookie exists, verifying session...');
+  
+        // Set user data in the state after verifying the session
+        this.authState = {
+          user: result.data,
+          authenticated: true,
+        };
+    
+        // Save User Info in SecureStore
+        await SecureStore.setItemAsync('userInfo', JSON.stringify(result.data));
       }
-    } else {
-      console.log('No Cookie exists, please login...')
+    } catch (error) {
+      console.error('Session verification failed:', error);
+  
+      this.authState = {
+        user: null,
+        authenticated: false,
+      };
     }
   }
 
@@ -89,6 +85,9 @@ export class AuthProviderClass {
         authenticated: true,
       };
 
+      // Save User Info in SecureStore
+      await SecureStore.setItemAsync('userInfo', JSON.stringify(result.data));
+
       return result.data;
     } catch (error) {
       return { error: true, msg: (error as any).response.data.msg };
@@ -99,16 +98,15 @@ export class AuthProviderClass {
     try {
       const result = await axios.post(`${API_URL}/api/auth/login`, { email, password }, { withCredentials: true });
 
-      // Store the session cookie
-      console.log('Show the cookie:', result.headers['set-cookie'])
-      //await SecureStore.setItemAsync('connect.sid', result.headers['set-cookie']);
+      //console.log('Show the cookie:', result.headers['set-cookie'])
 
       this.authState = {
         user: result.data,
         authenticated: true,
       };
 
-      console.log('AUTHSTATE IN CLASS:', this.authState?.user)
+      // Save User Info in SecureStore
+      await SecureStore.setItemAsync('userInfo', JSON.stringify(result.data));
 
       return result.data;
     } catch (error) {
@@ -117,8 +115,11 @@ export class AuthProviderClass {
   }
 
   public async logout() {
-    // Delete the session cookie
-    await SecureStore.deleteItemAsync('connect.sid');
+    // Delete User Data from Secure Store
+    await SecureStore.deleteItemAsync('userInfo');
+
+    // Delete the Session Cookie
+    await axios.get(`${API_URL}/api/auth/logout`, { withCredentials: true });
 
     // Reset State
     this.authState = {
@@ -139,23 +140,39 @@ export class AuthProviderClass {
   }
 }
 
-export const AuthProvider = ({ children }: any) => {
-  const authProvider = new AuthProviderClass();
 
+export const AuthProvider = ({ children }: any) => {
+  const [authState, setAuthState] = useState({
+    user: null,
+    authenticated: null,
+  });
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  const authProvider = useMemo(() => new AuthProviderClass(), []);
   const value = {
     onSignup: authProvider.signup.bind(authProvider),
     onLogin: authProvider.login.bind(authProvider),
     onLogout: authProvider.logout.bind(authProvider),
     clearAuthState: authProvider.clearAuthState.bind(authProvider),
-    authState: authProvider.getAuthState(),
+    authState,
   };
 
   useEffect(() => {
-    // Ensure to clear auth state when the component unmounts
-    return () => {
-      authProvider.clearAuthState();
+    const initializeAuthProvider = async () => {
+      await authProvider.init();
+      setIsInitialized(true);
     };
+  
+    initializeAuthProvider();
   }, [authProvider]);
+  
+  useEffect(() => {
+    if (isInitialized) {
+      setAuthState(authProvider.getAuthState());
+    }
+  }, [isInitialized, authProvider]);
+
+  console.log('AuthProvider - authState:', authState);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -8,7 +8,7 @@ const App: React.FC = () => {
   return (
     <AuthProvider>
       <NavigationContainer>
-        <MainNavigator isAuthenticated={authState?.authenticated ?? false} />
+        <MainNavigator/>
       </NavigationContainer>
     </AuthProvider>
   );

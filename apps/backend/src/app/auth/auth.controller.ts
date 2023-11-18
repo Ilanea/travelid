@@ -54,6 +54,7 @@ export class AuthController{
 
   @Get('verify-session')
   async verifySession(@Req() request) {
+    console.log('verify-session-request', request.session.user)
     return request.session.user;
   }
 
