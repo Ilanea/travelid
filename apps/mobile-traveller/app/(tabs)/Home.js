@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
-import { UserService } from '../services/user.service.js';
+//import { UserService } from '../services/user.service.js';
 import { theme } from '../theme/theme.js';
 import { getUserData } from '../utils/apiFunctions.js';
 import {
@@ -28,14 +28,14 @@ import {
 
 const { parseISO } = require('date-fns');
 
-const userService = new UserService();
+//const userService = new UserService();
 
 // Rufe die benötigten Methoden der UserService auf,
 // z. B. getUser, editUser, deleteUser, etc
-const user = await userService.getUser(1);
+//const user = await userService.getUser(1);
 
 //platzhalter für später, soll user daten simulieren.
-//const user = getUserData()
+const user = getUserData()
 
 export default function Home() {
   function showFilterView() {
@@ -280,7 +280,9 @@ export default function Home() {
           </View>
           <View style={styles.mainButtonSeparator} />
           <View style={styles.mainButtonRight}>
-            <Text style={{ color: 'white' }}>Points</Text>
+            <Link href="/BonuspunktePage" asChild>
+              <Text style={{ color: 'white' }}>Points</Text>
+            </Link>
           </View>
         </View>
       </View>
@@ -348,7 +350,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: theme.mainButton,
     width: '80%',
-    height: '15%',
+    height: 60,
     marginTop: '10%',
   },
   mainButtonLeft: {
