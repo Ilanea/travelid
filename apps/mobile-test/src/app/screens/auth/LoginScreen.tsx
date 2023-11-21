@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { useAuth } from '../../provider/AuthProvider';
-
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { Link, Stack } from 'expo-router';
+import React, { useState } from 'react';
 import {
   Image,
   KeyboardAvoidingView,
@@ -19,9 +17,8 @@ import {
   View,
 } from 'react-native';
 
+import { useAuth } from '../../provider/AuthProvider';
 import { theme } from '../../theme/theme.js';
-
-
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -33,7 +30,7 @@ const LoginScreen: React.FC = () => {
     if (onLogin) {
       try {
         await onLogin(email, password);
-        console.log('Login successful')
+        console.log('Login successful');
       } catch (error) {
         console.error('Login failed:', error);
       }
@@ -75,16 +72,21 @@ const LoginScreen: React.FC = () => {
               marginTop: 30,
               padding: 5,
             }}
-            onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-	<TouchableOpacity onPress={navigateToRegister}>
-        <Text style={styles.registerLink}>Don't have an account? Register here</Text>
-      </TouchableOpacity>
+            onPress={handleLogin}
+          >
+            Test
+          </Text>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={navigateToRegister}>
+          <Text style={styles.registerLink}>
+            Don't have an account? Register here
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -109,7 +111,15 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
     borderBottomWidth: 0.3,
   },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  registerLink: {
+    color: '#007BFF',
+    marginTop: 10,
+  },
 });
-
 
 export default LoginScreen;
