@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import React, { useEffect, useState } from 'react';
+
+import { useAuth } from '../provider/AuthProvider';
 import HomeScreen from '../screens/HomeScreen';
+import LoadingScreen from '../screens/LoadingScreen';
 import LoginScreen from '../screens/auth/LoginScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
-import { useAuth } from '../provider/AuthProvider';
-import LoadingScreen from '../screens/LoadingScreen';
 
 const Stack = createStackNavigator();
 
@@ -13,7 +14,7 @@ const MainNavigator: React.FC = () => {
   const [authenticated, setAuthenticated] = useState(authState?.authenticated);
 
   useEffect(() => {
-    console.log("MainNavigator - authState:", authState);
+    console.log('MainNavigator - authState:', authState);
     setAuthenticated(authState?.authenticated);
   }, [authState]);
 
