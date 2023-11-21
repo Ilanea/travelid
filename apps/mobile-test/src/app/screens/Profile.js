@@ -1,14 +1,15 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Link, Stack } from 'expo-router';
 import React from 'react';
-import { useState } from 'react';
+//import { useState } from 'react';
 import {
   Image,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  SafeAreaView,
-  ScrollView,
+  /*
+KeyboardAvoidingView,
+Platform,
+Pressable,
+SafeAreaView,
+ScrollView,*/
   StatusBar,
   StyleSheet,
   Text,
@@ -17,9 +18,12 @@ import {
   View,
 } from 'react-native';
 
+import { useAuth } from '../provider/AuthProvider';
 import { theme } from '../theme/theme.js';
 
 export default function Profile() {
+  const { authState } = useAuth();
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -44,7 +48,7 @@ export default function Profile() {
             paddingLeft: 40,
           }}
         >
-          Hello {user.firstname}!
+          Hello {authState.user?.firstName}!
         </Text>
         <TouchableOpacity style={styles.notificationIcon}>
           <FontAwesome5 name="bell" size={24} color="black" />
