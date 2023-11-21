@@ -1,14 +1,15 @@
-import { FontAwesome5 } from '@expo/vector-icons';
+//import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { Link, Stack } from 'expo-router';
+//import { Link, Stack } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  SafeAreaView,
-  ScrollView,
+  /*
+Image,
+KeyboardAvoidingView,
+Platform,
+Pressable,
+SafeAreaView,
+ScrollView,*/
   StatusBar,
   StyleSheet,
   Text,
