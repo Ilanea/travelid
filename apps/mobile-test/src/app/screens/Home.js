@@ -17,7 +17,6 @@ import {
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
-//import { UserService } from '../services/user.service.js';
 import { theme } from '../theme/theme.js';
 import { getUserData } from '../utils/apiFunctions.js';
 import {
