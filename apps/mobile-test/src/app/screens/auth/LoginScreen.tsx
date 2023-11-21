@@ -1,7 +1,27 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useAuth } from '../../provider/AuthProvider'; // Replace with the actual path
+import { useAuth } from '../../provider/AuthProvider';
+
+import { FontAwesome5 } from '@expo/vector-icons';
+import { Link, Stack } from 'expo-router';
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+
+import { theme } from '../../theme/theme.js';
+
+
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -28,70 +48,68 @@ const LoginScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login Screen</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor="grey"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={theme.backgroundLightBlue}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="grey"
-        secureTextEntry
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-      />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+
+      <View style={styles.middleContainer}>
+        <Text style={styles.text}>Email</Text>
+        <TextInput
+          style={styles.normalInput}
+          onChangeText={(text) => setEmail(text)}
+          value={email}
+        />
+        <Text style={styles.text}>Passwort</Text>
+        <TextInput
+          style={styles.normalInput}
+          secureTextEntry={true}
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+        />
+        <TouchableOpacity>
+          <Text
+            style={{
+              borderWidth: 2,
+              borderColor: 'black',
+              marginTop: 30,
+              padding: 5,
+            }}
+            onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={navigateToRegister}>
+	<TouchableOpacity onPress={navigateToRegister}>
         <Text style={styles.registerLink}>Don't have an account? Register here</Text>
       </TouchableOpacity>
+      </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: theme.backgroundLightBlue,
+  },
+
+  middleContainer: {
+    flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
+    alignItems: 'center', // Center content vertically
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+  text: {
+    marginTop: 30,
+    marginLeft: 50,
+    marginRight: 50,
+    fontSize: 15,
   },
-  input: {
-    height: 40,
-    width: '100%',
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginVertical: 10,
-    paddingHorizontal: 10,
-  },
-  button: {
-    backgroundColor: '#007BFF',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
-    textAlign: 'center',
-  },
-  registerLink: {
-    color: '#007BFF',
-    marginTop: 10,
+  normalInput: {
+    marginTop: 8,
+    width: '60%',
+    borderBottomColor: 'black',
+    borderBottomWidth: 0.3,
   },
 });
+
 
 export default LoginScreen;
