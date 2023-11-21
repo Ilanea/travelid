@@ -1,18 +1,16 @@
 import { FontAwesome5 } from '@expo/vector-icons';
-import { Link, Stack } from 'expo-router';
+//import { Link, Stack } from 'expo-router';
 import React from 'react';
-import { useState } from 'react';
+//import { useState } from 'react';
 import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
+  Image, //KeyboardAvoidingView,
+  //Platform,
+  //Pressable,
+  //ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
+  Text, //TextInput,
+  //TouchableOpacity,
   View,
 } from 'react-native';
 
