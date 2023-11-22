@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { API_URL } from "@env";
 
 interface User {
   userName: string;
@@ -19,7 +20,6 @@ interface AuthProps {
   getAuthState?: () => { user: User | null; authenticated: boolean | null };
 }
 
-export const API_URL = 'http://192.168.178.41:3333';
 const AuthContext = createContext<AuthProps>({});
 
 export const useAuth = () => {
@@ -39,6 +39,10 @@ export class AuthProviderClass {
   };
 
   public async init(): Promise<void> {
+    if(API_URL === undefined) {
+      console.error('API_URL is undefined, please check your .env file');
+      return;
+    }
     await this.loadToken();
   }
 

@@ -38,6 +38,9 @@ apps/backend/uploads/
 apps/mobile-guest-e2e/artifacts/
 apps/mobile-test-e2e/artifacts/
 
+# env files
+apps/mobile-test/.env
+
 # System Files
 .DS_Store
 Thumbs.db
