@@ -36,7 +36,7 @@ model User {
   hotelsAsAdmin        Hotel[] @relation(name: "Admins")
   hotelsAsReceptionist Hotel[] @relation(name: "Receptionists")
 
-  bonusPoint BonusPoint[]
+  bonuspoint Bonuspoint[]
 
   Booking Booking[]
 
@@ -79,7 +79,7 @@ model Booking {
   @@map("bookings")
 }
 
-model BonusPoint {
+model Bonuspoint {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
