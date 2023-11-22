@@ -25,7 +25,7 @@ interface AuthProps {
   getAuthState?: () => { user: User | null; authenticated: boolean | null };
 }
 
-export const API_URL = 'http://192.168.70.170:3333';
+export const API_URL = 'http://10.180.0.245:3333';
 const AuthContext = createContext<AuthProps>({});
 
 export const useAuth = () => {
