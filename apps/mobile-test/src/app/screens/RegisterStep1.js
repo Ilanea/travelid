@@ -1,20 +1,36 @@
-import * as React from "react";
+import { useNavigation } from '@react-navigation/native';
+import { Link, Stack } from 'expo-router';
+import * as React from 'react';
+import { useState } from 'react';
 import {
+  Image,
+  Pressable,
   ScrollView,
-  Text,
   StyleSheet,
+  Text,
   TextInput,
   View,
-  Pressable,
-  Image, 
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
+} from 'react-native';
+import { text } from 'stream/consumers';
+
 //import { Image } from "expo-image";
-import { FontFamily, Padding, FontSize, Color, Border } from "../../GlobalStyles";
-import { Link, Stack } from 'expo-router';
+import {
+  Border,
+  Color,
+  FontFamily,
+  FontSize,
+  Padding,
+} from '../../GlobalStyles';
+import { useAuth } from '../provider/AuthProvider';
 
 const RegisterStep1 = () => {
   const navigation = useNavigation();
+  const { onSignup } = useAuth();
+
+  const [username, setUsername] = useState('');
+  const [academicDegree, setAcademicDegree] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [name, setName] = useState('');
 
   return (
     <ScrollView
@@ -42,6 +58,8 @@ const RegisterStep1 = () => {
         <TextInput
           style={[styles.textregister1, styles.headlineTypo]}
           placeholder="Surname"
+          value={firstName}
+          onChangeText={(text) => setFirstName(text)}
           placeholderTextColor="#546a83"
         />
       </View>
@@ -114,7 +132,17 @@ const RegisterStep1 = () => {
       <View style={[styles.buttoncontinue, styles.buttonSpaceBlock]}>
         <Pressable
           style={[styles.button, styles.buttonSpaceBlock]}
-          onPress={() => navigation.navigate("RegisterStep2Optional")}
+          // Inside the Pressable in RegisterStep1.tsx
+          onPress={() => {
+            onSignup?.(email, password, firstName, lastName)
+              .then(() => {
+                navigation.navigate('RegisterStep2Optional');
+              })
+              .catch((error) => {
+                console.error('Registration error:', error);
+                // Handle registration error
+              });
+          }}
         >
           <Text style={[styles.labelText, styles.labelTextFlexBox]}>
             Continue
@@ -122,7 +150,7 @@ const RegisterStep1 = () => {
           <Image
             style={styles.arrowForwardIcon}
             contentFit="cover"
-            source={require("../../assets/arrow-forward.png")}
+            source={require('../../assets/arrow-forward.png')}
           />
         </Pressable>
       </View>
@@ -132,30 +160,30 @@ const RegisterStep1 = () => {
 
 const styles = StyleSheet.create({
   registerStep1Content: {
-    flexDirection: "column",
+    flexDirection: 'column',
     paddingHorizontal: 50,
     paddingTop: 70,
     paddingBottom: 71,
-    alignItems: "center",
-    justifyContent: "flex-start",
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   headlineTypo: {
     //fontFamily: FontFamily.poppinsSemiBold,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   labelTextFlexBox: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonSpaceBlock: {
     paddingVertical: Padding.p_3xs,
     paddingHorizontal: 0,
-    alignItems: "center",
+    alignItems: 'center',
   },
   headline: {
     fontSize: FontSize.size_base,
     color: Color.m3RefPrimaryPrimary0,
-    textAlign: "left",
+    textAlign: 'left',
   },
   textregister1: {
     opacity: 0.7,
@@ -163,52 +191,51 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   ovalregister1: {
-    alignSelf: "stretch",
+    alignSelf: 'stretch',
     borderRadius: Border.br_3xs,
     backgroundColor: Color.colorSlategray_200,
     height: 40,
     paddingHorizontal: Padding.p_xs,
     paddingVertical: Padding.p_4xs,
     marginTop: 12,
-    justifyContent: "center",
-    flexDirection: "row",
-    overflow: "hidden",
+    justifyContent: 'center',
+    flexDirection: 'row',
+    overflow: 'hidden',
   },
   labelText: {
     letterSpacing: 0,
     lineHeight: 20,
-    fontWeight: "500",
+    fontWeight: '500',
     //fontFamily: FontFamily.poppinsMedium14,
     color: Color.m3SysLightOnPrimary,
-    textAlign: "center",
-    display: "flex",
+    textAlign: 'center',
+    display: 'flex',
     width: 66,
     fontSize: FontSize.size_xs,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   arrowForwardIcon: {
     width: 24,
     height: 24,
     marginLeft: 10,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   button: {
     borderRadius: Border.br_81xl,
     backgroundColor: Color.colorPeru,
     width: 136,
     height: 44,
-    justifyContent: "center",
-    flexDirection: "row",
-    overflow: "hidden",
+    justifyContent: 'center',
+    flexDirection: 'row',
+    overflow: 'hidden',
   },
   buttoncontinue: {
     height: 10,
     marginTop: 12,
-    
   },
   registerStep1: {
     backgroundColor: Color.colorGhostwhite,
-    shadowColor: "rgba(63, 82, 108, 0.4)",
+    shadowColor: 'rgba(63, 82, 108, 0.4)',
     shadowOffset: {
       width: 0,
       height: 40,
@@ -216,9 +243,9 @@ const styles = StyleSheet.create({
     shadowRadius: 80,
     elevation: 80,
     shadowOpacity: 1,
-    width: "100%",
-    maxWidth: "100%",
-    overflow: "hidden",
+    width: '100%',
+    maxWidth: '100%',
+    overflow: 'hidden',
     flex: 1,
   },
 });
