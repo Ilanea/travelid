@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
-import { useAuth } from '../../provider/AuthProvider';
+import { useAuth } from '../provider/AuthProvider';
 
 const RegisterScreen: React.FC = () => {
   const [email, setEmail] = useState('');

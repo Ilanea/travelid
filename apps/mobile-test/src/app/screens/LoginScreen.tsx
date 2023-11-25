@@ -18,8 +18,8 @@ ScrollView,*/
   View,
 } from 'react-native';
 
-import { useAuth } from '../../provider/AuthProvider';
-import { theme } from '../../theme/theme.js';
+import { useAuth } from '../provider/AuthProvider';
+import { theme } from '../theme/theme.js';
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
