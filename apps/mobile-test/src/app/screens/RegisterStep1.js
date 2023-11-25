@@ -23,11 +23,6 @@ import {
 } from '../../GlobalStyles';
 import { useAuth } from '../provider/AuthProvider';
 
-import * as React from "react";
-import {ScrollView,Text,StyleSheet,TextInput,View,Pressable,Image, } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { FontFamily, Padding, FontSize, Color, Border } from "../../../GlobalStyles";
-
 const RegisterStep1 = () => {
   const navigation = useNavigation();
   const { onSignup } = useAuth();
@@ -169,7 +164,20 @@ const RegisterStep1 = () => {
           style={[styles.button, styles.buttonSpaceBlock]}
           // Inside the Pressable in RegisterStep1.tsx
           onPress={() => {
-            onSignup?.(email, password, firstName, lastName)
+            onSignup?.(
+              gender,
+              academicDegree,
+              firstName,
+              lastName,
+              street,
+              city,
+              country,
+              nationality,
+              birthday,
+              documentNo,
+              mobilePhone,
+              phone
+            )
               .then(() => {
                 navigation.navigate('RegisterStep2Optional');
               })
@@ -203,7 +211,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   headlineTypo: {
-  
     fontWeight: '600',
   },
   labelTextFlexBox: {
@@ -241,7 +248,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     lineHeight: 20,
     fontWeight: '500',
-  
+
     color: Color.m3SysLightOnPrimary,
     textAlign: 'center',
     display: 'flex',

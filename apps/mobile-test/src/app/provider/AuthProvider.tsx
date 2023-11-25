@@ -16,8 +16,18 @@ interface AuthProps {
     userName: string,
     email: string,
     password: string,
+    gender: string,
+    academicDegree: string,
     firstName: string,
-    lastName: string
+    lastName: string,
+    street: string,
+    city: string,
+    country: string,
+    nationality: string,
+    birthday: string,
+    documentNo: string,
+    mobilePhone: string,
+    phone: string
   ) => Promise<User>;
   onLogin?: (email: string, password: string) => Promise<User>;
   onLogout?: () => Promise<any>;
