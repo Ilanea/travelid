@@ -8,7 +8,7 @@ import {
   Image, 
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Padding, Border, Color, FontSize, FontFamily } from "../../GlobalStyles";
+import { Padding, Border, Color, FontSize, FontFamily } from "../../../GlobalStyles";
 import { StatusBar } from 'react-native';
 
 const Welcome = () => {
@@ -19,7 +19,7 @@ const Welcome = () => {
     <ImageBackground
       style={{width: '100%', height: '100%'}}
       //resizeMode="cover"
-      source={require("../../assets/welcome.png")}
+      source={require("../pics/welcome.png")}
     >
       <Pressable style={[styles.loginregister, styles.registerFlexBox]}>
         <Pressable
@@ -54,7 +54,7 @@ const Welcome = () => {
         <Image
           style={styles.image30Icon}
           contentFit="cover"
-          source={require("../../assets/image-30.png")}
+          source={require("../pics/image-30.png")}
         />
         <Text style={[styles.everyStayCounts, styles.register1Typo]}>
           every stay counts

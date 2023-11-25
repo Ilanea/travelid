@@ -23,14 +23,27 @@ import {
 } from '../../GlobalStyles';
 import { useAuth } from '../provider/AuthProvider';
 
+import * as React from "react";
+import {ScrollView,Text,StyleSheet,TextInput,View,Pressable,Image, } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { FontFamily, Padding, FontSize, Color, Border } from "../../../GlobalStyles";
+
 const RegisterStep1 = () => {
   const navigation = useNavigation();
   const { onSignup } = useAuth();
 
-  const [username, setUsername] = useState('');
+  const [gender, setGender] = useState('');
   const [academicDegree, setAcademicDegree] = useState('');
   const [firstName, setFirstName] = useState('');
-  const [name, setName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [street, setStreet] = useState('');
+  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
+  const [nationality, setNationality] = useState('');
+  const [birthday, setBirthday] = useState('');
+  const [documentNo, setDocumentNo] = useState('');
+  const [mobilePhone, setMobilePhone] = useState('');
+  const [phone, setPhone] = useState('');
 
   return (
     <ScrollView
@@ -45,6 +58,8 @@ const RegisterStep1 = () => {
           style={[styles.textregister1, styles.headlineTypo]}
           placeholder="Gender"
           placeholderTextColor="#546a83"
+          value={gender}
+          onChangeText={(text) => setGender(text)}
         />
       </View>
       <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
@@ -52,6 +67,8 @@ const RegisterStep1 = () => {
           style={[styles.textregister1, styles.headlineTypo]}
           placeholder="Academic Degree"
           placeholderTextColor="#546a83"
+          value={academicDegree}
+          onChangeText={(text) => setAcademicDegree(text)}
         />
       </View>
       <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
@@ -66,8 +83,10 @@ const RegisterStep1 = () => {
       <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
         <TextInput
           style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Name"
+          placeholder="Lastname"
           placeholderTextColor="#546a83"
+          value={lastName}
+          onChangeText={(text) => setLastName(text)}
         />
       </View>
       <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
@@ -75,6 +94,8 @@ const RegisterStep1 = () => {
           style={[styles.textregister1, styles.headlineTypo]}
           placeholder="Street"
           placeholderTextColor="#546a83"
+          value={street}
+          onChangeText={(text) => setStreet(text)}
         />
       </View>
       <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
@@ -82,6 +103,8 @@ const RegisterStep1 = () => {
           style={[styles.textregister1, styles.headlineTypo]}
           placeholder="City"
           placeholderTextColor="#546a83"
+          value={city}
+          onChangeText={(text) => setCity(text)}
         />
       </View>
       <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
@@ -89,6 +112,8 @@ const RegisterStep1 = () => {
           style={[styles.textregister1, styles.headlineTypo]}
           placeholder="Country"
           placeholderTextColor="#546a83"
+          value={country}
+          onChangeText={(text) => setCountry(text)}
         />
       </View>
       <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
@@ -96,6 +121,8 @@ const RegisterStep1 = () => {
           style={[styles.textregister1, styles.headlineTypo]}
           placeholder="Nationality"
           placeholderTextColor="#546a83"
+          value={nationality}
+          onChangeText={(text) => setNationality(text)}
         />
       </View>
       <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
@@ -104,6 +131,8 @@ const RegisterStep1 = () => {
           placeholder="Birthday"
           keyboardType="number-pad"
           placeholderTextColor="#546a83"
+          value={birthday}
+          onChangeText={(text) => setBirthday(text)}
         />
       </View>
       <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
@@ -111,6 +140,8 @@ const RegisterStep1 = () => {
           style={[styles.textregister1, styles.headlineTypo]}
           placeholder="Document No."
           placeholderTextColor="#546a83"
+          value={documentNo}
+          onChangeText={(text) => setDocumentNo(text)}
         />
       </View>
       <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
@@ -119,6 +150,8 @@ const RegisterStep1 = () => {
           placeholder="Mobile Phone"
           keyboardType="phone-pad"
           placeholderTextColor="#546a83"
+          value={mobilePhone}
+          onChangeText={(text) => setMobilePhone(text)}
         />
       </View>
       <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
@@ -127,6 +160,8 @@ const RegisterStep1 = () => {
           placeholder="Phone (optional)"
           keyboardType="phone-pad"
           placeholderTextColor="#546a83"
+          value={phone}
+          onChangeText={(text) => setPhone(text)}
         />
       </View>
       <View style={[styles.buttoncontinue, styles.buttonSpaceBlock]}>
@@ -168,7 +203,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   headlineTypo: {
-    //fontFamily: FontFamily.poppinsSemiBold,
+  
     fontWeight: '600',
   },
   labelTextFlexBox: {
@@ -206,7 +241,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     lineHeight: 20,
     fontWeight: '500',
-    //fontFamily: FontFamily.poppinsMedium14,
+  
     color: Color.m3SysLightOnPrimary,
     textAlign: 'center',
     display: 'flex',

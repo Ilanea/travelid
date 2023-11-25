@@ -32,11 +32,10 @@ const MainNavigator: React.FC = () => {
         <Stack.Screen name="Home" component={HomeScreen} />
       ) : (
         <>
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Register" component={RegisterScreen} />
-          <Stack.Screen name="RegisterStep1" component={RegisterStep1} />
-          <Stack.Screen name="RegisterStep2Optional" component={RegisterStep2Optional} />
-          <Stack.Screen name="RegisterStep3" component={RegisterStep3} />
+          <Stack.Screen name="Mongo" component={Welcome} options={{ headerShown: false }} />
+          <Stack.Screen name="RegisterStep1" component={RegisterStep1} options={{ headerShown: false }} />
+          <Stack.Screen name="RegisterStep2Optional" component={RegisterStep2Optional} options={{ headerShown: false }} />
+          <Stack.Screen name="RegisterStep3" component={RegisterStep3} options={{ headerShown: false }} />
         </>
       )}
     </Stack.Navigator>

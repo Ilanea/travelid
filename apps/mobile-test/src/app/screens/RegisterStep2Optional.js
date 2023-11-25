@@ -1,9 +1,7 @@
 import * as React from "react";
 import { Text, StyleSheet, View, TextInput, Pressable, Image } from "react-native";
-//import { Image } from "expo";
 import { useNavigation } from "@react-navigation/native";
-import { FontFamily, Color, FontSize, Border, Padding } from "../../GlobalStyles";
-import { Link, Stack } from 'expo-router';
+import { FontFamily, Color, FontSize, Border, Padding } from "../../../GlobalStyles";
 
 const RegisterStep2Optional = () => {
   const navigation = useNavigation();
@@ -31,7 +29,7 @@ const RegisterStep2Optional = () => {
             <Image
               style={[styles.arrowForwardIcon, styles.arrowIconLayout]}
               contentFit="cover"
-              source={require("../../assets/arrow-forward1.png")}
+              source={require("../pics/arrow-forward1.png")}
             />
           </Pressable>
           <Pressable
@@ -42,7 +40,7 @@ const RegisterStep2Optional = () => {
             <Image
               style={[styles.arrowForwardIcon1, styles.arrowIconLayout]}
               contentFit="cover"
-              source={require("../../assets/arrow-forward2.png")}
+              source={require("../pics/arrow-forward2.png")}
             />
           </Pressable>
         </View>
@@ -71,7 +69,6 @@ const styles = StyleSheet.create({
   },
   skipTypo: {
     textAlign: "center",
-    //fontFamily: FontFamily.poppinsMedium14,
     fontWeight: "500",
     lineHeight: 20,
     letterSpacing: 0,
@@ -84,7 +81,6 @@ const styles = StyleSheet.create({
   headline: {
     color: Color.m3RefPrimaryPrimary0,
     textAlign: "left",
-    //fontFamily: FontFamily.poppinsSemiBold,
     fontWeight: "600",
     fontSize: FontSize.size_base,
   },
@@ -101,7 +97,6 @@ const styles = StyleSheet.create({
     left: 21,
     opacity: 0.7,
     position: "absolute",
-    //fontFamily: FontFamily.poppinsSemiBold,
     fontWeight: "600",
     fontSize: FontSize.size_base,
   },
@@ -148,7 +143,6 @@ const styles = StyleSheet.create({
   skip: {
     color: Color.colorSlategray_100,
     fontSize: FontSize.size_base,
-    //fontFamily: FontFamily.poppinsMedium14,
     fontWeight: "500",
     lineHeight: 20,
     letterSpacing: 0,
