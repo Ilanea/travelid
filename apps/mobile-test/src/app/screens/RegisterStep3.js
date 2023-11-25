@@ -1,10 +1,31 @@
-import * as React from "react";
-import { Text, StyleSheet, View, TextInput, Pressable, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { FontFamily, FontSize, Padding, Border, Color } from "../../../GlobalStyles";
+import { useNavigation } from '@react-navigation/native';
+import * as React from 'react';
+import { useState } from 'react';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+
+import {
+  Border,
+  Color,
+  FontFamily,
+  FontSize,
+  Padding,
+} from '../../../GlobalStyles';
+import { useAuth } from '../provider/AuthProvider';
 
 const RegisterStep3 = () => {
   const navigation = useNavigation();
+  const { onSignup } = useAuth();
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
   return (
     <View style={styles.registerStep3}>
@@ -14,7 +35,7 @@ const RegisterStep3 = () => {
           <Image
             style={styles.pngaaa1Icon}
             contentFit="cover"
-            source={require("../pics/pngaaa-1.png")}
+            source={require('../pics/pngaaa-1.png')}
           />
           <View style={[styles.uploadYourPhotoParent, styles.buttonFlexBox]}>
             <Text style={[styles.uploadYourPhoto, styles.labelTextTypo]}>
@@ -23,7 +44,7 @@ const RegisterStep3 = () => {
             <Image
               style={styles.vectorIcon}
               contentFit="cover"
-              source={require("../pics/vector.png")}
+              source={require('../pics/vector.png')}
             />
           </View>
         </View>
@@ -31,50 +52,61 @@ const RegisterStep3 = () => {
           <Image
             style={[styles.entriesregistration3Child, styles.childLayout]}
             contentFit="cover"
-            source={require("../pics/rectangle-34624092.png")}
+            source={require('../pics/rectangle-34624092.png')}
           />
           <TextInput
             style={styles.ovalregister3}
-            placeholder={`Username
-`}
+            placeholder={`Username`}
             placeholderTextColor="#546a83"
+            value={username}
+            onChangeText={(text) => setUsername(text)}
           />
           <TextInput
             style={styles.ovalregister3}
-            placeholder={`Password
-`}
+            placeholder={`Password`}
+            secureTextEntry={true}
+            placeholderTextColor="#546a83"
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+          />
+          <TextInput
+            style={styles.ovalregister3}
+            placeholder={`Re-enter Password`}
             secureTextEntry={true}
             placeholderTextColor="#546a83"
           />
           <TextInput
             style={styles.ovalregister3}
-            placeholder={`Re-enter Password
-`}
-            secureTextEntry={true}
+            placeholder={`E-Mail`}
             placeholderTextColor="#546a83"
-          />
-          <TextInput
-            style={styles.ovalregister3}
-            placeholder={`E-Mail
-`}
-            placeholderTextColor="#546a83"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
           />
         </View>
       </View>
       <Image
         style={[styles.registerStep3Child, styles.childLayout]}
         contentFit="cover"
-        source={require("../pics/rectangle-346240921.png")}
+        source={require('../pics/rectangle-346240921.png')}
       />
       <Pressable
         style={[styles.button, styles.buttonSpaceBlock]}
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => {
+          onSignup?.(username, password, email)
+            .then(() => {
+              navigation.navigate('Home');
+            })
+            .catch((error) => {
+              console.error('Registration error:', error);
+              // Handle registration error
+            });
+        }}
       >
         <Text style={[styles.labelText, styles.labelTextTypo]}>Complete</Text>
         <Image
           style={styles.arrowForwardIcon}
           contentFit="cover"
-          source={require("../pics/arrow-forward3.png")}
+          source={require('../pics/arrow-forward3.png')}
         />
       </Pressable>
     </View>
@@ -83,22 +115,22 @@ const RegisterStep3 = () => {
 
 const styles = StyleSheet.create({
   buttonFlexBox: {
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   labelTextTypo: {
-    display: "flex",
-    textAlign: "center",
-    fontWeight: "500",
+    display: 'flex',
+    textAlign: 'center',
+    fontWeight: '500',
     lineHeight: 20,
     letterSpacing: 0,
     fontSize: FontSize.size_xs,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonSpaceBlock: {
     paddingVertical: Padding.p_3xs,
-    alignItems: "center",
+    alignItems: 'center',
   },
   childLayout: {
     width: 254,
@@ -107,8 +139,8 @@ const styles = StyleSheet.create({
   headline: {
     fontSize: FontSize.size_base,
     color: Color.m3RefPrimaryPrimary0,
-    textAlign: "left",
-    fontWeight: "600",
+    textAlign: 'left',
+    fontWeight: '600',
   },
   pngaaa1Icon: {
     width: 191,
@@ -140,11 +172,11 @@ const styles = StyleSheet.create({
     marginTop: 15,
     borderRadius: Border.br_3xs,
     fontSize: FontSize.size_xs,
-    flexDirection: "row",
-    fontWeight: "600",
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
+    flexDirection: 'row',
+    fontWeight: '600',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
   },
   entriesregistration3: {
     width: 380,
@@ -154,7 +186,7 @@ const styles = StyleSheet.create({
   },
   frameParent: {
     marginTop: 75,
-    alignItems: "center",
+    alignItems: 'center',
   },
   registerStep3Child: {
     height: 41,
@@ -168,7 +200,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     marginLeft: 10,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   button: {
     borderRadius: Border.br_81xl,
@@ -176,14 +208,14 @@ const styles = StyleSheet.create({
     width: 136,
     height: 44,
     paddingHorizontal: Padding.p_base,
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     marginTop: 75,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   registerStep3: {
     backgroundColor: Color.colorGhostwhite,
-    shadowColor: "rgba(63, 82, 108, 0.4)",
+    shadowColor: 'rgba(63, 82, 108, 0.4)',
     shadowOffset: {
       width: 0,
       height: 40,
@@ -192,11 +224,11 @@ const styles = StyleSheet.create({
     elevation: 80,
     shadowOpacity: 1,
     flex: 1,
-    width: "100%",
+    width: '100%',
     height: 781,
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
   },
 });
 

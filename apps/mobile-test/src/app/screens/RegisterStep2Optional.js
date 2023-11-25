@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
+import { useState } from 'react';
 import {
   Image,
   Pressable,
