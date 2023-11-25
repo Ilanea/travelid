@@ -33,6 +33,17 @@ model User {
   lastName  String?
   avatar    String?
 
+  gender String?
+
+  street String?
+  city String?
+  country String?
+  nationality String?
+  birthday String?
+  documentNo String?
+  mobilePhone String?
+  phone String?
+
   hotelsAsAdmin        Hotel[] @relation(name: "Admins")
   hotelsAsReceptionist Hotel[] @relation(name: "Receptionists")
 

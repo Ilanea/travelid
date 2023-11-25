@@ -8,6 +8,16 @@ interface User {
   password: string;
   firstName: string;
   lastName: string;
+  gender: string;
+  academicDegree: string;
+  street: string;
+  city: string;
+  country: string;
+  nationality: string;
+  birthday: string;
+  documentNo: string;
+  mobilePhone: string;
+  phone: string;
 }
 
 interface AuthProps {
@@ -91,13 +101,39 @@ export class AuthProviderClass {
     userName: string,
     email: string,
     password: string,
+    gender: string,
+    academicDegree: string,
     firstName: string,
-    lastName: string
+    lastName: string,
+    street: string,
+    city: string,
+    country: string,
+    nationality: string,
+    birthday: string,
+    documentNo: string,
+    mobilePhone: string,
+    phone: string
   ) {
     try {
       const result = await axios.post(
         `${API_URL}/api/auth/signup`,
-        { userName, email, password, firstName, lastName },
+        {
+          userName,
+          email,
+          password,
+          firstName,
+          lastName,
+          gender,
+          academicDegree,
+          street,
+          city,
+          country,
+          nationality,
+          birthday,
+          documentNo,
+          mobilePhone,
+          phone,
+        },
         { withCredentials: true }
       );
 
