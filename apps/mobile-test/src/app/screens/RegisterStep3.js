@@ -1,9 +1,7 @@
 import * as React from "react";
 import { Text, StyleSheet, View, TextInput, Pressable, Image } from "react-native";
-//import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import { FontFamily, FontSize, Padding, Border, Color } from "../../GlobalStyles";
-import { Link, Stack } from 'expo-router';
+import { FontFamily, FontSize, Padding, Border, Color } from "../../../GlobalStyles";
 
 const RegisterStep3 = () => {
   const navigation = useNavigation();
@@ -16,7 +14,7 @@ const RegisterStep3 = () => {
           <Image
             style={styles.pngaaa1Icon}
             contentFit="cover"
-            source={require("../../assets/pngaaa-1.png")}
+            source={require("../pics/pngaaa-1.png")}
           />
           <View style={[styles.uploadYourPhotoParent, styles.buttonFlexBox]}>
             <Text style={[styles.uploadYourPhoto, styles.labelTextTypo]}>
@@ -25,7 +23,7 @@ const RegisterStep3 = () => {
             <Image
               style={styles.vectorIcon}
               contentFit="cover"
-              source={require("../../assets/vector.png")}
+              source={require("../pics/vector.png")}
             />
           </View>
         </View>
@@ -33,7 +31,7 @@ const RegisterStep3 = () => {
           <Image
             style={[styles.entriesregistration3Child, styles.childLayout]}
             contentFit="cover"
-            source={require("../../assets/rectangle-34624092.png")}
+            source={require("../pics/rectangle-34624092.png")}
           />
           <TextInput
             style={styles.ovalregister3}
@@ -66,7 +64,7 @@ const RegisterStep3 = () => {
       <Image
         style={[styles.registerStep3Child, styles.childLayout]}
         contentFit="cover"
-        source={require("../../assets/rectangle-346240921.png")}
+        source={require("../pics/rectangle-346240921.png")}
       />
       <Pressable
         style={[styles.button, styles.buttonSpaceBlock]}
@@ -76,7 +74,7 @@ const RegisterStep3 = () => {
         <Image
           style={styles.arrowForwardIcon}
           contentFit="cover"
-          source={require("../../assets/arrow-forward3.png")}
+          source={require("../pics/arrow-forward3.png")}
         />
       </Pressable>
     </View>
@@ -91,7 +89,6 @@ const styles = StyleSheet.create({
   labelTextTypo: {
     display: "flex",
     textAlign: "center",
-    //fontFamily: FontFamily.poppinsMedium14,
     fontWeight: "500",
     lineHeight: 20,
     letterSpacing: 0,
@@ -111,7 +108,6 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_base,
     color: Color.m3RefPrimaryPrimary0,
     textAlign: "left",
-    //fontFamily: FontFamily.poppinsSemiBold,
     fontWeight: "600",
   },
   pngaaa1Icon: {
@@ -145,7 +141,6 @@ const styles = StyleSheet.create({
     borderRadius: Border.br_3xs,
     fontSize: FontSize.size_xs,
     flexDirection: "row",
-    //fontFamily: FontFamily.poppinsSemiBold,
     fontWeight: "600",
     justifyContent: "center",
     alignItems: "center",

@@ -1,17 +1,7 @@
 import * as React from "react";
-import {
-  ScrollView,
-  Text,
-  StyleSheet,
-  TextInput,
-  View,
-  Pressable,
-  Image, 
-} from "react-native";
+import {ScrollView,Text,StyleSheet,TextInput,View,Pressable,Image, } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-//import { Image } from "expo-image";
-import { FontFamily, Padding, FontSize, Color, Border } from "../../GlobalStyles";
-import { Link, Stack } from 'expo-router';
+import { FontFamily, Padding, FontSize, Color, Border } from "../../../GlobalStyles";
 
 const RegisterStep1 = () => {
   const navigation = useNavigation();
@@ -122,7 +112,7 @@ const RegisterStep1 = () => {
           <Image
             style={styles.arrowForwardIcon}
             contentFit="cover"
-            source={require("../../assets/arrow-forward.png")}
+            source={require("../pics/arrow-forward.png")}
           />
         </Pressable>
       </View>
@@ -140,7 +130,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   headlineTypo: {
-    //fontFamily: FontFamily.poppinsSemiBold,
     fontWeight: "600",
   },
   labelTextFlexBox: {
@@ -178,7 +167,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     lineHeight: 20,
     fontWeight: "500",
-    //fontFamily: FontFamily.poppinsMedium14,
     color: Color.m3SysLightOnPrimary,
     textAlign: "center",
     display: "flex",
