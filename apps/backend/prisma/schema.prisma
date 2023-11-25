@@ -39,6 +39,7 @@ model User {
   bonuspoint Bonuspoint[]
 
   Booking Booking[]
+  reviews Review[]
 
   @@map("users")
 }
@@ -54,12 +55,39 @@ model Hotel {
   address     String
   description String?
 
+  categories Category[]
+  reviews    Review[]
+
   admins        User[] @relation(name: "Admins")
   receptionists User[] @relation(name: "Receptionists")
 
   Booking Booking[]
 
   @@map("hotels")
+}
+
+model Category {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  hotel Hotel[]
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  text      String
+  rating    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  hotelId Int
+  hotel   Hotel @relation(fields: [hotelId], references: [id])
+  userId  Int
+  user    User  @relation(fields: [userId], references: [id])
 }
 
 model Booking {
