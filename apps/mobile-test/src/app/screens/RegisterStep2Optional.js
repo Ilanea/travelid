@@ -10,13 +10,7 @@ import {
   View,
 } from 'react-native';
 
-import {
-  Border,
-  Color,
-  FontFamily,
-  FontSize,
-  Padding,
-} from '../../../GlobalStyles';
+import { Border, Color, FontSize, Padding } from '../../../GlobalStyles';
 import { useAuth } from '../provider/AuthProvider';
 
 const RegisterStep2Optional = () => {

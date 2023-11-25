@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+
 import { useAuth } from '../provider/AuthProvider';
 
-const RegisterScreen: React.FC = () => {
+const RegisterScreen = () => {
   const [email, setEmail] = useState('');
   const [userName, setUsername] = useState('');
   const [firstName, setFirstname] = useState('');
@@ -13,7 +20,13 @@ const RegisterScreen: React.FC = () => {
   const handleSignup = async () => {
     if (onSignup) {
       try {
-        const result = await onSignup(userName, email, password, firstName, lastName);  
+        const result = await onSignup(
+          userName,
+          email,
+          password,
+          firstName,
+          lastName
+        );
         console.log('Signup result:', result);
       } catch (error) {
         console.error('Signup failed:', error);

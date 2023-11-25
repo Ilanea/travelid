@@ -1,5 +1,4 @@
 import { useNavigation } from '@react-navigation/native';
-import { Link, Stack } from 'expo-router';
 import * as React from 'react';
 import { useState } from 'react';
 import {
@@ -13,14 +12,7 @@ import {
 } from 'react-native';
 import { text } from 'stream/consumers';
 
-//import { Image } from "expo-image";
-import {
-  Border,
-  Color,
-  FontFamily,
-  FontSize,
-  Padding,
-} from '../../GlobalStyles';
+import { Border, Color, FontSize, Padding } from '../../GlobalStyles';
 import { useAuth } from '../provider/AuthProvider';
 
 const RegisterStep1 = () => {
@@ -162,7 +154,7 @@ const RegisterStep1 = () => {
       <View style={[styles.buttoncontinue, styles.buttonSpaceBlock]}>
         <Pressable
           style={[styles.button, styles.buttonSpaceBlock]}
-          // Inside the Pressable in RegisterStep1.tsx
+          // Sign up and display the appropriate screen
           onPress={() => {
             onSignup?.(
               gender,

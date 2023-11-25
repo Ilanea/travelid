@@ -1,18 +1,5 @@
-import { FontAwesome5 } from '@expo/vector-icons';
-//import { Link, Stack } from 'expo-router';
 import React from 'react';
-//import { useState } from 'react';
-import {
-  Image, //KeyboardAvoidingView,
-  //Platform,
-  //Pressable,
-  //ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text, //TextInput,
-  //TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
 
 import { theme } from '../theme/theme.js';
 

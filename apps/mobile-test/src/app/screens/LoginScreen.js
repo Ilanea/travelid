@@ -1,15 +1,6 @@
-//import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-//import { Link, Stack } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  /*
-Image,
-KeyboardAvoidingView,
-Platform,
-Pressable,
-SafeAreaView,
-ScrollView,*/
   StatusBar,
   StyleSheet,
   Text,
@@ -21,7 +12,7 @@ ScrollView,*/
 import { useAuth } from '../provider/AuthProvider';
 import { theme } from '../theme/theme.js';
 
-const LoginScreen: React.FC = () => {
+const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();

@@ -1,15 +1,8 @@
 import { FontAwesome5 } from '@expo/vector-icons';
-import { Link, Stack } from 'expo-router';
+import { Link } from 'expo-router';
 import React from 'react';
-//import { useState } from 'react';
 import {
   Image,
-  /*
-KeyboardAvoidingView,
-Platform,
-Pressable,
-SafeAreaView,
-ScrollView,*/
   StatusBar,
   StyleSheet,
   Text,
