@@ -21,10 +21,16 @@ const useChangeUser = () => {
       const userId = authUser?.id!;
 
       if (type === 'changePassword') {
-        console.log("TODO: change password");
+
+        if (signData.newPassword !== signData.newPasswordConfirmation) {
+          alert('Passwords do not match');
+
+          setIsLoading(false);
+          return;
+        }
         userResponse = await changePassword(userId, signData);
-        console.log('response', userResponse);
         setIsLoading(false);
+
       } else if (type === 'changeUserData') {
         userResponse = await changeData(userId, signData);
         window.location.reload();

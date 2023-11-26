@@ -86,7 +86,7 @@ const SecurityForm = () => {
                     <Input
                       placeholder="Enter current password"
                       {...field}
-                      type="oldPassword"
+                      type="password"
                     />
                   </FormControl>
                   <FormMessage />
@@ -103,7 +103,7 @@ const SecurityForm = () => {
                     <Input
                       placeholder="Enter new password"
                       {...field}
-                      type="newPassword"
+                      type="password"
                     />
                   </FormControl>
                   <FormMessage />
@@ -120,7 +120,7 @@ const SecurityForm = () => {
                     <Input
                       placeholder="Confirm new password"
                       {...field}
-                      type="newPasswordConfirmation"
+                      type="password"
                     />
                   </FormControl>
                   <FormMessage />
