@@ -13,13 +13,14 @@
     "@nx/expo": "*",
     "@expo/metro-config": "*",
     "react-native-svg-transformer": "*",
+    "react-test-renderer": "*",
+    "@expo/vector-icons": "*",
+    "date-fns": "*",
     "react": "*",
     "@react-navigation/native": "*",
-    "@react-navigation/bottom-tabs": "*",
     "@react-navigation/stack": "*",
     "axios": "*",
-    "expo-secure-store": "*",
-    "expo-updates": "*"
+    "expo-secure-store": "*"
   },
   "scripts": {
     "eas-build-pre-install": "cd ../../ && node tools/scripts/eas-build-pre-install.mjs . apps/mobile-test && cp package-lock.json apps/mobile-test",

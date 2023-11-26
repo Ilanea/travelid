@@ -8,13 +8,18 @@ const RegisterScreen: React.FC = () => {
   const [firstName, setFirstname] = useState('');
   const [lastName, setLastname] = useState('');
   const [password, setPassword] = useState('');
-  const { onSignup } = useAuth();
+  const { onSignup, onLogin } = useAuth();
 
   const handleSignup = async () => {
     if (onSignup) {
       try {
-        const result = await onSignup(userName, email, password, firstName, lastName);  
-        console.log('Signup result:', result);
+        await onSignup(userName, email, password, firstName, lastName);
+        if(onLogin)
+          try {
+            await onLogin(email, password);
+          } catch (error) {
+            console.error('Login after Signup failed:', error);
+          }
       } catch (error) {
         console.error('Signup failed:', error);
       }

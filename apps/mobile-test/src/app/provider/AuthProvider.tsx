@@ -1,14 +1,12 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { API_URL } from "@env";
+import { API_URL } from '../constants/constants';
 
 interface User {
+  id: number;
   userName: string;
   email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
 }
 
 interface AuthProps {
@@ -40,7 +38,7 @@ export class AuthProviderClass {
 
   public async init(): Promise<void> {
     if(API_URL === undefined) {
-      console.error('API_URL is undefined, please check your .env file');
+      console.error('API_URL is undefined, please check your constants');
       return;
     }
     await this.loadToken();
@@ -161,7 +159,7 @@ export const AuthProvider = ({ children }: any) => {
       authProvider.setAuthStateChangeCallback(() => setAuthState(authProvider.getAuthState()));
       await authProvider.init();
       const newAuthState = authProvider.getAuthState();
-      console.log('New AuthState after init:', newAuthState);
+      //console.log('New AuthState after init:', newAuthState);
       setAuthState(newAuthState);
       setIsInitialized(true);
     };
