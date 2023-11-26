@@ -24,11 +24,11 @@ const Welcome = () => {
       <Pressable style={[styles.loginregister, styles.registerFlexBox]}>
         <Pressable
           style={styles.login}
-          onPress={() => navigation.navigate("Home")}
+          onPress={() => navigation.navigate("LoginScreen")}
         >
           <Pressable
             style={[styles.backgroundlogin, styles.backgroundloginSpaceBlock]}
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => navigation.navigate("LoginScreen")}
           >
             <Text style={styles.login1}>Login</Text>
           </Pressable>

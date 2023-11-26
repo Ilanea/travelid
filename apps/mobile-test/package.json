@@ -16,12 +16,16 @@
     "expo-secure-store": "~12.3.1",
     "expo-status-bar": "~1.6.0",
     "expo-updates": "*",
+    "expo-constants": "~13.0.2",
+    "@expo/vector-icons": "^12.0.0",
     "metro-config": "*",
     "react": "*",
     "react-native": "0.72.6",
     "react-native-svg": "13.9.0",
     "react-native-svg-transformer": "*",
-    "react-native-web": "*"
+    "react-native-web": "*",
+    "react-native-paper": "4.9.2",
+    "react-native-dropdown-select-list": "2.0.0"
   },
   "scripts": {
     "eas-build-pre-install": "cd ../../ && node tools/scripts/eas-build-pre-install.mjs . apps/mobile-test && cp package-lock.json apps/mobile-test",
