@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const LoadingScreen: React.FC = () => {
+const LoadingScreen = () => {
   return (
     <View>
       <Text>We are loading!</Text>
