@@ -22,10 +22,9 @@ const useChangeUser = () => {
 
       if (type === 'changePassword') {
         console.log("TODO: change password");
-
-        /*userResponse = await changePassword(userId, signData);
-        console.log('response', userResponse);*/
-
+        userResponse = await changePassword(userId, signData);
+        console.log('response', userResponse);
+        setIsLoading(false);
       } else if (type === 'changeUserData') {
         userResponse = await changeData(userId, signData);
         window.location.reload();
