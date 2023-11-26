@@ -32,7 +32,7 @@ export class UserProviderClass {
       );
 
       // Update the bonuspoints in the local state
-      this.updateBonuspoints(bonuspoints);
+      this.setBonuspoints(bonuspoints);
 
       // Update User Info in SecureStore
       await SecureStore.setItemAsync('userInfo', JSON.stringify(result.data));
