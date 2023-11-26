@@ -88,7 +88,7 @@ const RegisterStep3 = () => {
         onPress={() => {
           onSignup?.(username, password, email)
             .then(() => {
-              navigation.navigate('Home');
+              navigation.navigate('LoginScreen');
             })
             .catch((error) => {
               console.error('Registration error:', error);
