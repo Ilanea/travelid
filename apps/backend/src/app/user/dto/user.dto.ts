@@ -1,4 +1,4 @@
-import { IsBoolean, IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsEmail, IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Role } from '../../auth/roles/role.enum';
 
@@ -106,3 +106,9 @@ export class UploadAvatarDto {
   @ApiProperty()
   file: BinaryData;
 }
+
+export class EditBonusPointsDto {
+  @ApiProperty()
+  @IsNumber()
+  bonusPoints: number;
+} 

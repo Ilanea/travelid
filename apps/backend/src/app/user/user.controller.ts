@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query, Req, Res, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthenticatedGuard, RolesGuard } from '../auth/guard';
-import { ChangePasswordDto, ChangeRoleDto, EditUserDto, ChangeActiveDto } from './dto';
+import { ChangePasswordDto, ChangeRoleDto, EditUserDto, ChangeActiveDto, EditBonusPointsDto } from './dto';
 import { UserService } from './user.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { ApiTags, ApiCookieAuth, ApiConsumes, ApiBody } from '@nestjs/swagger';
@@ -69,6 +69,12 @@ export class UserController {
   @Patch('/:userId/active')
   async changeActive(@Param('userId') userId: string, @Body() dto: ChangeActiveDto) {
     return await this.userService.changeActive(parseInt(userId), dto);
+  }
+
+  @CheckPolicies(EditUserHandler)
+  @Patch('/:userId/bonuspoints')
+  async changeBonusPoints(@Param('userId') userId: string, @Body() dto: EditBonusPointsDto) {
+    return await this.userService.changeBonusPoints(parseInt(userId), dto);
   }
 
   @ApiConsumes('multipart/form-data')

@@ -162,5 +162,24 @@ export class UserService {
 
     return user;
   }
+
+  async changeBonusPoints(userId: number, dto) {
+    const user = await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        bonusPoints: dto.bonusPoints,
+      },
+    });
+
+    if(!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    delete user.passwordHash;
+
+    return user;
+  }
   
 }

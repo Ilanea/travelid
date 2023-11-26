@@ -34,15 +34,16 @@ model User {
   avatar    String?
 
   gender String?
-
   street String?
   city String?
   country String?
   nationality String?
-  birthday String?
+  birthday DateTime?
   documentNo String?
   mobilePhone String?
   phone String?
+
+  bonusPoints Int @default(0)
 
   hotelsAsAdmin        Hotel[] @relation(name: "Admins")
   hotelsAsReceptionist Hotel[] @relation(name: "Receptionists")

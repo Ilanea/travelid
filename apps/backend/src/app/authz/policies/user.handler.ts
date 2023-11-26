@@ -16,7 +16,16 @@ const dummyUser: User = {
   firstName: '',
   lastName: '',
   avatar: '',
-  totalBonuspoints: 0,
+  gender: '',
+  street: '',
+  city: '',
+  country: '',
+  nationality: '',
+  birthday: new Date(),
+  documentNo: '',
+  mobilePhone: '',
+  phone: '',
+  bonusPoints: 0,
 };
 
 export class ReadUserHandler implements IPolicyHandler {
