@@ -10,9 +10,9 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { text } from 'stream/consumers';
+//import { text } from 'stream/consumers';
 
-import { Border, Color, FontSize, Padding } from '../../GlobalStyles';
+import { Border, Color, FontSize, Padding } from '../../../GlobalStyles';
 import { useAuth } from '../provider/AuthProvider';
 
 const RegisterStep1 = () => {
@@ -185,7 +185,7 @@ const RegisterStep1 = () => {
           <Image
             style={styles.arrowForwardIcon}
             contentFit="cover"
-            source={require('../../assets/arrow-forward.png')}
+            source={require('../pics/arrow-forward.png')}
           />
         </Pressable>
       </View>

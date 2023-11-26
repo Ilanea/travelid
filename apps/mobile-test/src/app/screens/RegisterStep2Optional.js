@@ -12,12 +12,77 @@ import {
 
 import { Border, Color, FontSize, Padding } from '../../../GlobalStyles';
 import { useAuth } from '../provider/AuthProvider';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const RegisterStep2Optional = () => {
   const navigation = useNavigation();
   const { onSignup } = useAuth();
 
   const [comment, setComment] = useState('');
+  const [roomOpen, setRoomOpen] = useState(false);
+  const [roomValue, setRoomValue] = useState();
+  const [roomItems, setRoomItems] = useState([
+    { value: "quiet", label: "quiet" },
+    { value: "high ceiling", label: "high ceiling" },
+    { value: "near to elevator", label: "near to elevator" },
+    { value: "balcony / terrace", label: "balcony / terrace" },
+  ]);
+  const [houseKeepingOpen, setHouseKeepingOpen] = useState(false);
+  const [houseKeepingValue, setHouseKeepingValue] = useState();
+  const [houseKeepingItems, setHouseKeepingItems] = useState([
+    { value: "extra pillow", label: "extra pillow" },
+    { value: "bathrobe", label: "bathrobe" },
+    { value: "slipper", label: "slipper" },
+    { value: "cleaning room", label: "cleaning room" },
+  ]);
+  const [disabilitiesOpen, setDisabilitiesOpen] = useState(false);
+  const [disabilitiesValue, setDisabilitiesValue] = useState();
+  const [disabilitiesItems, setDisabilitiesItems] = useState([
+    { value: "barrier-free", label: "barrier-free" },
+    { value: "deaf", label: "deaf" },
+    { value: "debility of sight", label: "debility of sight" },
+    { value: "other", label: "other" },
+  ]);
+  const [interestsOpen, setInterestsOpen] = useState(false);
+  const [interestsValue, setInterestsValue] = useState();
+  const [interestsItems, setInterestsItems] = useState([
+    { value: "sightseeing", label: "sightseeing" },
+    { value: "culture", label: "culture" },
+    { value: "sport", label: "sport" },
+    { value: "family", label: "family" },
+  ]);
+  const [serviceOpen, setServiceOpen] = useState(false);
+  const [serviceValue, setServiceValue] = useState();
+  const [serviceItems, setServiceItems] = useState([
+    { value: "quick check-in", label: "quick check-in" },
+    { value: "detailed explaination", label: "detailed explaination" },
+    { value: "with to be contacted", label: "with to be contacted" },
+    { value: "standard", label: "standard" },
+  ]);
+  const [allergiesOpen, setAllergiesOpen] = useState(false);
+  const [allergiesValue, setAllergiesValue] = useState();
+  const [allergiesItems, setAllergiesItems] = useState([
+    { value: "gluten", label: "gluten" },
+    { value: "lactose", label: "lactose" },
+    { value: "animal hair", label: "animal hair" },
+    { value: "eggs", label: "eggs" },
+  ]);
+  const [languageOpen, setLanguageOpen] = useState(false);
+  const [languageValue, setLanguageValue] = useState();
+  const [languageItems, setLanguageItems] = useState([
+    { value: "German", label: "German" },
+    { value: "English", label: "English" },
+    { value: "Italien", label: "Italien" },
+    { value: "other", label: "other" },
+  ]);
+  const [additionOpen, setAdditionOpen] = useState(false);
+  const [additionValue, setAdditionValue] = useState();
+  const [additionItems, setAdditionItems] = useState([
+    { value: "vehicle", label: "vehicle" },
+    { value: "children", label: "children" },
+    { value: "pets", label: "pets" },
+    {value: "wish to receive Newsletter",label: "wish to receive Newsletter" },
+  ]);
 
   return (
     <View style={[styles.registerStep2Optional, styles.buttonShadowBox]}>
@@ -49,6 +114,96 @@ const RegisterStep2Optional = () => {
                 });
             }}
           >
+          <View style={styles.entriesregistration2}>
+            <View style={styles.roomLayout}>
+              <DropDownPicker
+                open={roomOpen}
+                setOpen={setRoomOpen}
+                value={roomValue}
+                setValue={setRoomValue}
+                placeholder="Room"
+                items={roomItems}
+                labelStyle={styles.roomValue}
+              />
+            </View>
+            <View style={[styles.houseKeeping, styles.roomLayout]}>
+              <DropDownPicker
+                open={houseKeepingOpen}
+                setOpen={setHouseKeepingOpen}
+                value={houseKeepingValue}
+                setValue={setHouseKeepingValue}
+                placeholder="Housekeeping"
+                items={houseKeepingItems}
+                labelStyle={styles.houseKeepingValue}
+              />
+            </View>
+            <View style={[styles.houseKeeping, styles.roomLayout]}>
+              <DropDownPicker
+                open={disabilitiesOpen}
+                setOpen={setDisabilitiesOpen}
+                value={disabilitiesValue}
+                setValue={setDisabilitiesValue}
+                placeholder="Disabilities"
+                items={disabilitiesItems}
+                labelStyle={styles.disabilitiesValue}
+              />
+            </View>
+            <View style={[styles.houseKeeping, styles.roomLayout]}>
+              <DropDownPicker
+                open={interestsOpen}
+                setOpen={setInterestsOpen}
+                value={interestsValue}
+                setValue={setInterestsValue}
+                placeholder="Interests"
+                items={interestsItems}
+                labelStyle={styles.interestsValue}
+              />
+            </View>
+            <View style={[styles.houseKeeping, styles.roomLayout]}>
+              <DropDownPicker
+                open={serviceOpen}
+                setOpen={setServiceOpen}
+                value={serviceValue}
+                setValue={setServiceValue}
+                placeholder="Service"
+                items={serviceItems}
+                labelStyle={styles.serviceValue}
+              />
+            </View>
+            <View style={[styles.houseKeeping, styles.roomLayout]}>
+              <DropDownPicker
+                open={allergiesOpen}
+                setOpen={setAllergiesOpen}
+                value={allergiesValue}
+                setValue={setAllergiesValue}
+                placeholder="Allergies"
+                items={allergiesItems}
+                labelStyle={styles.allergiesValue}
+              />
+            </View>
+            <View style={[styles.houseKeeping, styles.roomLayout]}>
+              <DropDownPicker
+                open={languageOpen}
+                setOpen={setLanguageOpen}
+                value={languageValue}
+                setValue={setLanguageValue}
+                placeholder="Language"
+                items={languageItems}
+                labelStyle={styles.languageValue}
+              />
+            </View>
+            <View style={[styles.houseKeeping, styles.roomLayout]}>
+              <DropDownPicker
+                open={additionOpen}
+                setOpen={setAdditionOpen}
+                value={additionValue}
+                setValue={setAdditionValue}
+                placeholder="Additional Information"
+                items={additionItems}
+                labelStyle={styles.additionValue}
+              />
+            </View>
+          </View>  
             <Text style={[styles.labelText, styles.skipTypo]}>Save</Text>
             <Image
               style={[styles.arrowForwardIcon, styles.arrowIconLayout]}

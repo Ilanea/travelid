@@ -8,7 +8,7 @@ import {
   Image, 
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Padding, Border, Color, FontSize, FontFamily } from "../../../GlobalStyles";
+import { Padding, Border, Color, FontSize, } from "../../../GlobalStyles";
 import { StatusBar } from 'react-native';
 
 const Welcome = () => {
