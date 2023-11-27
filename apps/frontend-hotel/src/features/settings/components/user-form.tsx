@@ -41,7 +41,7 @@ const UserForm = () => {
   const authUser = useAuthStore((state) => state.user);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    changeUser(values, 'changePassword');
+    changeUser(values, 'changeUserData');
   }
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -112,14 +112,15 @@ const UserForm = () => {
                 </FormItem>
               )}
             />
+            <Button disabled={isLoading} className="mt-2">
+              {isLoading && <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />}
+              Update profile
+            </Button>
           </form>
         </Form>
       </CardContent>
       <CardFooter>
-        <Button disabled={isLoading} className="mt-2">
-          {isLoading && <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />}
-          Update profile
-        </Button>
+
       </CardFooter>
     </Card>
   );
