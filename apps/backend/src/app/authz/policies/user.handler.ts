@@ -25,7 +25,7 @@ const dummyUser: User = {
   documentNo: '',
   mobilePhone: '',
   phone: '',
-  bonusPoints: 0,
+  bonuspoints: 0,
 };
 
 export class ReadUserHandler implements IPolicyHandler {

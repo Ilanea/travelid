@@ -107,8 +107,8 @@ export class UploadAvatarDto {
   file: BinaryData;
 }
 
-export class EditBonusPointsDto {
+export class EditBonuspointsDto {
   @ApiProperty()
   @IsNumber()
-  bonusPoints: number;
+  bonuspoints: number;
 } 
