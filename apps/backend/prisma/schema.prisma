@@ -95,7 +95,7 @@ model Booking {
 
   description String?
   price       Float?
-  starDate    DateTime?
+  startDate    DateTime?
   endDate     DateTime?
 
   hotel   Hotel @relation(fields: [hotelId], references: [id])

@@ -5,6 +5,6 @@ import { AuthService } from '../auth/auth.service';
 
 @Module({
   controllers: [HotelController],
-  providers: [HotelService, AuthService ]
+  providers: [HotelService, AuthService]
 })
 export class HotelModule {}
