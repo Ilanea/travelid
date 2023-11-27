@@ -1,3 +1,4 @@
 export * from './auth.guard';
 export * from './role.guard';
 export * from './authenticated.guard';
+export * from './api-key.guard';

@@ -33,8 +33,7 @@ export class HotelController {
   }
 
   @Roles(Role.HOTELADMIN || Role.ADMIN)
-  @UseGuards(AuthenticatedGuard)
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AuthenticatedGuard, PoliciesGuard)
   @CheckPolicies(ManageHotelHandler)
   @ApiCookieAuth()
   @Post('')
@@ -42,8 +41,7 @@ export class HotelController {
     return await this.hotelService.createHotel(dto, request.session.user.id);
   }
 
-  @UseGuards(AuthenticatedGuard)
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AuthenticatedGuard, PoliciesGuard)
   @CheckPolicies(EditHotelHandler)
   @ApiCookieAuth()
   @Patch('/:hotelId')
@@ -52,8 +50,7 @@ export class HotelController {
   }
 
   @Roles(Role.ADMIN)
-  @UseGuards(AuthenticatedGuard)
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AuthenticatedGuard, PoliciesGuard)
   @CheckPolicies(ManageHotelHandler)
   @ApiCookieAuth()
   @Delete('/:hotelId')
@@ -64,8 +61,7 @@ export class HotelController {
   // BOOKINGS
 
   @Roles(Role.HOTELADMIN || Role.ADMIN)
-  @UseGuards(AuthenticatedGuard)
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AuthenticatedGuard, PoliciesGuard)
   @CheckPolicies(EditHotelHandler)
   @ApiCookieAuth()
   @Get('/:hotelId/bookings')
@@ -88,8 +84,7 @@ export class HotelController {
     return await this.hotelService.createReview(dto, parseInt(hotelId), request.session.user.id);
   }
 
-  @UseGuards(AuthenticatedGuard)
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AuthenticatedGuard, PoliciesGuard)
   @CheckPolicies(EditReviewHandler)
   @ApiCookieAuth()
   @Patch('/:hotelId/reviews/:reviewId')
@@ -98,8 +93,7 @@ export class HotelController {
   }
 
   @Roles(Role.ADMIN)
-  @UseGuards(AuthenticatedGuard)
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AuthenticatedGuard, PoliciesGuard)
   @CheckPolicies(DeleteReviewHandler)
   @ApiCookieAuth()
   @Delete('/:hotelId/reviews/:reviewId')
@@ -115,8 +109,7 @@ export class HotelController {
   }
 
   @Roles(Role.HOTELADMIN || Role.ADMIN)
-  @UseGuards(AuthenticatedGuard)
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AuthenticatedGuard, PoliciesGuard)
   @CheckPolicies(ManageHotelHandler)
   @ApiCookieAuth()
   @Post('/:hotelId/categories')
@@ -125,8 +118,7 @@ export class HotelController {
   }
 
   @Roles(Role.HOTELADMIN || Role.ADMIN)
-  @UseGuards(AuthenticatedGuard)
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AuthenticatedGuard, PoliciesGuard)
   @CheckPolicies(ManageHotelHandler)
   @ApiCookieAuth()
   @Delete('/:hotelId/categories/:categoryId')

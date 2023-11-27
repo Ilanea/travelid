@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import * as argon from 'argon2';
+import * as crypto from 'crypto';
 import { ChangePasswordDto, EditUserDto } from './dto';
 import { Role } from '../auth/roles/role.enum';
 
@@ -161,6 +162,39 @@ export class UserService {
     delete user.passwordHash;
 
     return user;
+  }
+
+  async createUserApiKey(userId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if(!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    const apiKeyLength = 128;
+    const randomBytes = crypto.randomBytes(apiKeyLength / 2);
+    const apiKey = randomBytes.toString('hex');
+
+    const encryptedApiKey = await argon.hash(apiKey);
+
+    const newUser = await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        apiKey: encryptedApiKey,
+      },
+    });
+
+    if(newUser.apiKey != null) {
+      return apiKey;
+    } else {
+      throw new BadRequestException('Could not create API key');
+    }
   }
   
 }

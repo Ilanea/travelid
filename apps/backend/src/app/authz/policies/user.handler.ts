@@ -12,6 +12,7 @@ const dummyUser: User = {
   userName: '',
   email: '',
   passwordHash: '',
+  apiKey: '',
   firstName: '',
   lastName: '',
   avatar: '',

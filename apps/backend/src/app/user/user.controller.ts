@@ -71,6 +71,12 @@ export class UserController {
     return await this.userService.changeActive(parseInt(userId), dto);
   }
 
+  @CheckPolicies(EditUserHandler)
+  @Get('/:userId/api-key')
+  async createUserApiKey(@Param('userId') userId: string) {
+    return await this.userService.createUserApiKey(parseInt(userId));
+  }
+
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     description: 'Avatar',
