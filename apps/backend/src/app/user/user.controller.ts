@@ -77,6 +77,16 @@ export class UserController {
     return await this.userService.changeBonuspoints(parseInt(userId), dto);
   }
 
+  @CheckPolicies(ReadUserHandler)
+  @Get('/:userId/bookings')
+  async getAllUserBookings(
+    @Param('userId') userId: string,
+    @Query('page') page: string,
+    @Query('pageSize') pageSize: string,
+    ) {
+    return await this.userService.getAllUserBookings(parseInt(userId), parseInt(page), parseInt(pageSize));
+  }
+
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     description: 'Avatar',

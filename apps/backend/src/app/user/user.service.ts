@@ -181,5 +181,17 @@ export class UserService {
 
     return user;
   }
+
+  async getAllUserBookings(userId: number, page: number, pageSize: number) {
+    const skip = (page - 1) * pageSize;
+    const bookings = await this.prisma.booking.findMany({
+      where: {
+        userId,
+      },
+      skip,
+      take: pageSize,
+    });
+    return bookings;
+  }
   
 }
