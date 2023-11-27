@@ -233,8 +233,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     shadowOpacity: 1,
     shadowOffset: {
-      width: 0,
-      height: 40,
+    width: 0,
+    height: 40,
     },
   },
   groupChildPosition: {
@@ -262,6 +262,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontWeight: '600',
     fontSize: FontSize.size_base,
+    top: '10%',
   },
   groupChild: {
     height: '100%',
@@ -338,7 +339,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   frameParent: {
-    marginTop: 27,
+    marginTop: 100,
     justifyContent: 'center',
     alignItems: 'center',
   },
