@@ -90,7 +90,7 @@ const LoginScreen = () => {
           <Pressable
             style={styles.button}
             onPress={() => {
-              onSignup?.(username, password, email).then(() => {
+              handleLogin().then(() => {
                 navigation.navigate('Home');
               });
             }}
