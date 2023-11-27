@@ -11,9 +11,10 @@ datasource db {
 }
 
 enum Role {
-  USER
+  GUEST
   ADMIN
-  HOTELMANAGER
+  HOTELADMIN
+  HOTELRECEPTIONIST
 }
 
 model User {
@@ -22,7 +23,7 @@ model User {
   updatedAt DateTime @updatedAt
   active    Boolean  @default(true)
 
-  role Role @default(USER)
+  role Role @default(GUEST)
 
   userName     String? @unique
   email        String  @unique
@@ -30,9 +31,13 @@ model User {
 
   firstName String?
   lastName  String?
+  avatar    String?
 
-  HotelManager Hotel[]
-  Booking      Booking[]
+  hotelsAsAdmin        Hotel[] @relation(name: "Admins")
+  hotelsAsReceptionist Hotel[] @relation(name: "Receptionists")
+
+  Booking Booking[]
+  reviews Review[]
 
   @@map("users")
 }
@@ -44,16 +49,43 @@ model Hotel {
 
   name        String  @unique
   email       String  @unique
-  phoneNumber String  @unique
+  phoneNumber String
   address     String
   description String?
 
-  managedBy   User @relation(fields: [managedById], references: [id])
-  managedById Int
+  categories Category[]
+  reviews    Review[]
+
+  admins        User[] @relation(name: "Admins")
+  receptionists User[] @relation(name: "Receptionists")
 
   Booking Booking[]
 
   @@map("hotels")
+}
+
+model Category {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  hotel Hotel[]
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  text      String
+  rating    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  hotelId Int
+  hotel   Hotel @relation(fields: [hotelId], references: [id])
+  userId  Int
+  user    User  @relation(fields: [userId], references: [id])
 }
 
 model Booking {

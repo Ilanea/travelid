@@ -52,4 +52,9 @@ export class AuthController{
     return { message: 'Logout successful' };
   }
 
+  @Get('verify-session')
+  async verifySession(@Req() request) {
+    return request.session.user;
+  }
+
 }
