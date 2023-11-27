@@ -2,7 +2,13 @@ import { Redirect, Stack } from 'expo-router';
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
+import { updateBonuspoints } from '../provider/UserProvider.js';
 import { theme } from '../theme/theme.js';
+
+//import User from '../models/User.js';
+
+//User user = new User();
+//updateBonuspoints(user, 100);
 
 export default function BonuspunktePage() {
   return (
