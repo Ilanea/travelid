@@ -69,8 +69,12 @@ export class HotelController {
   @CheckPolicies(EditHotelHandler)
   @ApiCookieAuth()
   @Get('/:hotelId/bookings')
-  async getAllHotelBookings(@Param('hotelId') hotelId: string) {
-    return await this.hotelService.getAllHotelBookings(parseInt(hotelId));
+  async getAllHotelBookings(
+    @Param('hotelId') hotelId: string,
+    @Query('page') page: string,
+    @Query('pageSize') pageSize: string,
+    ) {
+    return await this.hotelService.getAllHotelBookings(parseInt(hotelId), parseInt(page), parseInt(pageSize));
   }
 
 

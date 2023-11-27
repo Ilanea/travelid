@@ -162,5 +162,36 @@ export class UserService {
 
     return user;
   }
+
+  async changeBonuspoints(userId: number, dto) {
+    const user = await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        bonuspoints: dto.bonuspoints,
+      },
+    });
+
+    if(!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    delete user.passwordHash;
+
+    return user;
+  }
+
+  async getAllUserBookings(userId: number, page: number, pageSize: number) {
+    const skip = (page - 1) * pageSize;
+    const bookings = await this.prisma.booking.findMany({
+      where: {
+        userId,
+      },
+      skip,
+      take: pageSize,
+    });
+    return bookings;
+  }
   
 }

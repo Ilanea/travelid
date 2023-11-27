@@ -87,7 +87,8 @@ export class HotelService {
     }
   }
 
-  async getAllHotelBookings(hotelId: number) {
+  async getAllHotelBookings(hotelId: number, page: number, pageSize: number) {
+    const skip = (page - 1) * pageSize;
     const hotel = await this.prisma.hotel.findUnique({
       where: {
         id: hotelId,
@@ -97,6 +98,8 @@ export class HotelService {
       throw new NotFoundException('Hotel not found');
     }
     const bookings = await this.prisma.booking.findMany({
+      skip,
+      take: pageSize,
       where: {
         hotelId: hotelId,
       },
