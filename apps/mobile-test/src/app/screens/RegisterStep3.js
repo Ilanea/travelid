@@ -70,11 +70,12 @@ const RegisterStep3 = () => {
             placeholderTextColor="#546a83"
           />
           <TextInput
-            style={styles.ovalregister3}
+            style={styles.ovalregister3} //, {marginTop: 50}] // Add marginTop
             placeholder={`E-Mail`}
             placeholderTextColor="#546a83"
             value={email}
             onChangeText={(text) => setEmail(text)}
+            //keyboardType="email-address"
           />
         </View>
       </View>
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
     height: 17,
   },
   entriesregistration3Child: {
-    height: 39,
+    //height: 39,
   },
   ovalregister3: {
     backgroundColor: Color.colorSlategray_200,

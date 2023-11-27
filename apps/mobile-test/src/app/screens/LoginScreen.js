@@ -1,10 +1,7 @@
 import * as React from "react";
 //import { Image } from "expo-image";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
+import {StyleSheet,Text,View,
+TextInput,
   Pressable,
   ImageBackground,
   Linking,
@@ -12,6 +9,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from '../provider/AuthProvider';
+import { useState } from 'react';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -87,7 +85,7 @@ const LoginScreen = () => {
           </View>
           <Pressable
             style={styles.button}
-            onPress={() => navigation.navigate("Home")}
+            onPress={handleLogin}
           >
             <Text style={[styles.labelText, styles.labelTextTypo]}>Login</Text>
             <Image
