@@ -163,13 +163,13 @@ export class UserService {
     return user;
   }
 
-  async changeBonusPoints(userId: number, dto) {
+  async changeBonuspoints(userId: number, dto) {
     const user = await this.prisma.user.update({
       where: {
         id: userId,
       },
       data: {
-        bonusPoints: dto.bonusPoints,
+        bonuspoints: dto.bonuspoints,
       },
     });
 

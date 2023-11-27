@@ -43,7 +43,7 @@ model User {
   mobilePhone String?
   phone String?
 
-  bonusPoints Int @default(0)
+  bonuspoints Int @default(0)
 
   hotelsAsAdmin        Hotel[] @relation(name: "Admins")
   hotelsAsReceptionist Hotel[] @relation(name: "Receptionists")
