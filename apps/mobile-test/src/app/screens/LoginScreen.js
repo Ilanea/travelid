@@ -11,13 +11,31 @@ import {
   Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useAuth } from '../provider/AuthProvider';
 
-const Welcome = () => {
+const LoginScreen = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  //const navigation = useNavigation();
+  const { onLogin } = useAuth();
+
+  const handleLogin = async () => {
+    if (onLogin) {
+      try {
+        await onLogin(email, password);
+        console.log('Login successful');
+      } catch (error) {
+        console.error('Login failed:', error);
+      }
+    } else {
+      console.error('onLogin is undefined');
+    }
+  };
   const navigation = useNavigation();
 
   return (
     <ImageBackground
-    style={{width: '100%', height: '100%'}}
+      style={{width: '100%', height: '100%'}}
       //resizeMode="cover"
       source={require("../pics/welcome.png")}
     >
@@ -39,6 +57,8 @@ const Welcome = () => {
                   style={styles.username}
                   placeholder="Username"
                   placeholderTextColor="#263238"
+                  onChangeText={(text) => setEmail(text)}
+                  value={email}
                 />
               </View>
               <View style={[styles.passwordWrapper, styles.wrapperFlexBox]}>
@@ -47,6 +67,8 @@ const Welcome = () => {
                   placeholder="Password"
                   secureTextEntry={true}
                   placeholderTextColor="#263238"
+                  onChangeText={(text) => setPassword(text)}
+                  value={password}                  
                 />
               </View>
             </View>
@@ -226,4 +248,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Welcome;
+export default LoginScreen;
