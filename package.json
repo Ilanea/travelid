@@ -11,11 +11,15 @@
     "prisma:deploy": "cd apps/backend && prisma migrate deploy",
     "prisma:dev": "cd apps/backend && prisma migrate dev",
     "prisma:generate": "cd apps/backend && prisma generate",
+    "prisma:seed": "cd apps/backend && node prisma/seed.js",
     "db:up": "docker-compose up dev-db -d",
     "db:rm": "docker compose rm dev-db -s -f -v",
     "docker-up": "docker compose up -d",
     "format": "prettier --write .",
     "lint": "nx run-many --target=lint --all"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} ./apps/backend/prisma/seed.ts"
   },
   "husky": {
     "hooks": {
