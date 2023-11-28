@@ -4,13 +4,11 @@ import { useState } from 'react';
 import {
   Image,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
-//import { text } from 'stream/consumers';
 
 import { Border, Color, FontSize, Padding } from '../../../GlobalStyles';
 import { useAuth } from '../provider/AuthProvider';
@@ -19,234 +17,179 @@ const RegisterStep1 = () => {
   const navigation = useNavigation();
   const { onSignup } = useAuth();
 
-  const [gender, setGender] = useState('');
-  const [academicDegree, setAcademicDegree] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [street, setStreet] = useState('');
-  const [city, setCity] = useState('');
-  const [country, setCountry] = useState('');
-  const [nationality, setNationality] = useState('');
-  const [birthday, setBirthday] = useState('');
-  const [documentNo, setDocumentNo] = useState('');
-  const [mobilePhone, setMobilePhone] = useState('');
-  const [phone, setPhone] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
   return (
-    <ScrollView
-      style={styles.registerStep1}
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.registerStep1Content}
-    >
-      <Text style={[styles.headline, styles.headlineTypo]}>Register here</Text>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Gender"
-          placeholderTextColor="#546a83"
-          value={gender}
-          onChangeText={(text) => setGender(text)}
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Academic Degree"
-          placeholderTextColor="#546a83"
-          value={academicDegree}
-          onChangeText={(text) => setAcademicDegree(text)}
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Surname"
-          value={firstName}
-          onChangeText={(text) => setFirstName(text)}
-          placeholderTextColor="#546a83"
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Lastname"
-          placeholderTextColor="#546a83"
-          value={lastName}
-          onChangeText={(text) => setLastName(text)}
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Street"
-          placeholderTextColor="#546a83"
-          value={street}
-          onChangeText={(text) => setStreet(text)}
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="City"
-          placeholderTextColor="#546a83"
-          value={city}
-          onChangeText={(text) => setCity(text)}
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Country"
-          placeholderTextColor="#546a83"
-          value={country}
-          onChangeText={(text) => setCountry(text)}
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Nationality"
-          placeholderTextColor="#546a83"
-          value={nationality}
-          onChangeText={(text) => setNationality(text)}
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Birthday"
-          keyboardType="number-pad"
-          placeholderTextColor="#546a83"
-          value={birthday}
-          onChangeText={(text) => setBirthday(text)}
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Document No."
-          placeholderTextColor="#546a83"
-          value={documentNo}
-          onChangeText={(text) => setDocumentNo(text)}
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Mobile Phone"
-          keyboardType="phone-pad"
-          placeholderTextColor="#546a83"
-          value={mobilePhone}
-          onChangeText={(text) => setMobilePhone(text)}
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Phone (optional)"
-          keyboardType="phone-pad"
-          placeholderTextColor="#546a83"
-          value={phone}
-          onChangeText={(text) => setPhone(text)}
-        />
-      </View>
-      <View style={[styles.buttoncontinue, styles.buttonSpaceBlock]}>
-        <Pressable
-          style={[styles.button, styles.buttonSpaceBlock]}
-          // Sign up and display the appropriate screen
-          onPress={() => {
-            onSignup?.(
-              gender,
-              academicDegree,
-              firstName,
-              lastName,
-              street,
-              city,
-              country,
-              nationality,
-              birthday,
-              documentNo,
-              mobilePhone,
-              phone
-            )
-              .then(() => {
-                navigation.navigate('RegisterStep2Optional');
-              })
-              .catch((error) => {
-                console.error('Registration error:', error);
-                // Handle registration error
-              });
-          }}
-        >
-          <Text style={[styles.labelText, styles.labelTextFlexBox]}>
-            Continue
-          </Text>
+    <View style={styles.RegisterStep1}>
+      <Text style={styles.headline}>Say Cheese!</Text>
+      <View style={styles.frameParent}>
+        <View>
           <Image
-            style={styles.arrowForwardIcon}
+            style={styles.pngaaa1Icon}
             contentFit="cover"
-            source={require('../pics/arrow-forward.png')}
+            source={require('../pics/pngaaa-1.png')}
           />
-        </Pressable>
+          <View style={[styles.uploadYourPhotoParent, styles.buttonFlexBox]}>
+            <Text style={[styles.uploadYourPhoto, styles.labelTextTypo]}>
+              upload your photo
+            </Text>
+            <Image
+              style={styles.vectorIcon}
+              contentFit="cover"
+              source={require('../pics/vector.png')}
+            />
+          </View>
+        </View>
+        <View style={[styles.entriesregistration3, styles.buttonSpaceBlock]}>
+          <Image
+            style={[styles.entriesregistration3Child, styles.childLayout]}
+            contentFit="cover"
+            source={require('../pics/rectangle-34624092.png')}
+          />
+          <TextInput
+            style={styles.ovalregister3}
+            placeholder={`Username`}
+            placeholderTextColor="#546a83"
+            value={username}
+            onChangeText={(text) => setUsername(text)}
+          />
+          <TextInput
+            style={styles.ovalregister3}
+            placeholder={`Password`}
+            secureTextEntry={true}
+            placeholderTextColor="#546a83"
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+          />
+          <TextInput
+            style={styles.ovalregister3}
+            placeholder={`Re-enter Password`}
+            secureTextEntry={true}
+            placeholderTextColor="#546a83"
+          />
+          <TextInput
+            style={styles.ovalregister3} //, {marginTop: 50}] // Add marginTop
+            placeholder={`E-Mail`}
+            placeholderTextColor="#546a83"
+            value={email}
+            onChangeText={(text) => setEmail(text)}navigate
+            keyboardType="email-address"
+          />
+        </View>
       </View>
-    </ScrollView>
+      <Image
+        style={[styles.RegisterStep1Child, styles.childLayout]}
+        contentFit="cover"
+        source={require('../pics/rectangle-346240921.png')}
+      />
+      <Pressable
+        style={[styles.button, styles.buttonSpaceBlock]}
+        onPress={() => {
+          onSignup?.(username, password, email)
+            .then(() => {
+              navigation.navigate('RegisterStep2');
+            })
+            .catch((error) => {
+              console.error('Registration error:', error);
+              // Handle registration error
+            });
+        }}
+      >
+        <Text style={[styles.labelText, styles.labelTextTypo]}>Complete</Text>
+        <Image
+          style={styles.arrowForwardIcon}
+          contentFit="cover"
+          source={require('../pics/arrow-forward3.png')}
+        />
+      </Pressable>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  registerStep1Content: {
-    flexDirection: 'column',
-    paddingHorizontal: 50,
-    paddingTop: 70,
-    paddingBottom: 71,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  headlineTypo: {
-    fontWeight: '600',
-  },
-  labelTextFlexBox: {
-    alignItems: 'center',
+  buttonFlexBox: {
+    flexDirection: 'row',
     justifyContent: 'center',
+  },
+  labelTextTypo: {
+    display: 'flex',
+    textAlign: 'center',
+    fontWeight: '500',
+    lineHeight: 20,
+    letterSpacing: 0,
+    fontSize: FontSize.size_xs,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonSpaceBlock: {
     paddingVertical: Padding.p_3xs,
-    paddingHorizontal: 0,
     alignItems: 'center',
+  },
+  childLayout: {
+    width: 254,
+    borderRadius: Border.br_3xs,
   },
   headline: {
     fontSize: FontSize.size_base,
     color: Color.m3RefPrimaryPrimary0,
     textAlign: 'left',
+    fontWeight: '600',
   },
-  textregister1: {
-    opacity: 0.7,
-    fontSize: FontSize.size_xs,
-    flex: 1,
+  pngaaa1Icon: {
+    width: 191,
+    height: 191,
   },
-  ovalregister1: {
-    alignSelf: 'stretch',
-    borderRadius: Border.br_3xs,
+  uploadYourPhoto: {
+    color: Color.colorSlategray_100,
+    width: 125,
+    height: 17,
+  },
+  vectorIcon: {
+    width: 17,
+    height: 17,
+  },
+  uploadYourPhotoParent: {
+    width: 167,
+    marginTop: 14,
+    height: 17,
+  },
+  entriesregistration3Child: {
+    //height: 39,
+  },
+  ovalregister3: {
     backgroundColor: Color.colorSlategray_200,
+    width: 250,
     height: 40,
     paddingHorizontal: Padding.p_xs,
     paddingVertical: Padding.p_4xs,
-    marginTop: 12,
-    justifyContent: 'center',
+    marginTop: 15,
+    borderRadius: Border.br_3xs,
+    fontSize: FontSize.size_xs,
     flexDirection: 'row',
+    fontWeight: '600',
+    justifyContent: 'center',
+    alignItems: 'center',
     overflow: 'hidden',
   },
+  entriesregistration3: {
+    width: 380,
+    height: 146,
+    paddingHorizontal: 0,
+    marginTop: 9,
+  },
+  frameParent: {
+    marginTop: 75,
+    alignItems: 'center',
+  },
+  RegisterStep1Child: {
+    height: 41,
+    marginTop: 75,
+  },
   labelText: {
-    letterSpacing: 0,
-    lineHeight: 20,
-    fontWeight: '500',
-
     color: Color.m3SysLightOnPrimary,
-    textAlign: 'center',
-    display: 'flex',
     width: 66,
-    fontSize: FontSize.size_xs,
-    justifyContent: 'center',
   },
   arrowForwardIcon: {
     width: 24,
@@ -259,15 +202,13 @@ const styles = StyleSheet.create({
     backgroundColor: Color.colorPeru,
     width: 136,
     height: 44,
-    justifyContent: 'center',
+    paddingHorizontal: Padding.p_base,
     flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 75,
     overflow: 'hidden',
   },
-  buttoncontinue: {
-    height: 10,
-    marginTop: 12,
-  },
-  registerStep1: {
+  RegisterStep1: {
     backgroundColor: Color.colorGhostwhite,
     shadowColor: 'rgba(63, 82, 108, 0.4)',
     shadowOffset: {
@@ -277,10 +218,12 @@ const styles = StyleSheet.create({
     shadowRadius: 80,
     elevation: 80,
     shadowOpacity: 1,
-    width: '100%',
-    maxWidth: '100%',
-    overflow: 'hidden',
     flex: 1,
+    width: '100%',
+    height: 781,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
   },
 });
 
