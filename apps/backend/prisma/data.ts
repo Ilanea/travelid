@@ -75,6 +75,8 @@ export const bookings = [
     endDate: new Date('2021-05-03'),
     hotelId: 1,
     userId: 1,
+    status: 'BOOKED',
+    type: 'PRIVATE',
   },
   {
     price: 200,
@@ -82,6 +84,8 @@ export const bookings = [
     endDate: new Date('2021-05-03'),
     hotelId: 1,
     userId: 2,
+    status: 'CANCELLED',
+    type: 'PRIVATE',
   },
   {
     price: 300,
@@ -89,6 +93,8 @@ export const bookings = [
     endDate: new Date('2021-05-03'),
     hotelId: 1,
     userId: 3,
+    status: 'BOOKED',
+    type: 'BUSINESS',
   },
   {
     price: 400,
@@ -96,5 +102,7 @@ export const bookings = [
     endDate: new Date('2021-05-03'),
     hotelId: 1,
     userId: 4,
+    status: 'BOOKED',
+    type: 'BUSINESS',
   },
 ];

@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@libs/ui-web';
 
-import { taskSchema } from '../data/schema';
+import { bookingSchema } from '../data/schema';
 
 interface BookingsTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -20,7 +20,7 @@ interface BookingsTableRowActionsProps<TData> {
 export function BookingsTableRowActions<TData>({
   row,
 }: BookingsTableRowActionsProps<TData>) {
-  const task = taskSchema.parse(row.original);
+  const task = bookingSchema.parse(row.original);
 
   return (
     <DropdownMenu>

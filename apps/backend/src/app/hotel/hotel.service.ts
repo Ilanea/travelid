@@ -100,6 +100,24 @@ export class HotelService {
       where: {
         hotelId: hotelId,
       },
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        startDate: true,
+        endDate: true,
+        type: true,
+        status: true,
+        user: {
+          select: {
+            id: true,
+            userName: true,
+            email: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
     });
     return bookings;
   }

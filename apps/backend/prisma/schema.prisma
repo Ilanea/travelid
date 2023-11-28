@@ -97,6 +97,8 @@ model Booking {
   price       Float?
   startDate    DateTime?
   endDate     DateTime?
+  status      String
+  type        String
 
   hotel   Hotel @relation(fields: [hotelId], references: [id])
   hotelId Int

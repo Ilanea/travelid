@@ -5,6 +5,19 @@ import { Booking } from '../types';
 
 //import { AuthUser } from '../types';
 
-export const getUser = async (userId: string): Promise<Booking> => {
-  return axiosPrivate.get(`/users/${userId}`);
+export const getBookings = async (hotelId: string): Promise<Booking> => {
+  const response = await axiosPrivate.get(`/hotels/${hotelId}/bookings`);
+  const bookings = response.map((booking) => {
+    return {
+      // TODO - string?
+      id: booking.id.toString(),
+      startDate: booking.startDate,
+      endDate: booking.endDate,
+      type: booking.type,
+      status: booking.status,
+      fullName: booking.user.firstName + ' ' + booking.user.lastName,
+      email: booking.user.email,
+    };
+  });
+  return bookings;
 };
