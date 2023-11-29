@@ -19,25 +19,25 @@ export class RewardService {
     return rewards;
   }
 
-  async getReward(rewardId: number, user: User) {
+  async getReward(rewardId: number) {
     const reward = await this.prisma.reward.findUnique({
       where: { id: rewardId },
     });
     if (!reward) {
       throw new NotFoundException('Reward not found');
     }
-    if (reward.hotelId !== user.id && user.role !== Role.ADMIN) {
-      throw new UnauthorizedException('You are not allowed to access this reward');
-    }
     return reward;
   }
 
-  async createReward(dto, hotelId: number) {
+  async createReward(dto) {
+    const { hotelId, ...myReward } = dto;
     const reward = await this.prisma.reward.create({
       data: {
-        ...dto,
-        user: {
-          connect: { id: hotelId },
+        ...myReward,
+        hotel: {
+          connect: {
+            id: hotelId,
+          },
         },
       },
     });

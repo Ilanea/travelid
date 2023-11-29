@@ -1,6 +1,6 @@
 //export type Role = 'ADMIN' | 'GUEST' | 'HOTEL';
 
-export type Rewards = {
+export type Reward = {
   id: number;
   name: string;
   validFrom: string;

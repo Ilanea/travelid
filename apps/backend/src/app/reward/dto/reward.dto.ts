@@ -1,32 +1,39 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateRewardDto {
   @ApiProperty()
   @IsString()
-  @IsOptional()
-  description?: string;
+  name: string;
+
+  @ApiProperty()
+  @IsString()
+  description: string;
 
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  price?: number;
+  image?: string;
+
+  @ApiProperty()
+  @IsBoolean()
+  active: boolean;
+
+  @ApiProperty()
+  @IsNumber()
+  price: number;
 
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  startDate?: Date;
+  validFrom?: Date;
 
   @ApiPropertyOptional()
   @IsString()
   @IsOptional()
-  endDate?: Date;
+  validUntil?: Date;
 
   @ApiProperty()
   @IsNumber()
   hotelId: number;
-
-  @ApiProperty()
-  @IsNumber()
-  userId: number;
 }

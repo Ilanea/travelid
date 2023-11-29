@@ -1,9 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { CalendarIcon } from '@radix-ui/react-icons';
+import { Cloudinary } from 'cloudinary-core';
+import { format } from 'date-fns';
+import { useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 import {
   Button,
+  Calendar,
   Form,
   FormControl,
   FormDescription,
@@ -12,6 +17,9 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
   Select,
   SelectContent,
   SelectItem,
@@ -23,8 +31,12 @@ import {
 } from '@libs/ui-web';
 import { cn } from '@libs/utils';
 
+import UploadWidget from '@hotel/components/upload-widget';
+
+import useCreateEditReward from '../hooks/use-create-edit-reward';
+
 const profileFormSchema = z.object({
-  username: z
+  name: z
     .string()
     .min(2, {
       message: 'Username must be at least 2 characters.',
@@ -32,55 +44,61 @@ const profileFormSchema = z.object({
     .max(60, {
       message: 'Username must not be longer than 60 characters.',
     }),
-  subtitle: z
+  description: z
     .string()
     .min(2, {
       message: 'Subtitle must be at least 2 characters.',
     })
-    .max(80, {
+    .max(300, {
       message: 'Subtitle must not be longer than 80 characters.',
     }),
-  email: z
-    .string({
-      required_error: 'Please select an email to display.',
+  image: z
+    .string()
+    .min(2, {
+      message: 'Subtitle must be at least 2 characters.',
     })
-    .email(),
-  bio: z.string().max(1200).min(4),
-  urls: z
-    .array(
-      z.object({
-        value: z.string().url({ message: 'Please enter a valid URL.' }),
-      })
-    )
-    .optional(),
+    .max(200, {
+      message: 'Subtitle must not be longer than 80 characters.',
+    }),
+  price: z.number(),
+  active: z.boolean(),
+  validFrom: z.date(),
+  validUntil: z.date(),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 // This can come from your database or API.
 const defaultValues: Partial<ProfileFormValues> = {
-  username: 'Hotel Sacher Salzburg',
-  bio: 'Das Hotel Sacher in Salzburg gilt als eines der weltweit besten Luxushotels in der Heimatstadt Mozarts. Lassen Sie das besondere Flair von Salzburg in einzigartigem elegantem Ambiente auf sich wirken. Besuchen Sie Mozarts Geburtshaus, die Festung Hohensalzburg oder die Salzburger Festspiele und erleben Sie erstklassigen Komfort, Gastfreundlichkeit und Kultur im Herzen von Salzburg.',
-  subtitle: 'Stilvoller Luxus in Mozarts Geburtssadt',
-  urls: [
-    { value: 'https://sacher.com' },
-    { value: 'http://instagram.com/sacher' },
-  ],
+  name: 'Hotel Sacher Salzburg',
+  description:
+    'Das Hotel Sacher in Salzburg gilt als eines der weltweit besten Luxushotels in der Heimatstadt Mozarts. Lassen Sie das besondere Flair von Salzburg in einzigartigem elegantem Ambiente auf sich wirken. Besuchen Sie Mozarts Geburtshaus, die Festung Hohensalzburg oder die Salzburger Festspiele und erleben Sie erstklassigen Komfort, Gastfreundlichkeit und Kultur im Herzen von Salzburg.',
+  price: 100,
+  active: true,
+  validFrom: new Date(),
+  validUntil: new Date(),
+  image:
+    'https://media-cdn.tripadvisor.com/media/photo-s/0e/9c/0b/6a/hotel-sacher-salzburg.jpg',
 };
 
 export function RewardsForm() {
+  const { isLoading, createEditReward } = useCreateEditReward();
+
+  const [uploadedImage, setUploadedImage] = useState('');
+
+  console.log('uploadedImage', uploadedImage);
+
+  async function onSubmit(reward: ProfileFormValues) {
+    createEditReward(reward, 'createReward');
+  }
+
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
     mode: 'onChange',
   });
 
-  const { fields, append } = useFieldArray({
-    name: 'urls',
-    control: form.control,
-  });
-
-  function onSubmit(data: ProfileFormValues) {
+  /*   function onSubmit(data: ProfileFormValues) {
     toast({
       title: 'You submitted the following values:',
       description: (
@@ -89,7 +107,11 @@ export function RewardsForm() {
         </pre>
       ),
     });
-  }
+  } */
+
+  const handleOnUpload = () => {
+    console.log('upload image');
+  };
 
   return (
     <div className="space-y-6">
@@ -105,7 +127,7 @@ export function RewardsForm() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
-            name="username"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Name</FormLabel>
@@ -121,23 +143,7 @@ export function RewardsForm() {
           />
           <FormField
             control={form.control}
-            name="subtitle"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Subtitle</FormLabel>
-                <FormControl>
-                  <Input placeholder="The relax hotel..." {...field} />
-                </FormControl>
-                <FormDescription>
-                  This is a short description of your hotel.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="bio"
+            name="description"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Description</FormLabel>
@@ -154,70 +160,107 @@ export function RewardsForm() {
           />
           <FormField
             control={form.control}
-            name="email"
+            name="image"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a verified email to display" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="buchung@sacher.at">
-                      buchung@sacher.com
-                    </SelectItem>
-                    <SelectItem value="office@sacher.at">
-                      office@sacher.com
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Hotel an der Donau..." {...field} />
+                </FormControl>
                 <FormDescription>
-                  Choose a verified email address.
-                  {/*  <Link href="/examples/forms">email settings</Link>. */}
+                  This is your public display hotel name.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <div>
-            {fields.map((field, index) => (
-              <FormField
-                control={form.control}
-                key={field.id}
-                name={`urls.${index}.value`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className={cn(index !== 0 && 'sr-only')}>
-                      URLs
-                    </FormLabel>
-                    <FormDescription className={cn(index !== 0 && 'sr-only')}>
-                      Add links to your website, blog, or social media profiles.
-                    </FormDescription>
+          <FormField
+            control={form.control}
+            name="validFrom"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Valid from</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
                     <FormControl>
-                      <Input {...field} />
+                      <Button
+                        variant={'outline'}
+                        className={cn(
+                          'w-[240px] pl-3 text-left font-normal',
+                          !field.value && 'text-muted-foreground'
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, 'PPP')
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            ))}
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="mt-2"
-              onClick={() => append({ value: '' })}
-            >
-              Add URL
-            </Button>
-          </div>
-          <Button type="submit">Update profile</Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date) =>
+                        date > new Date() || date < new Date('1900-01-01')
+                      }
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="validUntil"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Valid until</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={'outline'}
+                        className={cn(
+                          'w-[240px] pl-3 text-left font-normal',
+                          !field.value && 'text-muted-foreground'
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, 'PPP')
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={(date) =>
+                        date > new Date() || date < new Date('1900-01-01')
+                      }
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <UploadWidget
+            uploadedImage={uploadedImage}
+            setUploadedImage={setUploadedImage}
+          />
+          <Button type="submit">Update reward</Button>
         </form>
       </Form>
     </div>

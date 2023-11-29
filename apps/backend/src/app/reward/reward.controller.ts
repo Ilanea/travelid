@@ -37,15 +37,17 @@ export class RewardController {
   @CheckPolicies(ReadRewardHandler)
   @ApiCookieAuth()
   @Get('/:rewardId')
-  async getReward(@Param('rewardId') rewardId: string, @Req() request) {
-    return await this.rewardService.getReward(parseInt(rewardId), request.session.user);
+  async getReward(@Param('rewardId') rewardId: string) {
+    return await this.rewardService.getReward(parseInt(rewardId));
   }
 
   @UseGuards(AuthenticatedGuard)
   @ApiCookieAuth()
   @Post('')
-  async createReward(@Body() dto: CreateRewardDto, @Req() request) {
-    return await this.rewardService.createReward(dto, request.session.user.id);
+  async createReward(@Body() dto: CreateRewardDto) {
+    console.log(dto);
+    
+    return await this.rewardService.createReward(dto);
   }
 
   @UseGuards(AuthenticatedGuard)
