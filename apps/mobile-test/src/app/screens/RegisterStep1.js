@@ -15,11 +15,29 @@ import { useAuth } from '../provider/AuthProvider';
 
 const RegisterStep1 = () => {
   const navigation = useNavigation();
-  const { onSignup } = useAuth();
+  const { onSignup, onLogin } = useAuth();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+
+  const handleSignup = async () => {
+    if (onSignup) {
+      try {
+        await onSignup(username, email, password);
+        if (onLogin)
+          try {
+            await onLogin(email, password);
+          } catch (error) {
+            console.error('Login after Signup failed:', error);
+          }
+      } catch (error) {
+        console.error('Signup failed:', error);
+      }
+    } else {
+      console.error('onSignup is undefined');
+    }
+  };
 
   return (
     <View style={styles.RegisterStep1}>
@@ -74,7 +92,8 @@ const RegisterStep1 = () => {
             placeholder={`E-Mail`}
             placeholderTextColor="#546a83"
             value={email}
-            onChangeText={(text) => setEmail(text)}navigate
+            onChangeText={(text) => setEmail(text)}
+            navigate
             keyboardType="email-address"
           />
         </View>
@@ -87,7 +106,7 @@ const RegisterStep1 = () => {
       <Pressable
         style={[styles.button, styles.buttonSpaceBlock]}
         onPress={() => {
-          onSignup?.(username, password, email)
+          handleSignup?.(username, password, email)
             .then(() => {
               navigation.navigate('RegisterStep2');
             })

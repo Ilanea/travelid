@@ -10,14 +10,12 @@ import {
   TextInput,
   View,
 } from 'react-native';
-//import { text } from 'stream/consumers';
 
+//import { text } from 'stream/consumers';
 import { Border, Color, FontSize, Padding } from '../../../GlobalStyles';
-import { useAuth } from '../provider/AuthProvider';
 
 const RegisterStep2 = () => {
   const navigation = useNavigation();
-  const { onSignup } = useAuth();
 
   const [gender, setGender] = useState('');
   const [academicDegree, setAcademicDegree] = useState('');
@@ -154,29 +152,11 @@ const RegisterStep2 = () => {
       <View style={[styles.buttoncontinue, styles.buttonSpaceBlock]}>
         <Pressable
           style={[styles.button, styles.buttonSpaceBlock]}
-          // Sign up and display the appropriate screen
+          // Missing Backend Function:
+          // Store optional Data from Textinputs in Database
+
           onPress={() => {
-            onSignup?.(
-              gender,
-              academicDegree,
-              firstName,
-              lastName,
-              street,
-              city,
-              country,
-              nationality,
-              birthday,
-              documentNo,
-              mobilePhone,
-              phone
-            )
-              .then(() => {
-                navigation.navigate('RegisterStep3Optional');
-              })
-              .catch((error) => {
-                console.error('Registration error:', error);
-                // Handle registration error
-              });
+            navigation.navigate('RegisterStep3Optional');
           }}
         >
           <Text style={[styles.labelText, styles.labelTextFlexBox]}>

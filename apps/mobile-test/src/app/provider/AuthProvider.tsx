@@ -97,23 +97,7 @@ export class AuthProviderClass {
     }
   }
 
-  public async signup(
-    userName: string,
-    email: string,
-    password: string,
-    gender: string,
-    academicDegree: string,
-    firstName: string,
-    lastName: string,
-    street: string,
-    city: string,
-    country: string,
-    nationality: string,
-    birthday: string,
-    documentNo: string,
-    mobilePhone: string,
-    phone: string
-  ) {
+  public async signup(userName: string, email: string, password: string) {
     try {
       const result = await axios.post(
         `${API_URL}/api/auth/signup`,
@@ -121,18 +105,6 @@ export class AuthProviderClass {
           userName,
           email,
           password,
-          firstName,
-          lastName,
-          gender,
-          academicDegree,
-          street,
-          city,
-          country,
-          nationality,
-          birthday,
-          documentNo,
-          mobilePhone,
-          phone,
         },
         { withCredentials: true }
       );
