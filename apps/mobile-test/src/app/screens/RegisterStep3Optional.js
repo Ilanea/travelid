@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
-import { ScrollView, StyleSheet, View, Pressable, Text, TextInput, Image } from "react-native";
+import { FlatList, ScrollView, StyleSheet, View, Pressable, Text, TextInput, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Padding, FontSize, Color, Border } from "../../../GlobalStyles";
 import { useAuth } from '../provider/AuthProvider';
@@ -158,13 +158,28 @@ const RegisterStep3Optional = () => {
     setLanguageOpen(false);
   }, []);
 
+  // const dropdownData = [
+  //   { key: 'room', title: 'Room', items: roomItems },
+  //   { key: 'houseKeeping', title: 'Housekeeping', items: houseKeepingItems },
+  //   { key: 'disabilities', title: 'Disabilities', items: disabilitiesItems },
+  //   { key: 'interests', title: 'Interests', items: interestsItems },
+  //   { key: 'service', title: 'Service', items: serviceItems },
+  //   { key: 'allergies', title: 'Allergies', items: allergiesItems },
+  //   { key: 'language', title: 'Language', items: languageItems },
+  //   { key: 'addition', title: 'Additional Information', items: additionItems },
+  // ];
   return (
-    //<ScrollView contentContainerStyle={styles.scrollView}>
+   <ScrollView contentContainerStyle={styles.scrollView}>
     <View style={styles.RegisterStep3Optional}>
       <Text style={styles.headline}>Tell us more about you</Text>
       <View style={styles.entriesregistration2}>
+      {/* <FlatList
+      data={dropdownData}
+      keyExtractor={(item) => item.key}
+      renderItem={({ item }) => ( */}
         <View style={styles.roomLayout}>
           <DropDownPicker
+          listMode="SCROLLVIEW"
             zIndex={8000}
             zIndexInverse={1000}
             multiple={true}
@@ -178,10 +193,14 @@ const RegisterStep3Optional = () => {
             placeholder="Room"
             items={roomItems}
             labelStyle={styles.roomValue}
+            autoScroll={true}
+            multipleText={'Room'}
+            //textStyle={styles.houseKeeping}
           />
         </View>
         <View style={[styles.houseKeeping, styles.roomLayout]}>
           <DropDownPicker
+          listMode="SCROLLVIEW"
             zIndex={7000}
             zIndexInverse={2000}
             multiple={true}
@@ -195,10 +214,12 @@ const RegisterStep3Optional = () => {
             placeholder="Housekeeping"
             items={houseKeepingItems}
             labelStyle={styles.houseKeepingValue}
+            multipleText={'Housekeeping'}
           />
         </View>
         <View style={[styles.houseKeeping, styles.roomLayout]}>
           <DropDownPicker
+          listMode="SCROLLVIEW"
             zIndex={6000}
             zIndexInverse={3000}
             multiple={true}
@@ -212,10 +233,12 @@ const RegisterStep3Optional = () => {
             placeholder="Disabilities"
             items={disabilitiesItems}
             labelStyle={styles.disabilitiesValue}
+            multipleText="Disabilities"
           />
         </View>
         <View style={[styles.houseKeeping, styles.roomLayout]}>
           <DropDownPicker
+          listMode="SCROLLVIEW"
             zIndex={5000}
             zIndexInverse={4000}
             multiple={true}
@@ -229,10 +252,12 @@ const RegisterStep3Optional = () => {
             placeholder="Interests"
             items={interestsItems}
             labelStyle={styles.interestsValue}
+            multipleText="Interests"
           />
         </View>
         <View style={[styles.houseKeeping, styles.roomLayout]}>
           <DropDownPicker
+          listMode="SCROLLVIEW"
             zIndex={4000}
             zIndexInverse={5000}
             multiple={true}
@@ -246,10 +271,12 @@ const RegisterStep3Optional = () => {
             placeholder="Service"
             items={serviceItems}
             labelStyle={styles.serviceValue}
+            multipleText="Service"
           />
         </View>
         <View style={[styles.houseKeeping, styles.roomLayout]}>
           <DropDownPicker
+          listMode="SCROLLVIEW"
             zIndex={3000}
             zIndexInverse={6000}
             multiple={true}
@@ -263,10 +290,12 @@ const RegisterStep3Optional = () => {
             placeholder="Allergies"
             items={allergiesItems}
             labelStyle={styles.allergiesValue}
+            multipleText="Allergies"
           />
         </View>
         <View style={[styles.houseKeeping, styles.roomLayout]}>
           <DropDownPicker
+            listMode="SCROLLVIEW"
             zIndex={2000}
             zIndexInverse={7000}
             multiple={true}
@@ -280,10 +309,12 @@ const RegisterStep3Optional = () => {
             placeholder="Language"
             items={languageItems}
             labelStyle={styles.languageValue}
+            multipleText="Language"
           />
         </View>
         <View style={[styles.houseKeeping, styles.roomLayout]}>
           <DropDownPicker
+          listMode="SCROLLVIEW"
             zIndex={1000}
             zIndexInverse={8000}
             multiple={true}
@@ -297,6 +328,7 @@ const RegisterStep3Optional = () => {
             placeholder="Additional Information"
             items={additionItems}
             labelStyle={styles.additionValue}
+            multipleText="Additional Information"
           />
         </View>
       </View>
@@ -354,56 +386,56 @@ const RegisterStep3Optional = () => {
         </Pressable>
       </Pressable>} */}
     </View>
-    //</ScrollView>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  roomValue: {
-    color: "#54595e",
-    fontSize: 16,
-    fontWeight: "500",
-  },
-  houseKeepingValue: {
-    color: "#54595e",
-    fontSize: 16,
-    fontWeight: "500",
-  },
-  disabilitiesValue: {
-    color: "#54595e",
-    fontSize: 16,
-    fontWeight: "500",
+  // roomValue: {
+  //   //color: "#54595e",
+  //   //fontSize: 16,
+  //   //fontWeight: "500",
+  // },
+  // houseKeepingValue: {
+  //   //color: "#54595e",
+  //   //fontSize: 16,
+  //   //fontWeight: "500",
+  // },
+  // disabilitiesValue: {
+  //   color: "#54595e",
+  //   //fontSize: 16,
+  //   fontWeight: "500",
 
-  },
-  interestsValue: {
-    color: "#54595e",
-    fontSize: 16,
-    fontWeight: "500",
-  },
-  serviceValue: {
-    color: "#54595e",
-    fontSize: 16,
-    fontWeight: "500",
+  // },
+  // interestsValue: {
+  //   color: "#54595e",
+  //   //fontSize: 16,
+  //   fontWeight: "500",
+  // },
+  // serviceValue: {
+  //   color: "#54595e",
+  //   //fontSize: 16,
+  //   fontWeight: "500",
 
-  },
-  allergiesValue: {
-    color: "#54595e",
-    fontSize: 16,
-    fontWeight: "500",
+  // },
+  // allergiesValue: {
+  //   color: "#54595e",
+  //   //fontSize: 16,
+  //   fontWeight: "500",
 
-  },
-  languageValue: {
-    color: "#54595e",
-    fontSize: 16,
-    fontWeight: "500",
+  // },
+  // languageValue: {
+  //   color: "#54595e",
+  //   //fontSize: 16,
+  //   fontWeight: "500",
 
-  },
-  additionValue: {
-    color: "#54595e",
-    fontSize: 16,
-    fontWeight: "500",
+  // },
+  // additionValue: {
+  //   color: "#54595e",
+  //   //fontSize: 16,
+  //   fontWeight: "500",
 
-  },
+  // },
   roomLayout: {
     height: 313,
     alignSelf: "stretch",
@@ -425,6 +457,7 @@ const styles = StyleSheet.create({
   },
   houseKeeping: {
     marginTop: -250,
+    //top: 250,
   },
   entriesregistration2: {
     paddingHorizontal: 20,
@@ -440,19 +473,21 @@ const styles = StyleSheet.create({
     position: 'absolute',
     fontWeight: '600',
     fontSize: FontSize.size_base,
-    width: 365,
+    width: 368,
     height: 100,
-    top: 0,
-    left: -5,
+    top: 30,
+    left: -8,
     borderWidth: 1,
     borderColor: '#546A831A',
     borderRadius: 10,
     backgroundColor: '#546A831A', 
     justifyContent: 'center',
     alignItems: 'center',
+    paddingLeft: 10, // Optional: Padding für den Text
+    paddingBottom: 50, // Optional: Padding für den Text
   },
   rectangleParent: {
-    height: '12%', //height: '12.52%',
+    height: '12.52%', //height: '12.52%',
     width: '99.3%',
     top: '78.48%',
     left: '10%',
