@@ -6,10 +6,10 @@ import { Badge, Checkbox } from '@libs/ui-web';
 
 import { labels, priorities, statuses } from '../data/data';
 import { Task } from '../data/schema';
-import { BookingsTableColumnHeader } from './bookings-table-column-header';
-import { BookingsTableRowActions } from './bookings-table-row-actions';
+import { RewardsTableColumnHeader } from './rewards-table-column-header';
+import { RewardsTableRowActions } from './rewards-table-row-actions';
 
-export const BookingTableColumns: ColumnDef<Task>[] = [
+export const RewardsTableColumns: ColumnDef<Task>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -34,7 +34,7 @@ export const BookingTableColumns: ColumnDef<Task>[] = [
   {
     accessorKey: 'id',
     header: ({ column }) => (
-      <BookingsTableColumnHeader column={column} title="ID" />
+      <RewardsTableColumnHeader column={column} title="ID" />
     ),
     cell: ({ row }) => <div className="w-[80px]">{row.getValue('id')}</div>,
     enableSorting: false,
@@ -44,7 +44,7 @@ export const BookingTableColumns: ColumnDef<Task>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <BookingsTableColumnHeader column={column} title="Name" />
+      <RewardsTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label);
@@ -62,7 +62,7 @@ export const BookingTableColumns: ColumnDef<Task>[] = [
   {
     accessorKey: 'category',
     header: ({ column }) => (
-      <BookingsTableColumnHeader column={column} title="Category" />
+      <RewardsTableColumnHeader column={column} title="Category" />
     ),
     cell: ({ row }) => {
       return (
@@ -77,7 +77,7 @@ export const BookingTableColumns: ColumnDef<Task>[] = [
   {
     accessorKey: 'validFrom',
     header: ({ column }) => (
-      <BookingsTableColumnHeader column={column} title="Valid From" />
+      <RewardsTableColumnHeader column={column} title="Valid From" />
     ),
     cell: ({ row }) => {
       return (
@@ -92,7 +92,7 @@ export const BookingTableColumns: ColumnDef<Task>[] = [
   {
     accessorKey: 'validUntil',
     header: ({ column }) => (
-      <BookingsTableColumnHeader column={column} title="Valid Until" />
+      <RewardsTableColumnHeader column={column} title="Valid Until" />
     ),
     cell: ({ row }) => {
       return (
@@ -107,7 +107,7 @@ export const BookingTableColumns: ColumnDef<Task>[] = [
   {
     accessorKey: 'status',
     header: ({ column }) => (
-      <BookingsTableColumnHeader column={column} title="Status" />
+      <RewardsTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label);
@@ -125,7 +125,7 @@ export const BookingTableColumns: ColumnDef<Task>[] = [
   {
     accessorKey: 'price',
     header: ({ column }) => (
-      <BookingsTableColumnHeader column={column} title="Price" />
+      <RewardsTableColumnHeader column={column} title="Price" />
     ),
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label);
@@ -142,6 +142,6 @@ export const BookingTableColumns: ColumnDef<Task>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => <BookingsTableRowActions row={row} />,
+    cell: ({ row }) => <RewardsTableRowActions row={row} />,
   },
 ];

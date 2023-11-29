@@ -55,12 +55,13 @@ model Hotel {
 
   categories Category[]
   reviews    Review[]
+  rewards Reward[]
 
   admins        User[] @relation(name: "Admins")
   receptionists User[] @relation(name: "Receptionists")
 
   Booking Booking[]
-
+  
   @@map("hotels")
 }
 
@@ -108,3 +109,23 @@ model Booking {
 
   @@map("bookings")
 }
+
+model Reward {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name        String
+  description String?
+  price       Float?
+  image       String?
+
+  active Boolean @default(true)
+  validFrom DateTime
+  validUntil DateTime
+
+  hotel   Hotel @relation(fields: [hotelId], references: [id])
+  hotelId Int
+
+  @@map("reward")
+  }

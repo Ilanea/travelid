@@ -22,7 +22,7 @@ interface DataTableColumnHeaderProps<TData, TValue>
   title: string;
 }
 
-export function BookingsTableColumnHeader<TData, TValue>({
+export function RewardsTableColumnHeader<TData, TValue>({
   column,
   title,
   className,

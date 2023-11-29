@@ -1,7 +1,14 @@
 import { PrismaClient } from '@prisma/client';
 import { gu } from 'date-fns/locale';
 
-import { admin, bookings, guestUsers, hotel, hotelUsers } from './data';
+import {
+  admin,
+  bookings,
+  guestUsers,
+  hotel,
+  hotelUsers,
+  rewards,
+} from './data';
 
 const prisma = new PrismaClient();
 
@@ -10,10 +17,12 @@ const loadUsers = async () => {
     await prisma.booking.deleteMany();
     await prisma.user.deleteMany();
     await prisma.hotel.deleteMany();
+    await prisma.reward.deleteMany();
 
     await prisma.$queryRaw`ALTER SEQUENCE "users_id_seq" RESTART WITH 1;`;
     await prisma.$queryRaw`ALTER SEQUENCE "hotels_id_seq" RESTART WITH 1;`;
     await prisma.$queryRaw`ALTER SEQUENCE "bookings_id_seq" RESTART WITH 1;`;
+    await prisma.$queryRaw`ALTER SEQUENCE "reward_id_seq" RESTART WITH 1;`;
 
     await prisma.user.createMany({
       data: guestUsers,
@@ -45,6 +54,20 @@ const loadUsers = async () => {
               id: userId,
             },
           },
+          hotel: {
+            connect: {
+              id: hotelId,
+            },
+          },
+        },
+      });
+    }
+
+    for (const reward of rewards) {
+      const { hotelId, ...myReward } = reward;
+      await prisma.reward.create({
+        data: {
+          ...myReward,
           hotel: {
             connect: {
               id: hotelId,

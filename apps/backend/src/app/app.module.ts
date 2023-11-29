@@ -8,6 +8,7 @@ import { CategoryModule } from './category/category.module';
 import { AuthzModule } from './authz/authz.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { BookingModule } from './booking/booking.module';
+import { RewardModule } from './reward/reward.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -16,6 +17,6 @@ import { BookingModule } from './booking/booking.module';
   MulterModule.register({
     dest: 'apps/backend/uploads/',
   }),
-  AuthModule, AuthzModule, PrismaModule, BookingModule, UserModule, HotelModule, CategoryModule],
+  AuthModule, AuthzModule, PrismaModule, BookingModule, UserModule, HotelModule, CategoryModule, RewardModule],
 })
 export class AppModule {}

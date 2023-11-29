@@ -1,6 +1,6 @@
-import { Hotel, Role, User, Review, Booking } from '@prisma/client';
 import { AbilityBuilder, PureAbility } from '@casl/ability';
-import { createPrismaAbility, PrismaQuery, Subjects } from '@casl/prisma';
+import { PrismaQuery, Subjects, createPrismaAbility } from '@casl/prisma';
+import { Booking, Hotel, Review, Reward, Role, User } from '@prisma/client';
 
 export enum Action {
   Manage = 'manage',
@@ -10,7 +10,13 @@ export enum Action {
   Delete = 'delete',
 }
 
-type AppSubjects = { User: User; Hotel: Hotel, Review: Review, Booking: Booking };
+type AppSubjects = {
+  User: User;
+  Hotel: Hotel;
+  Review: Review;
+  Booking: Booking;
+  Reward: Reward;
+};
 
 export type AppAbility = PureAbility<
   [Action, Subjects<AppSubjects>],
@@ -25,7 +31,8 @@ export class AbilityFactory {
       builder.can(Action.Manage, 'User');
       builder.can(Action.Manage, 'Hotel');
       builder.can(Action.Manage, 'Review');
-      builder.can(Action.Manage, 'Booking')
+      builder.can(Action.Manage, 'Booking');
+      builder.can(Action.Manage, 'Reward');
     } else if (user) {
       builder.can(Action.Read, 'User', { id: user.id });
       builder.can(Action.Edit, 'User', { id: user.id });
@@ -36,14 +43,24 @@ export class AbilityFactory {
       builder.can(Action.Create, 'Booking');
       builder.can(Action.Edit, 'Booking', { userId: user.id });
       builder.can(Action.Delete, 'Booking', { userId: user.id });
+      builder.can(Action.Read, 'Reward');
 
-      if (user.role === Role.HOTELADMIN || user.role === Role.HOTELRECEPTIONIST) {
+      if (
+        user.role === Role.HOTELADMIN ||
+        user.role === Role.HOTELRECEPTIONIST
+      ) {
         user['hotelsAsAdmin'].forEach((hotel: Hotel) => {
           builder.can(Action.Edit, 'Hotel', { id: hotel.id });
           builder.can(Action.Delete, 'Hotel', { id: hotel.id });
+          builder.can(Action.Create, 'Reward', { id: hotel.id });
+          builder.can(Action.Edit, 'Reward', { id: hotel.id });
+          builder.can(Action.Delete, 'Reward', { id: hotel.id });
         });
         user['hotelsAsReceptionist'].forEach((hotel: Hotel) => {
           builder.can(Action.Edit, 'Hotel', { id: hotel.id });
+          builder.can(Action.Create, 'Reward', { id: hotel.id });
+          builder.can(Action.Edit, 'Reward', { id: hotel.id });
+          builder.can(Action.Delete, 'Reward', { id: hotel.id });
         });
       }
     }

@@ -13,13 +13,13 @@ import {
 
 import { taskSchema } from '../data/schema';
 
-interface BookingsTableRowActionsProps<TData> {
+interface RewardsTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
-export function BookingsTableRowActions<TData>({
+export function RewardsTableRowActions<TData>({
   row,
-}: BookingsTableRowActionsProps<TData>) {
+}: RewardsTableRowActionsProps<TData>) {
   const task = taskSchema.parse(row.original);
 
   return (

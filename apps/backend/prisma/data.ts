@@ -106,3 +106,50 @@ export const bookings = [
     type: 'BUSINESS',
   },
 ];
+
+export const rewards = [
+  {
+    name: 'Free breakfast',
+    description: 'Enjoy a free breakfast at our hotel',
+    image:
+      'https://www.akademie-sport-gesundheit.de/assets/images/d/massage-techniken2-c86b68b0.webp',
+    price: 100,
+    validFrom: new Date('2021-05-01'),
+    validUntil: new Date('2021-05-03'),
+    hotelId: 1,
+    active: true,
+  },
+  {
+    name: 'Oil massage',
+    description: 'Enjoy a free oil massage at our hotel',
+    image:
+      'https://www.akademie-sport-gesundheit.de/assets/images/d/massage-techniken2-c86b68b0.webp',
+    price: 100,
+    validFrom: new Date('2021-05-01'),
+    validUntil: new Date('2021-05-03'),
+    hotelId: 1,
+    active: true,
+  },
+  {
+    name: 'Private wellness area',
+    description: 'Enjoy a free private wellness area at our hotel',
+    image:
+      'https://www.akademie-sport-gesundheit.de/assets/images/d/massage-techniken2-c86b68b0.webp',
+    price: 100,
+    validFrom: new Date('2021-05-01'),
+    validUntil: new Date('2021-05-03'),
+    hotelId: 1,
+    active: false,
+  },
+  {
+    name: 'Cocktail voucher',
+    description: 'Enjoy a free cocktail at our hotel',
+    image:
+      'https://www.akademie-sport-gesundheit.de/assets/images/d/massage-techniken2-c86b68b0.webp',
+    price: 100,
+    validFrom: new Date('2021-05-01'),
+    validUntil: new Date('2021-05-03'),
+    hotelId: 1,
+    active: true,
+  },
+];

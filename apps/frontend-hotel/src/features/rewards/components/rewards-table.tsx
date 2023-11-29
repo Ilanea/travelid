@@ -26,8 +26,8 @@ import {
   TableRow,
 } from '@libs/ui-web';
 
-import { BookingsTablePagination } from './bookings-table-pagination';
-import { BookingsTableToolbar } from './bookings-table-toolbar';
+import { RewardsTableToolbar } from './rewards';
+import { RewardsTablePagination } from './rewards-table-pagination';
 
 interface RewardsTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -70,7 +70,7 @@ export function RewardsTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <BookingsTableToolbar table={table} />
+      <RewardsTableToolbar table={table} />
 
       <div className="rounded-md border">
         <Table>
@@ -122,7 +122,7 @@ export function RewardsTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <BookingsTablePagination table={table} />
+      <RewardsTablePagination table={table} />
     </div>
   );
 }
