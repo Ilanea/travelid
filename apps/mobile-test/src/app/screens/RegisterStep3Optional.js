@@ -305,7 +305,7 @@ const RegisterStep3Optional = () => {
           <View style={[styles.rectangleParent, styles.groupChildPosition]}>
             <View style={[styles.groupChild, styles.groupChildPosition]} />
             <TextInput
-              //style={[styles.comments, { zIndex: 1000 }, { zIndexInverse: 8000 }]}
+              style={[styles.comments]} //{, zIndex: 1000 }, { zIndexInverse: 8000 }
               placeholder="Comments:"
               placeholderTextColor="#546a83"
               value={comment}
@@ -436,15 +436,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   comments: {
-    top: 50,
-    left: 21,
     opacity: 0.7,
     position: 'absolute',
     fontWeight: '600',
     fontSize: FontSize.size_base,
+    width: 365,
+    height: 100,
+    top: 0,
+    left: -5,
+    borderWidth: 1,
+    borderColor: '#546A831A',
+    borderRadius: 10,
+    backgroundColor: '#546A831A', 
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   rectangleParent: {
-    height: '50%', //height: '12.52%',
+    height: '12%', //height: '12.52%',
     width: '99.3%',
     top: '78.48%',
     left: '10%',
@@ -486,7 +494,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   skip: {
-    color: Color.colorSlategray_200,
+    color: '#546A83',
     fontSize: FontSize.size_base,
   },
   arrowForwardIcon1: {
