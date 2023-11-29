@@ -10,7 +10,7 @@ const RegisterStep3Optional = () => {
   const navigation = useNavigation();
   const { onSignup } = useAuth();
   const [comment, setComment] = useState('');
-  const [roomOpen, setRoomOpen] = useState([]);
+  const [roomOpen, setRoomOpen] = useState();
   const [roomValue, setRoomValue] = useState();
   const [roomItems, setRoomItems] = useState([
     { value: "quiet", label: "quiet" },
@@ -66,7 +66,7 @@ const RegisterStep3Optional = () => {
     { value: "Italien", label: "Italien" },
     { value: "other", label: "other" },
   ]);
-  const [additionOpen, setAdditionOpen] = useState([]);
+  const [additionOpen, setAdditionOpen] = useState(false);
   const [additionValue, setAdditionValue] = useState();
   const [additionItems, setAdditionItems] = useState([
     { value: "vehicle", label: "vehicle" },
@@ -305,7 +305,7 @@ const RegisterStep3Optional = () => {
           <View style={[styles.rectangleParent, styles.groupChildPosition]}>
             <View style={[styles.groupChild, styles.groupChildPosition]} />
             <TextInput
-              style={styles.comments}
+              //style={[styles.comments, { zIndex: 1000 }, { zIndexInverse: 8000 }]}
               placeholder="Comments:"
               placeholderTextColor="#546a83"
               value={comment}
@@ -436,7 +436,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   comments: {
-    top: 20,
+    top: 50,
     left: 21,
     opacity: 0.7,
     position: 'absolute',
@@ -444,10 +444,10 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_base,
   },
   rectangleParent: {
-    height: '100%', //height: '12.52%',
+    height: '50%', //height: '12.52%',
     width: '99.3%',
-    top: '87.48%',
-    left: '0.7%',
+    top: '78.48%',
+    left: '10%',
   },
   groupWrapper: {
     width: 285,
@@ -502,11 +502,11 @@ const styles = StyleSheet.create({
   },
   bottomnavigate: {
     marginLeft: -138,
-    bottom: 20,
+    marginTop: 750,
     left: "50%",
     width: 277,
     height: 64,
-    zIndex: 1,
+    //zIndex: 1,
     flexDirection: "row",
     justifyContent: "center",
     elevation: 14,
@@ -526,7 +526,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: Color.m3RefPrimaryPrimary0,
     textAlign: "center",
-    zIndex: 2,
+    //zIndex: 2,
     fontSize: FontSize.size_base,
     position: "absolute",
     width: "100%",
@@ -544,7 +544,7 @@ const styles = StyleSheet.create({
     top: 61,
     left: 12,
     padding: Padding.p_3xs,
-    zIndex: 3,
+    //zIndex: 3,
     flexDirection: "row",
     justifyContent: "center",
     position: "absolute",
