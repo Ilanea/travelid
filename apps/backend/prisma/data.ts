@@ -66,6 +66,7 @@ export const hotel = {
   email: 'info@sacher.com',
   description:
     'Das Hotel Sacher ist ein traditionsreiches Grandhotel in der Wiener Innenstadt. Es befindet sich am Philharmonikerplatz im 1. Wiener Gemeindebezirk Innere Stadt und ist bekannt für seine Torte, die Sachertorte.',
+  hotelProperties: [{ id: 1 }, { id: 2 }, { id: 12 }, { id: 24 }, { id: 25 }],
 };
 
 export const bookings = [
@@ -151,5 +152,344 @@ export const rewards = [
     validUntil: new Date('2021-05-03'),
     hotelId: 1,
     active: true,
+  },
+];
+
+export const properties = [
+  {
+    name: 'Facilities',
+    subCategories: [
+      {
+        name: 'Spa',
+        properties: [
+          {
+            name: 'Sauna',
+          },
+          {
+            name: 'Steam bath',
+          },
+          {
+            name: 'Infrared cabin',
+          },
+          {
+            name: 'Relaxation room',
+          },
+          {
+            name: 'Massages',
+          },
+          {
+            name: 'Cosmetic treatments',
+          },
+          {
+            name: 'Fitness room',
+          },
+          {
+            name: 'Yoga room',
+          },
+        ],
+      },
+      {
+        name: 'Parking',
+        properties: [
+          {
+            name: 'Parking garage',
+          },
+          {
+            name: 'Parking lot',
+          },
+          {
+            name: 'Parking spaces for disabled people',
+          },
+          {
+            name: 'Charging station for electric cars',
+          },
+          {
+            name: 'Bicycle parking',
+          },
+          {
+            name: 'Bicycle rental',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Food & Drink',
+    subCategories: [
+      {
+        name: 'Restaurant',
+        properties: [
+          {
+            name: 'Breakfast buffet',
+          },
+          {
+            name: 'Breakfast à la carte',
+          },
+          {
+            name: 'Breakfast in the room',
+          },
+          {
+            name: 'Half board',
+          },
+          {
+            name: 'Full board',
+          },
+          {
+            name: 'À la carte restaurant',
+          },
+          {
+            name: 'Buffet restaurant',
+          },
+          {
+            name: 'Vegetarian food',
+          },
+          {
+            name: 'Vegan food',
+          },
+          {
+            name: 'Gluten-free food',
+          },
+          {
+            name: 'Lactose-free food',
+          },
+          {
+            name: 'Diet food',
+          },
+          {
+            name: "Children's menu",
+          },
+          {
+            name: 'Outdoor dining area',
+          },
+          {
+            name: 'Room service',
+          },
+          {
+            name: 'Special diet menus (on request)',
+          },
+          {
+            name: 'Snack bar',
+          },
+          {
+            name: 'Bar',
+          },
+          {
+            name: 'Minibar',
+          },
+          {
+            name: 'Coffee machine',
+          },
+          {
+            name: 'Bottled water',
+          },
+          {
+            name: 'Wine/champagne',
+          },
+          {
+            name: 'Kid-friendly buffet',
+          },
+          {
+            name: 'Kid meals',
+          },
+          {
+            name: 'Fruits',
+          },
+          {
+            name: 'Chocolate or cookies',
+          },
+          {
+            name: 'On-site coffee house',
+          },
+          {
+            name: 'Breakfast options',
+          },
+          {
+            name: 'Café on site',
+          },
+          {
+            name: 'Fruit',
+          },
+          {
+            name: 'Bottle of water',
+          },
+          {
+            name: 'Wine/champagne',
+          },
+          {
+            name: 'Kid meals',
+          },
+          {
+            name: 'Special diet menus (on request)',
+          },
+          {
+            name: 'Snack bar',
+          },
+          {
+            name: 'Bar',
+          },
+          {
+            name: 'Restaurant',
+          },
+          {
+            name: 'Good coffee!',
+          },
+        ],
+      },
+      {
+        name: 'Bar',
+        properties: [
+          {
+            name: 'Breakfast buffet',
+          },
+          {
+            name: 'Breakfast à la carte',
+          },
+          {
+            name: 'Breakfast in the room',
+          },
+          {
+            name: 'Half board',
+          },
+          {
+            name: 'Full board',
+          },
+          {
+            name: 'À la carte restaurant',
+          },
+          {
+            name: 'Buffet restaurant',
+          },
+          {
+            name: 'Vegetarian food',
+          },
+          {
+            name: 'Vegan food',
+          },
+          {
+            name: 'Gluten-free food',
+          },
+          {
+            name: 'Lactose-free food',
+          },
+          {
+            name: 'Diet food',
+          },
+          {
+            name: "Children's menu",
+          },
+          {
+            name: 'Outdoor dining area',
+          },
+          {
+            name: 'Room service',
+          },
+          {
+            name: 'Special diet menus (on request)',
+          },
+          {
+            name: 'Snack bar',
+          },
+          {
+            name: 'Bar',
+          },
+          {
+            name: 'Minibar',
+          },
+          {
+            name: 'Coffee machine',
+          },
+          {
+            name: 'Bottled water',
+          },
+          {
+            name: 'Wine/champagne',
+          },
+          {
+            name: 'Fruits',
+          },
+          {
+            name: 'Chocolate or cookies',
+          },
+          {
+            name: 'On-site coffee house',
+          },
+          {
+            name: 'Breakfast options',
+          },
+          {
+            name: 'Café on site',
+          },
+          {
+            name: 'Fruit',
+          },
+          {
+            name: 'Bottle of water',
+          },
+          {
+            name: 'Wine/champagne',
+          },
+          {
+            name: 'Good coffee!',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Services',
+    subCategories: [
+      {
+        name: 'Reception',
+        properties: [
+          {
+            name: 'Concierge service',
+          },
+          {
+            name: 'Luggage storage',
+          },
+          {
+            name: 'Ticket service',
+          },
+          {
+            name: 'Tour desk',
+          },
+          {
+            name: 'Currency exchange',
+          },
+          {
+            name: 'Express check-in/check-out',
+          },
+          {
+            name: '24-hour front desk',
+          },
+        ],
+      },
+      {
+        name: 'Security',
+        properties: [
+          {
+            name: 'Fire extinguishers',
+          },
+          {
+            name: 'CCTV outside property',
+          },
+          {
+            name: 'CCTV in common areas',
+          },
+          {
+            name: 'Smoke alarms',
+          },
+          {
+            name: 'Security alarm',
+          },
+          {
+            name: '24-hour security',
+          },
+          {
+            name: 'Safety deposit box',
+          },
+        ],
+      },
+    ],
   },
 ];
