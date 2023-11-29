@@ -2,7 +2,7 @@ import { Redirect, Stack } from 'expo-router';
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
-import { updateBonuspoints } from '../provider/UserProvider.js';
+//import { updateBonuspoints } from '../provider/UserProvider.tsx';
 import { theme } from '../theme/theme.js';
 
 //import User from '../models/User.js';
