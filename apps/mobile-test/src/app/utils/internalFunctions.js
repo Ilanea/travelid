@@ -5,7 +5,7 @@ export function formatDate(dateStart, dateEnd) {
     return(format(new Date(dateStart), "MMMM dd") + " - " + format(new Date(dateEnd), "MMMM dd"))
 }
 
-listFilters = [
+const listFilters = [
   {"pets": false},
   {"parking": false},
   {"bike rental": false},
@@ -23,23 +23,23 @@ listFilters = [
   {"quiet": false},
   {"breakfast": false},  
 ]
-listHotels = [
-  {
-    "name": "hotelOne",
-    "has": "sauna"
-  },
-  {
-    "name": "hotelTwo",
-    "has": "parking"
-  },
-  {
-    "name": "hotelThree",
-    "has": "bike rental"
-  },
-  {
-    "name": "hotelFour",
-    "has": "sauna"
-  }]
+// const listHotels = [
+//   {
+//     "name": "hotelOne",
+//     "has": "sauna"
+//   },
+//   {
+//     "name": "hotelTwo",
+//     "has": "parking"
+//   },
+//   {
+//     "name": "hotelThree",
+//     "has": "bike rental"
+//   },
+//   {
+//     "name": "hotelFour",
+//     "has": "sauna"
+//   }]
 
 export function getFilters() {
   return(listFilters)
@@ -63,7 +63,7 @@ export class UserData {
     return(this.name)
   }
 
-  setEmail() {
+  setEmail(email) {
     this.email = email
   }
 
