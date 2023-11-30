@@ -10,6 +10,9 @@ import {
   YAxis,
 } from 'recharts';
 
+import { Button } from '@libs/ui-web';
+
+import DashboardCard from '@hotel/components/dashboard-card';
 import { exportToExcel } from '@hotel/utils/exports';
 
 interface DataEntry {
@@ -78,77 +81,75 @@ const BookingBarChart = ({ filteredData }: BookingBarChartProps) => {
   );
 
   return (
-    <div
-      id="barChart"
-      className="w-1/2 pl-5 pr-5 rounded border border-black bg-gray-200"
-    >
-      <div className="flex justify-between items-center p-3">
-        {' '}
-        {/* This is the flex container */}
-        <h2 className="text-xl font-bold mb-4 text-primary flex-grow pt-4">
-          Monatliche Buchungen:
-        </h2>
-        <div>
-          <label className="text-primary mr-4 text-sm">
-            <input
-              type="radio"
-              name="view"
-              value="daily"
-              checked={view === 'daily'}
-              onChange={() => setView('daily')}
+    <div id="barChart" className="w-1/2">
+      <DashboardCard
+        title="Monthly Bookings"
+        button={
+          <Button
+            className="bg-green-500 hover:bg-green-400"
+            onClick={() => exportToExcel(filteredData, 'bookings')}
+          >
+            Export to Excel
+          </Button>
+        }
+        subtitle={
+          <div>
+            <label className="text-gray-400 mr-4 text-sm items-center p-3 rounded-full cursor-pointer">
+              <input
+                type="radio"
+                name="view"
+                value="daily"
+                checked={view === 'daily'}
+                onChange={() => setView('daily')}
+              />
+              Täglich
+            </label>
+            <label className="text-gray-400 mr-4 text-sm items-center p-3 rounded-full cursor-pointer">
+              <input
+                type="radio"
+                name="view"
+                value="monthly"
+                checked={view === 'monthly'}
+                onChange={() => setView('monthly')}
+              />
+              Monatlich
+            </label>
+            <label className="text-gray-400 mr-4 text-sm">
+              <input
+                type="radio"
+                name="view"
+                value="yearly"
+                checked={view === 'yearly'}
+                onChange={() => setView('yearly')}
+              />
+              Jährlich
+            </label>
+          </div>
+        }
+      >
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={chartData}>
+            <XAxis
+              dataKey={
+                view === 'daily' ? 'day' : view === 'monthly' ? 'month' : 'year'
+              }
+              stroke="#003366"
             />
-            Täglich
-          </label>
-          <label className="text-primary pr-5 text-sm">
-            <input
-              type="radio"
-              name="view"
-              value="monthly"
-              checked={view === 'monthly'}
-              onChange={() => setView('monthly')}
-            />
-            Monatlich
-          </label>
-          <label className="text-primary mr-4 text-sm">
-            <input
-              type="radio"
-              name="view"
-              value="yearly"
-              checked={view === 'yearly'}
-              onChange={() => setView('yearly')}
-            />
-            Jährlich
-          </label>
-        </div>
-        <button
-          className="bg-green-500 hover:bg-green-700 text-primary font-bold py-2 px-4 rounded text-sm"
-          onClick={() => exportToExcel(filteredData, 'bookings')}
-        >
-          Export to Excel
-        </button>
-      </div>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={chartData}>
-          <XAxis
-            dataKey={
-              view === 'daily' ? 'day' : view === 'monthly' ? 'month' : 'year'
-            }
-            stroke="#003366"
-          />
-          <YAxis domain={[0, maxY]} stroke="#003366" />
+            <YAxis domain={[0, maxY]} stroke="#003366" />
 
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="Bookings" fill="#003366">
-            <LabelList
-              dataKey="Bookings"
-              position="top"
-              className="text-primary"
-              style={{ fill: '#003366' }}
-            />
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="Bookings" fill="#003366">
+              <LabelList
+                dataKey="Bookings"
+                position="top"
+                className="text-primary"
+                style={{ fill: '#003366' }}
+              />
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </DashboardCard>
     </div>
   );
 };

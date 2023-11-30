@@ -11,6 +11,8 @@ import {
   YAxis,
 } from 'recharts';
 
+import { Icons } from '@libs/icons-web';
+
 import DashboardCard from '@hotel/components/dashboard-card';
 import DashboardCardSmall from '@hotel/components/dashboard-card-small';
 
@@ -97,27 +99,27 @@ const Dashboard = () => {
       <div className="flex w-full space-x-4">
         <DashboardCardSmall
           title="Bookings"
-          value="34"
+          value="+ 34"
           subvalue="+ 20.1% from last month"
-          icon="book"
+          icon={<Icons.calendar className="w-6 h-6 text-gray-400" />}
         />
         <DashboardCardSmall
           title="Views"
-          value="1873"
+          value="+ 1873"
           subvalue="+ 15.9% from last month"
-          icon="book"
+          icon={<Icons.eye className="w-6 h-6 text-gray-400" />}
         />
         <DashboardCardSmall
           title="Rating"
           value="4.2"
           subvalue="- 0.25% from last month"
-          icon="book"
+          icon={<Icons.star className="w-6 h-6 text-gray-400" />}
         />
         <DashboardCardSmall
           title="Rewards"
-          value="23 sold"
+          value="+ 23"
           subvalue="+ 34.6% from last month"
-          icon="book"
+          icon={<Icons.gift className="w-6 h-6 text-gray-400" />}
         />
       </div>
       <div className="flex w-full space-x-4">

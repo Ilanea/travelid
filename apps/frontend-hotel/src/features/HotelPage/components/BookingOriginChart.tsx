@@ -7,6 +7,9 @@ import {
   Tooltip,
 } from 'recharts';
 
+import { Button } from '@libs/ui-web';
+
+import DashboardCard from '@hotel/components/dashboard-card';
 import { exportToExcel } from '@hotel/utils/exports';
 
 import { CHARTS_COLORS } from '../consts/colors';
@@ -19,19 +22,19 @@ const bookingSourcesData = [
 
 const BookingOriginChart = () => {
   return (
-    <div className="w-1/4  text-white border pl-5 rounded border-black bg-gray-200">
-      <div className="flex justify-between items-center p-3">
-        {/* This is the flex container */}
-        <h2 className="text-xl font-bold mb-4 text-primary pl-3 pt-3 pr-3">
-          Buchungs-Herkunft:
-        </h2>
-        <button
-          className="bg-green-500 hover:bg-green-700 text-primary font-bold py-2 px-4 rounded text-xs w-1/2"
+    <DashboardCard
+      className="w-1/4"
+      title="Booking Origin"
+      subtitle="How do you guests book?"
+      button={
+        <Button
+          className=""
           onClick={() => exportToExcel(bookingSourcesData, 'booking_sources')}
         >
-          Export to Excel
-        </button>
-      </div>
+          Export
+        </Button>
+      }
+    >
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie
@@ -54,7 +57,7 @@ const BookingOriginChart = () => {
           <Legend />
         </PieChart>
       </ResponsiveContainer>
-    </div>
+    </DashboardCard>
   );
 };
 

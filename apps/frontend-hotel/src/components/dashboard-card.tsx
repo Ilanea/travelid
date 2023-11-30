@@ -2,7 +2,7 @@ import React from 'react';
 
 import { cn } from '@libs/utils';
 
-const DashboardCard = ({ children, title, subtitle, className }) => {
+const DashboardCard = ({ children, title, subtitle, className, button }) => {
   return (
     <div
       className={cn(
@@ -10,9 +10,12 @@ const DashboardCard = ({ children, title, subtitle, className }) => {
         className
       )}
     >
-      <div className="pb-5">
-        <h3 className="text-2xl font-semibold">{title}</h3>
-        <p className="text-gray-400 font-light">{subtitle}</p>
+      <div className="pb-5 flex justify-between it">
+        <div>
+          <h3 className="text-2xl font-semibold">{title}</h3>
+          <p className="text-gray-400 font-light">{subtitle}</p>
+        </div>
+        {button}
       </div>
       {children}
     </div>

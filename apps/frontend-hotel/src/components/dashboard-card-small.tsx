@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Icons } from '@libs/icons-web';
 import { cn } from '@libs/utils';
 
 const DashboardCardSmall = ({
@@ -7,6 +8,7 @@ const DashboardCardSmall = ({
   title,
   value,
   subvalue,
+  icon,
   className,
 }) => {
   return (
@@ -16,12 +18,14 @@ const DashboardCardSmall = ({
         className
       )}
     >
-      <div className="pb-5">
-        <h3 className="text-2xl font-semibold">{title}</h3>
-        <p className="text-gray-400 font-light">{value}</p>
+      <div>
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg  ">{title}</h3>
+          {icon}
+        </div>
+        <p className="text-2xl font-semibold">{value}</p>
         <p className="text-gray-400 font-light">{subvalue}</p>
       </div>
-      {children}
     </div>
   );
 };
