@@ -35,6 +35,11 @@ const MainNavigator = () => {
       {authenticated ? (
         <>
           <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
             name="Profile"
             component={Profile}
             options={{ headerShown: false }}
