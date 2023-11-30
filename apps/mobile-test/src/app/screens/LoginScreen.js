@@ -26,7 +26,6 @@ const LoginScreen = () => {
       if (onLogin) {
         await onLogin(email, password);
         console.log('Login successful');
-        navigation.navigate('Home'); // Move navigation inside the try block
       } else {
         console.error('onLogin is undefined');
       }
@@ -92,9 +91,7 @@ const LoginScreen = () => {
           <Pressable
             style={styles.button}
             onPress={() => {
-              handleLogin().then(() => {
-                navigation.navigate('Home');
-              });
+              handleLogin()
             }}
           >
             <Text style={[styles.labelText, styles.labelTextTypo]}>Login</Text>

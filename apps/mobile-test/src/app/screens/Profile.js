@@ -3,6 +3,7 @@ import { Link } from 'expo-router';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { UserData } from '../utils/internalFunctions';
+import { useState, useEffect } from 'react';
 import {
   Image,
   StatusBar,
@@ -20,9 +21,20 @@ import { theme } from '../theme/theme.js';
 export default function Profile() {
 
   const user = new UserData();
-
-  const { authState } = useAuth();
   const navigation = useNavigation();
+  const { authState, onLogout } = useAuth();
+  const [authenticated, setAuthenticated] = useState(authState?.authenticated);
+
+  useEffect(() => {
+    setAuthenticated(authState?.authenticated);
+  }, [authState]);
+
+  const handleLogout = async () => {
+    if (onLogout) {
+      await onLogout();
+      console.log('Logout successful');
+    }
+  };
 
   
   const [cc, onChangeUser] = React.useState(user);
@@ -55,7 +67,7 @@ export default function Profile() {
         backgroundColor={theme.backgroundLightBlue}
       />
       <View style={styles.topContainer}>
-      <Pressable style={styles.logoutButton} onPress={() => navigation.navigate("Welcome")}>
+      <Pressable style={styles.logoutButton} onPress={handleLogout}>
           <FontAwesome5 name="sign-out-alt" size={24} color="black" />
         </Pressable>
         <Text

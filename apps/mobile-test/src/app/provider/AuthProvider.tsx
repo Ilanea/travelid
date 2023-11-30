@@ -1,58 +1,30 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+export const API_URL = 'http://192.168.178.27:3333';
 
 interface User {
+  id: number;
   userName: string;
   email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  academicDegree: string;
-  street: string;
-  city: string;
-  country: string;
-  nationality: string;
-  birthday: string;
-  documentNo: string;
-  mobilePhone: string;
-  phone: string;
 }
 
 interface AuthProps {
   authState?: { user: User | null; authenticated: boolean | null };
-  onSignup?: (
-    userName: string,
-    email: string,
-    password: string,
-    gender: string,
-    academicDegree: string,
-    firstName: string,
-    lastName: string,
-    street: string,
-    city: string,
-    country: string,
-    nationality: string,
-    birthday: string,
-    documentNo: string,
-    mobilePhone: string,
-    phone: string
-  ) => Promise<User>;
+  onSignup?: (userName: string, email: string, password: string, firstName: string, lastName: string) => Promise<User>;
   onLogin?: (email: string, password: string) => Promise<User>;
   onLogout?: () => Promise<any>;
   clearAuthState?: () => void;
   getAuthState?: () => { user: User | null; authenticated: boolean | null };
 }
 
-export const API_URL = 'http://192.168.178.27:3333';
 const AuthContext = createContext<AuthProps>({});
 
 export const useAuth = () => {
   const contextValue = useContext(AuthContext);
-
+  
   if (!contextValue) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
 
   return contextValue;
@@ -65,49 +37,46 @@ export class AuthProviderClass {
   };
 
   public async init(): Promise<void> {
+    if(API_URL === undefined) {
+      console.error('API_URL is undefined, please check your constants');
+      return;
+    }
     await this.loadToken();
   }
 
-  private async loadToken(): Promise<void> {
+  private async loadToken(): Promise<void>{
     try {
       // Check if a session cookie exists
       const result = await axios.get(`${API_URL}/api/auth/verify-session`, {
         withCredentials: true,
       });
-
-      console.log('loadToken Result:', result.data);
-
-      if (!result.data) {
+  
+      console.log("loadToken Result:", result.data);
+      
+      if(!result.data) {
         console.log('No Cookie exists, please login...');
 
         this.updateAuthState(null, false);
+  
       } else {
         console.log('Cookie exists, verifying session...');
-
+  
         // Set user data in the state after verifying the session
         this.updateAuthState(result.data, true);
-
+    
         // Save User Info in SecureStore
         await SecureStore.setItemAsync('userInfo', JSON.stringify(result.data));
       }
     } catch (error) {
       console.error('Session verification failed:', error);
-
+  
       this.updateAuthState(null, false);
     }
   }
 
-  public async signup(userName: string, email: string, password: string) {
+  public async signup(userName: string, email: string, password: string, firstName: string, lastName: string) {
     try {
-      const result = await axios.post(
-        `${API_URL}/api/auth/signup`,
-        {
-          userName,
-          email,
-          password,
-        },
-        { withCredentials: true }
-      );
+      const result = await axios.post(`${API_URL}/api/auth/signup`, { userName, email, password, firstName, lastName }, { withCredentials: true });
 
       console.log(result.data);
       // Set user data in the state after signup
@@ -124,11 +93,7 @@ export class AuthProviderClass {
 
   public async login(email: string, password: string) {
     try {
-      const result = await axios.post(
-        `${API_URL}/api/auth/login`,
-        { email, password },
-        { withCredentials: true }
-      );
+      const result = await axios.post(`${API_URL}/api/auth/login`, { email, password }, { withCredentials: true });
 
       //console.log('Show the cookie:', result.headers['set-cookie'])
 
@@ -154,13 +119,10 @@ export class AuthProviderClass {
     this.updateAuthState(null, false);
   }
 
-  private updateAuthState(
-    user: User | null,
-    authenticated: boolean | null
-  ): void {
+  private updateAuthState(user: User | null, authenticated: boolean | null): void {
     this.authState = {
       user: user,
-      authenticated: authenticated,
+      authenticated: authenticated
     };
     this.notifyAuthStateChange();
   }
@@ -183,11 +145,9 @@ export class AuthProviderClass {
   }
 }
 
+
 export const AuthProvider = ({ children }: any) => {
-  const [authState, setAuthState] = useState({
-    user: null,
-    authenticated: null,
-  });
+  const [authState, setAuthState] = useState({ user: null, authenticated: null });
   const [isInitialized, setIsInitialized] = useState(false);
 
   const authProvider = useMemo(() => new AuthProviderClass(), []);
@@ -196,12 +156,10 @@ export const AuthProvider = ({ children }: any) => {
     const initializeAuthProvider = async () => {
       console.log('Initializing AuthProvider...');
       // Set the callback function to update authState
-      authProvider.setAuthStateChangeCallback(() =>
-        setAuthState(authProvider.getAuthState())
-      );
+      authProvider.setAuthStateChangeCallback(() => setAuthState(authProvider.getAuthState()));
       await authProvider.init();
       const newAuthState = authProvider.getAuthState();
-      console.log('New AuthState after init:', newAuthState);
+      //console.log('New AuthState after init:', newAuthState);
       setAuthState(newAuthState);
       setIsInitialized(true);
     };

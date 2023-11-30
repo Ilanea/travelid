@@ -7,8 +7,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
 import { UserData } from '../utils/internalFunctions.js';
+import { UserProviderClass } from "../provider/UserProvider"
 
 export default function BonuspunktePage() {
+
+  const test = new UserProviderClass()
   const navigation = useNavigation();
 
   const user = new UserData();
@@ -18,6 +21,10 @@ export default function BonuspunktePage() {
   const [levelPoints, onChangeLevelPoints] = React.useState(200);
   const [submitText, onChangeSubmit] = React.useState()
 
+async function test1() { 
+  return(await SecureStore.getItemAsync("userinfo"))}
+
+  const result = test1()
   function handleLevelUp() {
 
     onChangePoints((Number(points) + 100).toFixed(2))
@@ -73,7 +80,7 @@ export default function BonuspunktePage() {
       </View>
       <View style={ styles.codeContainer }>
         <TextInput style={ styles.codeInput } placeholder="enter code to add points" defaultValue={submitText} />
-        <TouchableOpacity style={ styles.submitButton } onPress={() => handleLevelUp()}>
+        <TouchableOpacity style={ styles.submitButton } onPress={async() => console.log(result, 100)}>
           <Text style={ styles.submitButtonText }>
             Submit
           </Text>

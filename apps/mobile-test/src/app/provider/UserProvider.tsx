@@ -3,24 +3,24 @@ import * as SecureStore from 'expo-secure-store';
 
 import { API_URL } from './AuthProvider';
 
-// interface User {
-//   userName: string;
-//   email: string;
-//   password: string;
-//   firstName: string;
-//   lastName: string;
-//   gender: string;
-//   academicDegree: string;
-//   street: string;
-//   city: string;
-//   country: string;
-//   nationality: string;
-//   birthday: string;
-//   documentNo: string;
-//   mobilePhone: string;
-//   phone: string;
-//   bonuspoints: number;
-// }
+interface User {
+   userName: string;
+   email: string;
+   password: string;
+   firstName: string;
+   lastName: string;
+   gender: string;
+   academicDegree: string;
+   street: string;
+   city: string;
+   country: string;
+   nationality: string;
+   birthday: string;
+   documentNo: string;
+   mobilePhone: string;
+   phone: string;
+   bonuspoints: number;
+}
 
 export class UserProviderClass {
   public setBonuspoints(userId: string, bonuspoints: number) {
@@ -29,9 +29,9 @@ export class UserProviderClass {
 
   public async updateBonuspoints(userId: string, bonuspoints: number) {
     try {
-      const result = await axios.post(
-        `${API_URL}/api/users/{userId}/bonuspoints`,
-        { userId, bonuspoints },
+      const result = await axios.patch(
+        `${API_URL}/api/users/${userId}/bonuspoints`,
+        { "bonuspoints": bonuspoints },
         // Authorization check is done in the backend
         { withCredentials: true }
       );

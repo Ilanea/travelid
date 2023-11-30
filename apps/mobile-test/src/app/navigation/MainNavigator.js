@@ -38,41 +38,7 @@ const MainNavigator = () => {
       {authenticated ? (
      <  >
      
-      <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        options={{ headerShown: false }}
-      />
-     
-      </>
-      ) : (
-        <>  
-          <Stack.Screen
-            name="Welcome"
-            component={Welcome}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="LoginScreen"
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="RegisterStep1"
-            component={RegisterStep1}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="RegisterStep2"
-            component={RegisterStep2Optional}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="RegisterStep3Optional"
-            component={RegisterStep3}
-            options={{ headerShown: false }}
-          />
-           <Stack.Screen
+     <Stack.Screen
      name="Home"
      component={Home}
      options={{ headerShown: false }}
@@ -111,6 +77,36 @@ const MainNavigator = () => {
           },
           headerTintColor: "white"
         }}/>
+     
+      </>
+      ) : (
+        <>  
+          <Stack.Screen
+            name="Welcome"
+            component={Welcome}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="LoginScreen"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="RegisterStep1"
+            component={RegisterStep1}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="RegisterStep2"
+            component={RegisterStep2Optional}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="RegisterStep3Optional"
+            component={RegisterStep3}
+            options={{ headerShown: false }}
+          />
+   
         </>
       )}
     </Stack.Navigator>
