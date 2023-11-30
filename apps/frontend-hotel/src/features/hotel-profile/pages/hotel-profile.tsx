@@ -68,18 +68,20 @@ function HotelProfilePage() {
   console.log('properties parent', properties);
 
   return (
-    <div className="p-12 h-full space-y-2 justify-center flex">
+    <div className="py-6 h-full space-y-2 space-x-4 justify-start flex">
       <SidebarNav items={categories} />
-      {selectedNav === 'general' && <GeneralForm properties={properties} />}
-      {selectedNav === 'description' && <DescriptionForm />}
+      <div className="w-[800px]">
+        {selectedNav === 'general' && <GeneralForm profile={profile} />}
+        {selectedNav === 'description' && <DescriptionForm profile={profile} />}
 
-      {selectedNav !== 'general' && (
-        <PropertiesForm
-          properties={properties}
-          selectedNav={selectedNav}
-          profile={profile}
-        />
-      )}
+        {selectedNav !== 'general' && (
+          <PropertiesForm
+            properties={properties}
+            selectedNav={selectedNav}
+            profile={profile}
+          />
+        )}
+      </div>
     </div>
   );
 }

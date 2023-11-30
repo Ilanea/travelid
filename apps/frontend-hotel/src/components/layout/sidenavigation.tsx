@@ -22,6 +22,7 @@ const SideNavigation = () => {
     { name: 'Rewards', to: '/rewards', icon: Icons.gift },
     { name: 'Example', to: '/example', icon: Icons.folder },
     { name: 'Reports', to: '/reports', icon: Icons.fileBarChart },
+    { name: 'Properties', to: '/properties', icon: Icons.tableProperties },
     authUser?.role === Role.ADMIN && {
       name: 'Users',
       to: './users',

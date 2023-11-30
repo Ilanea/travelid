@@ -17,6 +17,14 @@ export class PropertyController {
   ) {
     return this.propertyService.getAllProperties();
   }
+/*   @Roles(Role.ADMIN) */
+  @UseGuards(AuthenticatedGuard)
+  @ApiCookieAuth()
+  @Post('')
+  async createProperty(@Body() dto: CreatePropertyDto) {
+    return await this.propertyService.createProperty(dto);
+  }
+
 
  /*  @Get('/:propertyId')
   async getProperty(@Param('propertyId') propertyId: string) {

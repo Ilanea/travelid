@@ -11,6 +11,8 @@ const dummyHotel: Hotel = {
   name: '',
   email: '',
   website: '',
+  subtitle: '',
+  urls: [],
   phoneNumber: '',
   address: '',
   description: '',

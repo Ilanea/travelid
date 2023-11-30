@@ -1,17 +1,11 @@
-import { axios } from '@hotel/lib/axios';
 import { axiosPrivate } from '@hotel/lib/axios-private';
-
-import { HotelProfile, PropertyCategory, UpdateHotelProfile } from '../types';
 
 //import { AuthUser } from '../types';
 
-export const updateHotelProfile = async (
-  hotelId: number,
-  data: UpdateHotelProfile
-): Promise<UpdateHotelProfile> => {
+export const createProperty = async (data: any): Promise<any> => {
   console.log('updateHotelProfile', data);
 
-  const response = await axiosPrivate.patch(`/hotels/${hotelId}`, data);
+  const response = await axiosPrivate.post(`/properties`, data);
   /*  const bookings = response.map((booking) => {
     return {
       // TODO - string?

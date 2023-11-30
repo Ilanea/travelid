@@ -272,126 +272,12 @@ export const properties = [
           {
             name: 'Snack bar',
           },
-          {
-            name: 'Bar',
-          },
-          {
-            name: 'Minibar',
-          },
-          {
-            name: 'Coffee machine',
-          },
-          {
-            name: 'Bottled water',
-          },
-          {
-            name: 'Wine/champagne',
-          },
-          {
-            name: 'Kid-friendly buffet',
-          },
-          {
-            name: 'Kid meals',
-          },
-          {
-            name: 'Fruits',
-          },
-          {
-            name: 'Chocolate or cookies',
-          },
-          {
-            name: 'On-site coffee house',
-          },
-          {
-            name: 'Breakfast options',
-          },
-          {
-            name: 'Café on site',
-          },
-          {
-            name: 'Fruit',
-          },
-          {
-            name: 'Bottle of water',
-          },
-          {
-            name: 'Wine/champagne',
-          },
-          {
-            name: 'Kid meals',
-          },
-          {
-            name: 'Special diet menus (on request)',
-          },
-          {
-            name: 'Snack bar',
-          },
-          {
-            name: 'Bar',
-          },
-          {
-            name: 'Restaurant',
-          },
-          {
-            name: 'Good coffee!',
-          },
         ],
       },
       {
         name: 'Bar',
         properties: [
           {
-            name: 'Breakfast buffet',
-          },
-          {
-            name: 'Breakfast à la carte',
-          },
-          {
-            name: 'Breakfast in the room',
-          },
-          {
-            name: 'Half board',
-          },
-          {
-            name: 'Full board',
-          },
-          {
-            name: 'À la carte restaurant',
-          },
-          {
-            name: 'Buffet restaurant',
-          },
-          {
-            name: 'Vegetarian food',
-          },
-          {
-            name: 'Vegan food',
-          },
-          {
-            name: 'Gluten-free food',
-          },
-          {
-            name: 'Lactose-free food',
-          },
-          {
-            name: 'Diet food',
-          },
-          {
-            name: "Children's menu",
-          },
-          {
-            name: 'Outdoor dining area',
-          },
-          {
-            name: 'Room service',
-          },
-          {
-            name: 'Special diet menus (on request)',
-          },
-          {
-            name: 'Snack bar',
-          },
-          {
             name: 'Bar',
           },
           {
@@ -405,33 +291,6 @@ export const properties = [
           },
           {
             name: 'Wine/champagne',
-          },
-          {
-            name: 'Fruits',
-          },
-          {
-            name: 'Chocolate or cookies',
-          },
-          {
-            name: 'On-site coffee house',
-          },
-          {
-            name: 'Breakfast options',
-          },
-          {
-            name: 'Café on site',
-          },
-          {
-            name: 'Fruit',
-          },
-          {
-            name: 'Bottle of water',
-          },
-          {
-            name: 'Wine/champagne',
-          },
-          {
-            name: 'Good coffee!',
           },
         ],
       },

@@ -33,7 +33,24 @@ export class PropertyService {
       return properties;
     }
 
-  a/* sync getProperty(propertyId: number) {
+    async createProperty(dto: CreatePropertyDto) {
+      const { subCategoryId, ...rest } = dto;
+      const property = await this.prisma.hotelProperty.create({
+        data: {
+          ...rest,
+          subCategory: {
+            connect: { id: subCategoryId },
+          },
+        },
+      });
+      if(!property) {
+        throw new BadRequestException('Property not created');
+      }
+  
+      return property;
+    }
+
+  /* sync getProperty(propertyId: number) {
     const property = await this.prisma.property.findUnique({
       where: { id: propertyId },
     });

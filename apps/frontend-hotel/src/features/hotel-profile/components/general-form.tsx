@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -23,8 +24,10 @@ import {
 } from '@libs/ui-web';
 import { cn } from '@libs/utils';
 
+import { updateHotelProfile } from '../api/update-profile';
+
 const profileFormSchema = z.object({
-  username: z
+  name: z
     .string()
     .min(2, {
       message: 'Username must be at least 2 characters.',
@@ -45,7 +48,7 @@ const profileFormSchema = z.object({
       required_error: 'Please select an email to display.',
     })
     .email(),
-  bio: z.string().max(1200).min(4),
+  phoneNumber: z.string().max(1200).min(4),
   urls: z
     .array(
       z.object({
@@ -58,20 +61,34 @@ const profileFormSchema = z.object({
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 // This can come from your database or API.
-const defaultValues: Partial<ProfileFormValues> = {
-  username: 'Hotel Sacher Salzburg',
-  bio: 'Das Hotel Sacher in Salzburg gilt als eines der weltweit besten Luxushotels in der Heimatstadt Mozarts. Lassen Sie das besondere Flair von Salzburg in einzigartigem elegantem Ambiente auf sich wirken. Besuchen Sie Mozarts Geburtshaus, die Festung Hohensalzburg oder die Salzburger Festspiele und erleben Sie erstklassigen Komfort, Gastfreundlichkeit und Kultur im Herzen von Salzburg.',
-  subtitle: 'Stilvoller Luxus in Mozarts Geburtssadt',
-  urls: [
-    { value: 'https://sacher.com' },
-    { value: 'http://instagram.com/sacher' },
-  ],
-};
 
-export function GeneralForm() {
+export function GeneralForm({ profile }) {
+  console.log('profile', profile);
+
+  const defaultValues: Partial<ProfileFormValues> = {
+    name: profile?.name,
+    subtitle: profile?.subtitle,
+    email: profile?.email,
+    phoneNumber: profile?.phoneNumber,
+    urls: profile?.urls,
+  };
+
+  console.log('urls', profile);
+
+  useEffect(() => {
+    form.reset({
+      name: profile?.name,
+      subtitle: profile?.subtitle,
+      email: profile?.email,
+      phoneNumber: profile?.phoneNumber,
+      urls: profile?.urls?.map((item) => {
+        return { value: item };
+      }),
+    });
+  }, [profile]);
+
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues,
     mode: 'onChange',
   });
 
@@ -81,14 +98,23 @@ export function GeneralForm() {
   });
 
   function onSubmit(data: ProfileFormValues) {
-    toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+    const { urls, ...myData } = data;
+    const flatUrls = urls?.map((item) => {
+      return item.value;
     });
+
+    const response = updateHotelProfile(profile.id, {
+      urls: flatUrls,
+      ...myData,
+    });
+
+    if (response) {
+      toast({
+        title: 'Profile updated',
+        description: 'Your profile has been updated.',
+        duration: 3000,
+      });
+    }
   }
 
   return (
@@ -105,7 +131,7 @@ export function GeneralForm() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
-            name="username"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Name</FormLabel>
@@ -124,7 +150,7 @@ export function GeneralForm() {
             name="subtitle"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Subtitle</FormLabel>
+                <FormLabel>Short Description</FormLabel>
                 <FormControl>
                   <Input placeholder="The relax hotel..." {...field} />
                 </FormControl>
@@ -137,76 +163,63 @@ export function GeneralForm() {
           />
           <FormField
             control={form.control}
-            name="bio"
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Textarea
-                    placeholder="Tell us about your hotel."
-                    {...field}
-                  />
+                  <Input placeholder="The relax hotel..." {...field} />
                 </FormControl>
-
+                <FormDescription>
+                  This is a short description of your hotel.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
-            name="email"
+            name="phoneNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a verified email to display" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="buchung@sacher.at">
-                      buchung@sacher.com
-                    </SelectItem>
-                    <SelectItem value="office@sacher.at">
-                      office@sacher.com
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                <FormLabel>Phone</FormLabel>
+                <FormControl>
+                  <Input placeholder="The relax hotel..." {...field} />
+                </FormControl>
                 <FormDescription>
-                  Choose a verified email address.
-                  {/*  <Link href="/examples/forms">email settings</Link>. */}
+                  This is a short description of your hotel.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-
           <div>
-            {fields.map((field, index) => (
-              <FormField
-                control={form.control}
-                key={field.id}
-                name={`urls.${index}.value`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className={cn(index !== 0 && 'sr-only')}>
-                      URLs
-                    </FormLabel>
-                    <FormDescription className={cn(index !== 0 && 'sr-only')}>
-                      Add links to your website, blog, or social media profiles.
-                    </FormDescription>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            ))}
+            {fields.map((field, index) => {
+              console.log('field', field);
+
+              return (
+                <FormField
+                  control={form.control}
+                  key={field.id}
+                  name={`urls.${index}.value`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={cn(index !== 0 && 'sr-only')}>
+                        URLs
+                      </FormLabel>
+                      <FormDescription className={cn(index !== 0 && 'sr-only')}>
+                        Add links to your website, blog, or social media
+                        profiles.
+                      </FormDescription>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              );
+            })}
             <Button
               type="button"
               variant="outline"

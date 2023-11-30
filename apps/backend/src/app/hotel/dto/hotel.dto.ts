@@ -20,6 +20,11 @@ export class CreateHotelDto {
   @ApiProperty()
   @IsString()
   @IsOptional()
+  subtitle: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
   address: string;
 
   @ApiPropertyOptional()
@@ -31,6 +36,11 @@ export class CreateHotelDto {
   @IsArray()
   @IsOptional()
   properties?: number[];
+
+  @ApiPropertyOptional()
+  @IsArray()
+  @IsOptional()
+  urls?: string[];
 }
 
 export class CreateReviewDto {

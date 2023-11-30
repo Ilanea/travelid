@@ -30,8 +30,10 @@ export class HotelService {
         description: true,
         address: true,
         phoneNumber: true,
+        subtitle: true,
         email: true,
         categories: true,
+        urls: true,
         hotelProperties: {
           select: {
             id: true,

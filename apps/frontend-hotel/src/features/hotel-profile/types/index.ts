@@ -24,12 +24,25 @@ export type HotelProfile = {
   id: number;
   name: string;
   description?: string;
+  subtitle?: string;
   address: string;
   phone: string;
   email: string;
   website: string;
   isActive: boolean;
   properties: Property[];
+  urls: string[];
+};
+
+export type UpdateHotelProfile = {
+  name?: string;
+  description?: string;
+  subtitle?: string;
+  address?: string;
+  phoneNumber?: string;
+  email?: string;
+  properties?: Property[];
+  urls?: string[];
 };
 
 /* export enum Role {
