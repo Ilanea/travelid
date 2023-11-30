@@ -21,6 +21,7 @@
     "metro-config": "*",
     "react": "*",
     "react-native": "0.72.6",
+    "react-native-calendars": "^1.1302.0",
     "react-native-dropdown-picker": "^5.4.6",
     "react-native-dropdown-select-list": "2.0.0",
     "react-native-paper": "4.9.2",

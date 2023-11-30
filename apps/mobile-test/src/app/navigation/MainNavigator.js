@@ -9,8 +9,8 @@ import LoadingScreen from '../screens/LoadingScreen';
 import LoginScreen from '../screens/LoginScreen';
 import Profile from '../screens/Profile';
 import RegisterStep1 from '../screens/RegisterStep1';
-import RegisterStep2Optional from '../screens/RegisterStep2Optional';
-import RegisterStep3 from '../screens/RegisterStep3';
+import RegisterStep2Optional from '../screens/RegisterStep2';
+import RegisterStep3 from '../screens/RegisterStep3Optional';
 import Results from '../screens/Results';
 import Welcome from '../screens/Welcome';
 
@@ -90,12 +90,12 @@ const MainNavigator = () => {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="RegisterStep2Optional"
+            name="RegisterStep2"
             component={RegisterStep2Optional}
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="RegisterStep3"
+            name="RegisterStep3Optional"
             component={RegisterStep3}
             options={{ headerShown: false }}
           />
