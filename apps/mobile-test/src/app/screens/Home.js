@@ -27,6 +27,20 @@ import {
 
 const { parseISO } = require('date-fns');
 
+const { authState, onLogout } = useAuth();
+const [authenticated, setAuthenticated] = useState(authState?.authenticated);
+
+useEffect(() => {
+  setAuthenticated(authState?.authenticated);
+}, [authState]);
+
+const handleLogout = async () => {
+  if (onLogout) {
+    await onLogout();
+    console.log('Logout successful');
+  }
+};
+
 //const userService = new UserService();
 
 // Rufe die benötigten Methoden der UserService auf,
