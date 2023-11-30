@@ -1,7 +1,7 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Link, Stack } from 'expo-router';
 import React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   FlatList,
   Image,
@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
+import { useAuth } from '../provider/AuthProvider';
 import { theme } from '../theme/theme.js';
 import { getUserData } from '../utils/apiFunctions.js';
 import {
@@ -26,20 +27,6 @@ import {
 } from '../utils/internalFunctions.js';
 
 const { parseISO } = require('date-fns');
-
-const { authState, onLogout } = useAuth();
-const [authenticated, setAuthenticated] = useState(authState?.authenticated);
-
-useEffect(() => {
-  setAuthenticated(authState?.authenticated);
-}, [authState]);
-
-const handleLogout = async () => {
-  if (onLogout) {
-    await onLogout();
-    console.log('Logout successful');
-  }
-};
 
 //const userService = new UserService();
 
@@ -51,6 +38,20 @@ const handleLogout = async () => {
 const user = getUserData();
 
 export default function Home() {
+  const { authState, onLogout } = useAuth();
+  const [authenticated, setAuthenticated] = useState(authState?.authenticated);
+
+  useEffect(() => {
+    setAuthenticated(authState?.authenticated);
+  }, [authState]);
+
+  const handleLogout = async () => {
+    if (onLogout) {
+      await onLogout();
+      console.log('Logout successful');
+    }
+  };
+
   function showFilterView() {
     if (!filterView) {
       return (
