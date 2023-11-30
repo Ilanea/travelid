@@ -1,11 +1,12 @@
 import { FontAwesome5 } from '@expo/vector-icons';
-import { Link, Stack } from 'expo-router';
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../provider/AuthProvider';
+
 import {
   FlatList,
   Image,
-  Pressable,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -14,16 +15,16 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  KeyboardAvoidingView
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
-import { useAuth } from '../provider/AuthProvider';
+//import { UserService } from '../services/user.service.js';
 import { theme } from '../theme/theme.js';
 import { getUserData } from '../utils/apiFunctions.js';
 import {
   filterHotels,
   formatDate,
-  getFilters,
 } from '../utils/internalFunctions.js';
 
 const { parseISO } = require('date-fns');
@@ -35,9 +36,11 @@ const { parseISO } = require('date-fns');
 //const user = await userService.getUser(1);
 
 //platzhalter für später, soll user daten simulieren.
-const user = getUserData();
+const user = getUserData()
 
-export default function Home() {
+
+const Home = () => {
+  const navigation = useNavigation();
   const { authState, onLogout } = useAuth();
   const [authenticated, setAuthenticated] = useState(authState?.authenticated);
 
@@ -45,35 +48,25 @@ export default function Home() {
     setAuthenticated(authState?.authenticated);
   }, [authState]);
 
-  const handleLogout = async () => {
-    if (onLogout) {
-      await onLogout();
-      console.log('Logout successful');
-    }
-  };
-
+  
   function showFilterView() {
     if (!filterView) {
       return (
         <View
           style={{
-            justifyContent: 'center',
+            width: "100%",
             alignItems: 'center',
-            paddingTop: 20,
           }}
         >
           <Image
-            source={require('../pics/aquadome.jpg')} // Use require to specify the image source
+            source={require('../pics/aquadome.jpg')} 
             style={styles.recommImage}
           />
-          <Text style={{ fontWeight: 'bold' }}>Details</Text>
-          <Text numberOfLines={4} style={{ width: 350 }}>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-            sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+          <View style={{alignItems: "left", width: "100%", left: 30, top: -20}}>
+            <Text style={{ fontWeight: 'bold' }}>Details</Text>
+          </View>
+          <Text numberOfLines={4} style={{ width: 350 , top: -20}}>
+          Inmitten der atemberaubenden Ötztaler Natur, umringt von der stillen Erhabenheit der Berge, schaffen wir eine Atmosphäre, die Wellness neu definiert. In unserem 4-Sterne-Superior Hotel AQUA DOME Tirol Therme Längenfeld finden Sie zu innerer Ruhe und neuer Kraft. Freuen Sie sich auf eine einzigartige Thermen- und Saunawelt und spazieren Sie danach durch den futuristisch gestalteten Bademantelgang direkt in das Hotel. 
           </Text>
         </View>
       );
@@ -84,6 +77,7 @@ export default function Home() {
             justifyContent: 'center',
             alignItems: 'center',
             paddingTop: 5,
+            top: "10%"
           }}
         >
           <FlatList
@@ -102,6 +96,7 @@ export default function Home() {
 
   const date = new Date(); //creates new reference to the Date Object to use as End Date by adding a week to today
   date.setDate(date.getDate() + 7);
+
 
   const [formattedDate, changeFormattedDate] = React.useState(
     formatDate(new Date(), new Date(date))
@@ -148,7 +143,7 @@ export default function Home() {
   };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity
+    <TouchableOpacity 
       style={[
         styles.filterButton,
         selectedFilters.includes(Object.keys(item)[0])
@@ -170,7 +165,11 @@ export default function Home() {
   );
 
   return (
+    <KeyboardAvoidingView style={{ flex: 1 }}
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}>
     <SafeAreaView style={styles.container}>
+      
       <StatusBar
         barStyle="dark-content"
         backgroundColor={theme.backgroundLightBlue}
@@ -247,7 +246,7 @@ export default function Home() {
               flex: 1,
             }}
           >
-            <TouchableOpacity
+            <TouchableOpacity 
               onPress={() => onChangeAmountGuests(amountGuests + 1)}
             >
               <Text style={{ fontSize: 30, paddingRight: 5 }}>+</Text>
@@ -273,11 +272,9 @@ export default function Home() {
         </View>
       </View>
       <View>
-        <Link href="/Results" asChild>
-          <TouchableOpacity style={styles.button} onPress={filterHotels}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Results")}>
             <Text style={styles.buttonText}>Search</Text>
           </TouchableOpacity>
-        </Link>
         <Text>{hotelList}</Text>
       </View>
       <View style={styles.bottomContainer}>
@@ -287,20 +284,21 @@ export default function Home() {
             <FontAwesome5 name="home" size={24} color="white" />
           </View>
           <View style={styles.mainButtonSeparator} />
-          <View style={styles.mainButtonMiddle}>
-            <Link href="/Profile" asChild>
-              <FontAwesome5 name="user" size={24} color="white" />
-            </Link>
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+            <View style={styles.mainButtonMiddle}>
+                <FontAwesome5 name="user" size={24} color="white" />
+            </View>
+          </TouchableOpacity>
           <View style={styles.mainButtonSeparator} />
-          <View style={styles.mainButtonRight}>
-            <Link href="/BonuspunktePage" asChild>
-              <Text style={{ color: 'white' }}>Points</Text>
-            </Link>
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("BonuspunktePage")}>
+            <View style={styles.mainButtonRight}>
+                <Text style={{ color: 'white' }}>Points</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -310,10 +308,8 @@ const styles = StyleSheet.create({
     backgroundColor: theme.backgroundLightBlue,
     justifyContent: 'flex-start', // Align items vertically with space-between
     keyboardShouldPersistTaps: 'handled',
-    marginTop: StatusBar.currentHeight || 0,
   },
   topContainer: {
-    marginTop: 20,
     alignItems: 'center',
     paddingHorizontal: 20,
   },
@@ -328,6 +324,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.backgroundDarkBlue,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
+    
   },
   inputView: {
     flexDirection: 'row',
@@ -365,7 +362,8 @@ const styles = StyleSheet.create({
     backgroundColor: theme.mainButton,
     width: '80%',
     height: 60,
-    marginTop: '10%',
+    bottom: 20,
+    position: "absolute",
   },
   mainButtonLeft: {
     marginRight: 20,
@@ -414,5 +412,9 @@ const styles = StyleSheet.create({
     height: 200,
     width: 350,
     borderRadius: 20,
+    top: -50
   },
 });
+
+
+export default Home;

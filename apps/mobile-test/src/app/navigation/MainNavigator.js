@@ -5,6 +5,7 @@ import { useAuth } from '../provider/AuthProvider';
 import BonuspunktePage from '../screens/BonuspunktePage';
 import Booking from '../screens/Booking';
 import Home from '../screens/Home';
+import HomeScreen from '../screens/HomeScreen';
 import LoadingScreen from '../screens/LoadingScreen';
 import LoginScreen from '../screens/LoginScreen';
 import Profile from '../screens/Profile';
@@ -17,8 +18,11 @@ import Welcome from '../screens/Welcome';
 const Stack = createStackNavigator();
 
 const MainNavigator = () => {
+  
   const { authState } = useAuth();
   const [authenticated, setAuthenticated] = useState(authState?.authenticated);
+
+ 
 
   useEffect(() => {
     console.log('MainNavigator - authState:', authState);
@@ -32,48 +36,17 @@ const MainNavigator = () => {
   return (
     <Stack.Navigator>
       {authenticated ? (
-        <>
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Profile"
-            component={Profile}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Results"
-            component={Results}
-            options={{
-              headerTransparent: true,
-              headerTitle: 'Innsbruck',
-              headerTitleStyle: {
-                color: 'white',
-                fontSize: 30,
-              },
-            }}
-          />
-          <Stack.Screen
-            name="BonuspunktePage"
-            component={BonuspunktePage}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Booking"
-            component={Booking}
-            options={{
-              headerTitle: '',
-              headerTransparent: true,
-              headerStyle: {
-                backgroundColor: 'rgba(84, 106, 131, 0.5)',
-              },
-            }}
-          />
-        </>
+     <  >
+     
+      <Stack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+     
+      </>
       ) : (
-        <>
+        <>  
           <Stack.Screen
             name="Welcome"
             component={Welcome}
@@ -99,6 +72,45 @@ const MainNavigator = () => {
             component={RegisterStep3}
             options={{ headerShown: false }}
           />
+           <Stack.Screen
+     name="Home"
+     component={Home}
+     options={{ headerShown: false }}
+   />
+   <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Results"
+        component={Results}
+        options={{
+          headerTransparent: true,
+          headerTitle: 'Innsbruck',
+          headerTitleStyle: {
+            color: 'white',
+            fontSize: 30,
+          },
+          headerTintColor: "white"
+        }}
+      />
+      <Stack.Screen
+        name="BonuspunktePage"
+        component={BonuspunktePage}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Booking"
+        component={Booking}
+        options={{
+          headerTitle: '',
+          headerTransparent: true,
+          headerStyle: {
+            backgroundColor: 'rgba(84, 106, 131, 0.5)',
+          },
+          headerTintColor: "white"
+        }}/>
         </>
       )}
     </Stack.Navigator>

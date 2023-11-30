@@ -26,16 +26,17 @@ export default function Booking() {
   }
 
   const [imageArr, setImageArr] = useState([
-    require("../pics/aquadome.jpg"),
-    require("../pics/aquadome2.jpg"),
-    require("../pics/aquadome3.jpg"),
-    require("../pics/aquadome4.jpg"),
-    require("../pics/aquadome5.webp"),
-    require("../pics/aquadome.jpg"),
-    require("../pics/aquadome2.jpg"),
-    require("../pics/aquadome3.jpg"),
-    require("../pics/aquadome4.jpg"),
-    require("../pics/aquadome5.webp"),
+    require("../pics/hotel.jpg"),
+    require("../pics/tirol1.jpg"),
+    require("../pics/tirol2.jpg"),
+    require("../pics/tirol3.jpg"),
+    require("../pics/tirol4.jpg"),
+    require("../pics/hotel.jpg"),
+    require("../pics/tirol1.jpg"),
+    require("../pics/tirol2.jpg"),
+    require("../pics/tirol3.jpg"),
+    require("../pics/tirol4.jpg"),
+    
   ]);
 
   function handleMainImage() {
@@ -73,7 +74,7 @@ export default function Booking() {
       <View style={ styles.topContentContainer }>
         <View style={styles.headlineContainer}>
           <Text style={styles.headline}>
-            Aqua Dome
+            Hotel Innsbruck
           </Text>
           <Text style={{ marginLeft: "auto" }}>
             ⭐4
@@ -92,12 +93,7 @@ export default function Booking() {
         
           <View style={{ alignItems: "center",  width: "100%", top: 20, }}>
             <Text numberOfLines={4} style={{ marginLeft: 30,  marginRight: 30 }}>
-              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-              nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-              erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-              et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-              Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-              sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+            Am Ufer des Inns und direkt im Stadtzentrum befindet sich das charmante Hotel Das Innsbruck**** Das Innsburuck**** bietet 115 stilvoll gestaltete Zimmer und Suiten in mehreren Kategorien. Der Panorama Wellness | SPA über den Dächern Innsbrucks erwartet Sie mit Panoramafenstern, einem Aromadampfbad, einer Biosauna (45°C, 50% Luftfeuchtigkeit), einer finnischen Sauna (90°C), Erlebnisduschen, einem Eisbrunnen, einer Infrarotkabine, einer Tee- und Vitaminecke, einem Ruheraum sowie einer Sonnenterrasse. Der 24/7 Golden Pool | Dress on SPA ist vom Goldenen Dachl inspiriert und biete neben dem Goldenen Pool, Ruhebereiche und eine Textilsauna. Gegen Aufpreis stehen Ihnen auch ein Solarium und ein Massageangebot zur Verfügung. Zu den weiteren Annehmlichkeiten des Hotels zählen eine Abend-Hotelbar & Minotti Lounge mit Kaminfeuer und Pianoklängen, ein á la carte Abendrestaurant, ein Spotdepot sowie ein Conventionbereich für bis zu 80 Personen.
             </Text>
             
           </View>

@@ -22,17 +22,19 @@ const LoginScreen = () => {
   const { onLogin } = useAuth();
 
   const handleLogin = async () => {
-    if (onLogin) {
-      try {
+    try {
+      if (onLogin) {
         await onLogin(email, password);
         console.log('Login successful');
-      } catch (error) {
-        console.error('Login failed:', error);
+        navigation.navigate('Home'); // Move navigation inside the try block
+      } else {
+        console.error('onLogin is undefined');
       }
-    } else {
-      console.error('onLogin is undefined');
+    } catch (error) {
+      console.error('Login failed:', error);
     }
   };
+  
   const navigation = useNavigation();
 
   return (
