@@ -349,7 +349,7 @@ const RegisterStep3Optional = () => {
       <View style={[styles.bottomnavigate, styles.buttonFlexBox]}>
         <Pressable
           style={[styles.button, styles.buttonFlexBox]}
-          onPress={() => navigation.navigate("LoginScreen")}
+          onPress={() => navigation.navigate("Home")}
         >
           <Text style={[styles.labelText, styles.skipTypo]}>Save</Text>
           <Image
@@ -360,7 +360,7 @@ const RegisterStep3Optional = () => {
         </Pressable>
         <Pressable
           style={[styles.skipParent, styles.buttonFlexBox]}
-          onPress={() => navigation.navigate("LoginScreen")}
+          onPress={() => navigation.navigate("Home")}
         >
           <Text style={[styles.skip, styles.skipTypo]}>Skip</Text>
           <Image
