@@ -105,16 +105,17 @@ const RegisterStep1 = () => {
       />
       <Pressable
         style={[styles.button, styles.buttonSpaceBlock]}
-        onPress={() => {
-          handleSignup?.(username, password, email)
-            .then(() => {
-              navigation.navigate('RegisterStep2');
-            })
+        onPress={
+          /*() => {*/
+          handleSignup
+          /*.then(() => {
+              navigation.navigate('RegisterStep2');*/
+        } /*</View>)
             .catch((error) => {
               console.error('Registration error:', error);
               // Handle registration error
             });
-        }}
+        }}*/
       >
         <Text style={[styles.labelText, styles.labelTextTypo]}>Complete</Text>
         <Image
