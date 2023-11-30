@@ -67,11 +67,7 @@ const MainNavigator = () => {
             component={RegisterStep3}
             options={{ headerShown: false }}
           />
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{ headerShown: false }}
-          />
+
           <Stack.Screen
             name="Profile"
             component={Profile}
