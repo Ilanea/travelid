@@ -137,7 +137,7 @@ model Reward {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name        String
+  name        String @unique
   description String?
 
   hotel   Hotel[] @relation(name: "HotelProperties")
@@ -152,6 +152,7 @@ model Reward {
   updatedAt DateTime @updatedAt
 
   name        String
+  url         String @unique
   description String?
 
   subCategories HotelPropertySubCategory[]

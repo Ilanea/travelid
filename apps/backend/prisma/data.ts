@@ -158,6 +158,7 @@ export const rewards = [
 export const properties = [
   {
     name: 'Facilities',
+    url: 'facilities',
     subCategories: [
       {
         name: 'Spa',
@@ -215,6 +216,7 @@ export const properties = [
   },
   {
     name: 'Food & Drink',
+    url: 'food-and-drink',
     subCategories: [
       {
         name: 'Restaurant',
@@ -437,6 +439,7 @@ export const properties = [
   },
   {
     name: 'Services',
+    url: 'services',
     subCategories: [
       {
         name: 'Reception',

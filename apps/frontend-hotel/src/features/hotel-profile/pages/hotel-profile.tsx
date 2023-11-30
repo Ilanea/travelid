@@ -1,29 +1,87 @@
 import { Tabs } from '@radix-ui/react-tabs';
-import React from 'react';
+import { set } from 'date-fns';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { Separator, TabsContent, TabsList, TabsTrigger } from '@libs/ui-web';
 
-import { FacilitiesForm } from '../components/facilities-form';
-import { ProfileForm } from '../components/profile-form';
+import { useAuthStore } from '@hotel/features/auth/store/auth';
 
-function HotelProfile() {
+import { getHotelProfile } from '../api/get-profile';
+import { getPropertyCategories } from '../api/get-property-categories';
+import { DescriptionForm } from '../components/description-form';
+import { FacilitiesForm2 } from '../components/facilities-form2';
+import { GeneralForm } from '../components/general-form';
+import { PropertiesForm } from '../components/properties-form';
+import { SidebarNav } from '../components/sidebar-nav';
+import { HotelProfile } from '../types';
+
+let sidebarNavItems = [
+  {
+    title: 'General',
+    href: '/profile/general',
+  },
+  {
+    title: 'Description',
+    href: '/profile/description',
+  },
+];
+
+function HotelProfilePage() {
+  const [categories, setCategories] = useState([]);
+  const [properties, setProperties] = useState([]);
+  const [profile, setProfile] = useState({});
+  const location = useLocation();
+  const userAuth = useAuthStore((state) => state.user);
+
+  const myPath = location.pathname.split('/');
+  // get last item in array
+  const selectedNav = myPath[myPath.length - 1];
+  console.log('myPropertyCategory', selectedNav);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await getPropertyCategories();
+      let myNavItems = [...sidebarNavItems];
+
+      console.log('response ############', response);
+
+      response.forEach((category) => {
+        myNavItems.push({
+          title: category.name,
+          href: '/profile/' + category.url,
+        });
+      });
+
+      setCategories(myNavItems);
+      setProperties(response);
+    };
+
+    const fetchProfile = async () => {
+      const response = await getHotelProfile(userAuth?.hotelsAsAdmin[0].id);
+      setProfile(response);
+    };
+    fetchCategories();
+    fetchProfile();
+  }, []);
+
+  console.log('properties parent', properties);
+
   return (
     <div className="p-12 h-full space-y-2 justify-center flex">
-      {' '}
-      <Tabs defaultValue="account" className="w-[800px]">
-        <TabsList>
-          <TabsTrigger value="account">Profile</TabsTrigger>
-          <TabsTrigger value="password">Facilities</TabsTrigger>
-        </TabsList>
-        <TabsContent value="account">
-          <ProfileForm />
-        </TabsContent>
-        <TabsContent value="password">
-          <FacilitiesForm />
-        </TabsContent>
-      </Tabs>
+      <SidebarNav items={categories} />
+      {selectedNav === 'general' && <GeneralForm properties={properties} />}
+      {selectedNav === 'description' && <DescriptionForm />}
+
+      {selectedNav !== 'general' && (
+        <PropertiesForm
+          properties={properties}
+          selectedNav={selectedNav}
+          profile={profile}
+        />
+      )}
     </div>
   );
 }
 
-export default HotelProfile;
+export default HotelProfilePage;

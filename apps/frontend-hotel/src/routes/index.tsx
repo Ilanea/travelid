@@ -4,7 +4,7 @@ import Report from '@hotel/features/HotelPage/pages/Report';
 import RequireAuth from '@hotel/features/auth/components/require-auth';
 import Bookings from '@hotel/features/bookings/pages/bookings';
 import Dashboard from '@hotel/features/dashboard/pages/dashboard';
-import HotelProfile from '@hotel/features/hotel-profile/pages/hotel-profile';
+import HotelProfilePage from '@hotel/features/hotel-profile/pages/hotel-profile';
 import NotFound from '@hotel/features/misc/pages/not-found';
 import EditReward from '@hotel/features/rewards/pages/edit-reward';
 import Rewards from '@hotel/features/rewards/pages/rewards';
@@ -33,7 +33,7 @@ export const AppRoutes = () => {
       >
         <Route path="/" element={<div>Dashboard</div>} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/hotel-profile" element={<HotelProfile />} />
+        <Route path="/profile*" element={<HotelProfilePage />} />
         <Route path="/bookings" element={<Bookings />} />
         <Route path="/rewards" element={<Rewards />} />
         <Route path="/rewards/edit" element={<EditReward />} />

@@ -42,6 +42,7 @@ const loadUsers = async () => {
       const newCategory = await prisma.hotelPropertyCategory.create({
         data: {
           name: category.name,
+          url: category.url,
         },
       });
       for (const subCategory of category.subCategories) {

@@ -11,7 +11,24 @@ export class PropertyService {
     ) {}
 
     async getAllProperties() {
-      const properties = await this.prisma.hotelProperty.findMany({
+      const properties = await this.prisma.hotelPropertyCategory.findMany({
+        select: {
+          id: true,
+          name: true,
+          url: true,
+          subCategories: {
+            select: {
+              id: true,
+              name: true,
+              properties: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
+        },
       });
       return properties;
     }

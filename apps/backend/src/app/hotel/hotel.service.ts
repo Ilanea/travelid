@@ -70,12 +70,24 @@ export class HotelService {
     hotelId: number,
     dto: CreateHotelDto,
   ) {
+    const { properties, ...hotelProfile } = dto;
+    console.log('editHotel', hotelProfile);
+    console.log('editHotel', properties);
+    console.log('editHotel', hotelId);
+    
+    
+    
     const hotel = await this.prisma.hotel.update({
       where: {
         id: hotelId,
       },
       data: {
-        ...dto,
+        ...hotelProfile,
+        hotelProperties: {
+          set: properties?.map((propertyId) => ({
+            id: propertyId,
+          })),
+        },
       },
     });
 

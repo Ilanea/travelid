@@ -17,7 +17,7 @@ const SideNavigation = () => {
   const authUser = useAuthStore((state) => state.user);
   const navigation = [
     { name: 'Dashboard', to: '/dashboard', icon: Icons.home },
-    { name: 'Hotel Profile', to: '/hotel-profile', icon: Icons.building },
+    { name: 'Hotel Profile', to: '/profile/general', icon: Icons.building },
     { name: 'Bookings', to: '/bookings', icon: Icons.calendar },
     { name: 'Rewards', to: '/rewards', icon: Icons.gift },
     { name: 'Example', to: '/example', icon: Icons.folder },
