@@ -1,12 +1,11 @@
 import { FontAwesome5 } from '@expo/vector-icons';
-import React from 'react';
-import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useAuth } from '../provider/AuthProvider';
-
+import React from 'react';
+import { useEffect, useState } from 'react';
 import {
   FlatList,
   Image,
+  KeyboardAvoidingView,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -15,17 +14,14 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  KeyboardAvoidingView
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
+import { useAuth } from '../provider/AuthProvider';
 //import { UserService } from '../services/user.service.js';
 import { theme } from '../theme/theme.js';
 import { getUserData } from '../utils/apiFunctions.js';
-import {
-  filterHotels,
-  formatDate,
-} from '../utils/internalFunctions.js';
+import { filterHotels, formatDate } from '../utils/internalFunctions.js';
 
 const { parseISO } = require('date-fns');
 
@@ -36,8 +32,7 @@ const { parseISO } = require('date-fns');
 //const user = await userService.getUser(1);
 
 //platzhalter für später, soll user daten simulieren.
-const user = getUserData()
-
+const user = getUserData();
 
 const Home = () => {
   const navigation = useNavigation();
@@ -48,25 +43,39 @@ const Home = () => {
     setAuthenticated(authState?.authenticated);
   }, [authState]);
 
-  
+  const handleLogout = async () => {
+    if (onLogout) {
+      await onLogout();
+      console.log('Logout successful');
+    }
+  };
+
   function showFilterView() {
     if (!filterView) {
       return (
         <View
           style={{
-            width: "100%",
+            width: '100%',
             alignItems: 'center',
           }}
         >
           <Image
-            source={require('../pics/aquadome.jpg')} 
+            source={require('../pics/aquadome.jpg')}
             style={styles.recommImage}
           />
-          <View style={{alignItems: "left", width: "100%", left: 30, top: -20}}>
+          <View
+            style={{ alignItems: 'left', width: '100%', left: 30, top: -20 }}
+          >
             <Text style={{ fontWeight: 'bold' }}>Details</Text>
           </View>
-          <Text numberOfLines={4} style={{ width: 350 , top: -20}}>
-          Inmitten der atemberaubenden Ötztaler Natur, umringt von der stillen Erhabenheit der Berge, schaffen wir eine Atmosphäre, die Wellness neu definiert. In unserem 4-Sterne-Superior Hotel AQUA DOME Tirol Therme Längenfeld finden Sie zu innerer Ruhe und neuer Kraft. Freuen Sie sich auf eine einzigartige Thermen- und Saunawelt und spazieren Sie danach durch den futuristisch gestalteten Bademantelgang direkt in das Hotel. 
+          <Text numberOfLines={4} style={{ width: 350, top: -20 }}>
+            Inmitten der atemberaubenden Ötztaler Natur, umringt von der stillen
+            Erhabenheit der Berge, schaffen wir eine Atmosphäre, die Wellness
+            neu definiert. In unserem 4-Sterne-Superior Hotel AQUA DOME Tirol
+            Therme Längenfeld finden Sie zu innerer Ruhe und neuer Kraft. Freuen
+            Sie sich auf eine einzigartige Thermen- und Saunawelt und spazieren
+            Sie danach durch den futuristisch gestalteten Bademantelgang direkt
+            in das Hotel.
           </Text>
         </View>
       );
@@ -77,7 +86,7 @@ const Home = () => {
             justifyContent: 'center',
             alignItems: 'center',
             paddingTop: 5,
-            top: "10%"
+            top: '10%',
           }}
         >
           <FlatList
@@ -96,7 +105,6 @@ const Home = () => {
 
   const date = new Date(); //creates new reference to the Date Object to use as End Date by adding a week to today
   date.setDate(date.getDate() + 7);
-
 
   const [formattedDate, changeFormattedDate] = React.useState(
     formatDate(new Date(), new Date(date))
@@ -143,7 +151,7 @@ const Home = () => {
   };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={[
         styles.filterButton,
         selectedFilters.includes(Object.keys(item)[0])
@@ -165,142 +173,148 @@ const Home = () => {
   );
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }}
-    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}>
-    <SafeAreaView style={styles.container}>
-      
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor={theme.backgroundLightBlue}
-      />
-      <View style={styles.topContainer}>
-        <Text
-          style={{
-            fontWeight: 'bold',
-            fontSize: 20,
-            textAlign: 'center',
-            marginTop: 13,
-          }}
-        >
-          {!filterView ? 'Hello ' + user.firstname : 'Customize Filter'}
-        </Text>
-      </View>
-      <View style={styles.searchContainer}>
-        <View style={styles.inputView}>
-          <TextInput
-            style={{ fontSize: 18 }}
-            onChangeText={onChangeText}
-            value={value}
-            placeholder="Location"
-            placeholderTextColor="black"
-          />
-          <View
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}
+    >
+      <SafeAreaView style={styles.container}>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor={theme.backgroundLightBlue}
+        />
+        <View style={styles.topContainer}>
+          <Text
             style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              flex: 1,
-              paddingRight: 10,
+              fontWeight: 'bold',
+              fontSize: 20,
+              textAlign: 'center',
+              marginTop: 13,
             }}
           >
-            <TouchableOpacity
-              onPress={
-                !filterView
-                  ? () => setFilterView(true)
-                  : () => setFilterView(false)
-              }
-            >
-              <Text>Filter</Text>
-            </TouchableOpacity>
-          </View>
+            {!filterView ? 'Hello ' + user.firstname : 'Customize Filter'}
+          </Text>
         </View>
-        <TouchableOpacity onPress={() => setCalendarVisible(true)}>
-          <TextInput
-            style={styles.inputView}
-            onChangeText={changeFormattedDate}
-            value={formattedDate}
-            placeholder={formattedDate}
-            editable={false}
-          />
-        </TouchableOpacity>
-        {isCalendarVisible && (
-          <Calendar
-            onDayPress={(day) => handleDateSelect(day)}
-            // Customize the appearance of the calendar here if needed
-          />
-        )}
-        <View style={styles.inputView}>
-          <TextInput
-            style={{ fontSize: 18, color: 'black' }}
-            onChangeText={onChangeAmountGuests}
-            value={amountGuests + ' Guests'}
-            placeholder={amountGuests + ' Guests'}
-            editable={false}
-          />
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              flex: 1,
-            }}
-          >
-            <TouchableOpacity 
-              onPress={() => onChangeAmountGuests(amountGuests + 1)}
-            >
-              <Text style={{ fontSize: 30, paddingRight: 5 }}>+</Text>
-            </TouchableOpacity>
+        <View style={styles.searchContainer}>
+          <View style={styles.inputView}>
+            <TextInput
+              style={{ fontSize: 18 }}
+              onChangeText={onChangeText}
+              value={value}
+              placeholder="Location"
+              placeholderTextColor="black"
+            />
             <View
               style={{
-                borderRightWidth: 1,
-                borderColor: 'black',
-                height: 30,
-                marginHorizontal: 10,
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                flex: 1,
+                paddingRight: 10,
               }}
-            ></View>
-            <TouchableOpacity
-              onPress={() =>
-                onChangeAmountGuests(
-                  amountGuests > 1 ? amountGuests - 1 : amountGuests - 0
-                )
-              }
             >
-              <Text style={{ fontSize: 30, paddingLeft: 5 }}>─</Text>
+              <TouchableOpacity
+                onPress={
+                  !filterView
+                    ? () => setFilterView(true)
+                    : () => setFilterView(false)
+                }
+              >
+                <Text>Filter</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <TouchableOpacity onPress={() => setCalendarVisible(true)}>
+            <TextInput
+              style={styles.inputView}
+              onChangeText={changeFormattedDate}
+              value={formattedDate}
+              placeholder={formattedDate}
+              editable={false}
+            />
+          </TouchableOpacity>
+          {isCalendarVisible && (
+            <Calendar
+              onDayPress={(day) => handleDateSelect(day)}
+              // Customize the appearance of the calendar here if needed
+            />
+          )}
+          <View style={styles.inputView}>
+            <TextInput
+              style={{ fontSize: 18, color: 'black' }}
+              onChangeText={onChangeAmountGuests}
+              value={amountGuests + ' Guests'}
+              placeholder={amountGuests + ' Guests'}
+              editable={false}
+            />
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                flex: 1,
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => onChangeAmountGuests(amountGuests + 1)}
+              >
+                <Text style={{ fontSize: 30, paddingRight: 5 }}>+</Text>
+              </TouchableOpacity>
+              <View
+                style={{
+                  borderRightWidth: 1,
+                  borderColor: 'black',
+                  height: 30,
+                  marginHorizontal: 10,
+                }}
+              ></View>
+              <TouchableOpacity
+                onPress={() =>
+                  onChangeAmountGuests(
+                    amountGuests > 1 ? amountGuests - 1 : amountGuests - 0
+                  )
+                }
+              >
+                <Text style={{ fontSize: 30, paddingLeft: 5 }}>─</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+        <View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('Results')}
+          >
+            <Text style={styles.buttonText}>Search</Text>
+          </TouchableOpacity>
+          <Text>{hotelList}</Text>
+        </View>
+        <View style={styles.bottomContainer}>
+          {showFilterView()}
+          <View style={styles.mainButtonContainer}>
+            <View style={styles.mainButtonLeft}>
+              <FontAwesome5 name="home" size={24} color="white" />
+            </View>
+            <View style={styles.mainButtonSeparator} />
+            <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+              <View style={styles.mainButtonMiddle}>
+                <FontAwesome5 name="user" size={24} color="white" />
+              </View>
+            </TouchableOpacity>
+            <View style={styles.mainButtonSeparator} />
+            <TouchableOpacity
+              onPress={() => navigation.navigate('BonuspunktePage')}
+            >
+              <View style={styles.mainButtonRight}>
+                <Text style={{ color: 'white' }}>Points</Text>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
-      </View>
-      <View>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Results")}>
-            <Text style={styles.buttonText}>Search</Text>
-          </TouchableOpacity>
-        <Text>{hotelList}</Text>
-      </View>
-      <View style={styles.bottomContainer}>
-        {showFilterView()}
-        <View style={styles.mainButtonContainer}>
-          <View style={styles.mainButtonLeft}>
-            <FontAwesome5 name="home" size={24} color="white" />
-          </View>
-          <View style={styles.mainButtonSeparator} />
-          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-            <View style={styles.mainButtonMiddle}>
-                <FontAwesome5 name="user" size={24} color="white" />
-            </View>
-          </TouchableOpacity>
-          <View style={styles.mainButtonSeparator} />
-          <TouchableOpacity onPress={() => navigation.navigate("BonuspunktePage")}>
-            <View style={styles.mainButtonRight}>
-                <Text style={{ color: 'white' }}>Points</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
       </SafeAreaView>
     </KeyboardAvoidingView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -324,7 +338,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.backgroundDarkBlue,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
-    
   },
   inputView: {
     flexDirection: 'row',
@@ -363,7 +376,7 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 60,
     bottom: 20,
-    position: "absolute",
+    position: 'absolute',
   },
   mainButtonLeft: {
     marginRight: 20,
@@ -412,9 +425,8 @@ const styles = StyleSheet.create({
     height: 200,
     width: 350,
     borderRadius: 20,
-    top: -50
+    top: -50,
   },
 });
-
 
 export default Home;
