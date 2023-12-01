@@ -6,28 +6,41 @@ import { Link } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
-import { UserData } from '../utils/internalFunctions.js';
+import { retrieveUserInfo } from '../utils/apiFunctions.js';
 import { UserProviderClass } from "../provider/UserProvider"
+import { useState, useEffect } from 'react';
 
 export default function BonuspunktePage() {
 
-  const test = new UserProviderClass()
+  const user = new UserProviderClass()
   const navigation = useNavigation();
 
-  const user = new UserData();
 
-  const [points, onChangePoints] = React.useState(user.bonusPoints.toFixed(2));
+  const [points, onChangePoints] = React.useState(0);
   const [level, onChangeLevel] = React.useState(1);
-  const [levelPoints, onChangeLevelPoints] = React.useState(200);
+  const [levelPoints, onChangeLevelPoints] = React.useState(800-points);
   const [submitText, onChangeSubmit] = React.useState()
+  
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userInfo = await retrieveUserInfo("bonuspoints");
+        onChangePoints(userInfo);
+        onChangeLevel(level < 4 ? points%800+1 : 3)
+        handleLevelImage(level)
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+      }
+    };
 
-async function test1() { 
-  return(await SecureStore.getItemAsync("userinfo"))}
+    fetchData(); // Call the async function after the component has mounted
+  }, []); // Empty dependency array to run the effect only once
 
-  const result = test1()
+  
   function handleLevelUp() {
 
-    onChangePoints((Number(points) + 100).toFixed(2))
+    onChangePoints((Number(points) + 100))
 
     onChangeLevelPoints(Number(levelPoints-100))
     onChangeSubmit("")
@@ -36,8 +49,10 @@ async function test1() {
       if(level < 3) {
         onChangeLevel(level+1)
       }
-      onChangeLevelPoints(400)
+      onChangeLevelPoints(800)
     }
+
+    return(points+100)
   }
 
   function handleLevelImage() {
@@ -51,6 +66,7 @@ async function test1() {
         return(require("../pics/MEMB_Level3.png"));
       }
   }
+
 
   return (
 
@@ -80,7 +96,7 @@ async function test1() {
       </View>
       <View style={ styles.codeContainer }>
         <TextInput style={ styles.codeInput } placeholder="enter code to add points" defaultValue={submitText} />
-        <TouchableOpacity style={ styles.submitButton } onPress={async() => console.log(result, 100)}>
+        <TouchableOpacity style={ styles.submitButton } onPress={async() => user.updateBonuspoints(await retrieveUserInfo("id"), Number(handleLevelUp()))}>
           <Text style={ styles.submitButtonText }>
             Submit
           </Text>

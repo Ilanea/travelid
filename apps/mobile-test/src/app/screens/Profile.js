@@ -4,6 +4,8 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { UserData } from '../utils/internalFunctions';
 import { useState, useEffect } from 'react';
+import { retrieveUserInfo } from '../utils/apiFunctions.js';
+import { UserProviderClass } from "../provider/UserProvider"
 import {
   Image,
   StatusBar,
@@ -36,11 +38,24 @@ export default function Profile() {
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        onChangeName(await retrieveUserInfo("firstName"))
+        onChangeEmail(await retrieveUserInfo("email"))
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+      }
+    };
+
+    fetchData(); // Call the async function after the component has mounted
+  }, []); // Empty dependency array to run the effect only once
+
   
-  const [cc, onChangeUser] = React.useState(user);
-  const [userName, onChangeName] = React.useState(user.name);
-  const [email, onChangeEmail] = React.useState(user.email);
-  const [contactNum, onChangeNumber] = React.useState(user.contactNum);
+  const [cc, onChangeUser] = React.useState("");
+  const [userName, onChangeName] = React.useState("");
+  const [email, onChangeEmail] = React.useState("");
+  const [contactNum, onChangeNumber] = React.useState("");
 
   const handleNameChange = (newName) => {
     onChangeName(newName);

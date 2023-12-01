@@ -21,7 +21,7 @@ import { Calendar } from 'react-native-calendars';
 
 //import { UserService } from '../services/user.service.js';
 import { theme } from '../theme/theme.js';
-import { getUserData } from '../utils/apiFunctions.js';
+import { retrieveUserInfo } from '../utils/apiFunctions.js';
 import {
   filterHotels,
   formatDate,
@@ -36,7 +36,7 @@ const { parseISO } = require('date-fns');
 //const user = await userService.getUser(1);
 
 //platzhalter für später, soll user daten simulieren.
-const user = getUserData()
+//const user = getUserData()
 
 
 const Home = () => {
@@ -106,11 +106,26 @@ const Home = () => {
   const [hotelList, onChangeHotelList] = useState();
   const [filterView, setFilterView] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([]);
+  const [userName, onChangeUserName] = useState();
 
   const [dateRange, setDateRange] = useState({
     startDate: null,
     endDate: null,
   });
+
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userInfoData = await retrieveUserInfo("firstName");
+        onChangeUserName(userInfoData);
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // Function to handle date selection
   const handleDateSelect = (day) => {
@@ -183,7 +198,7 @@ const Home = () => {
             marginTop: 13,
           }}
         >
-          {!filterView ? 'Hello ' + user.firstname : 'Customize Filter'}
+          {!filterView ? 'Hello ' + userName : 'Customize Filter'}
         </Text>
       </View>
       <View style={styles.searchContainer}>

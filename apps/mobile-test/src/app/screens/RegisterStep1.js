@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { useAuth } from '../provider/AuthProvider';
+import { useNavigation } from '@react-navigation/native';
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState('');
@@ -27,7 +28,7 @@ const RegisterScreen = () => {
       console.error('onSignup is undefined');
     }
   };
-
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Register Screen</Text>

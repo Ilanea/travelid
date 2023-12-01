@@ -1,4 +1,6 @@
 const { format } = require('date-fns')
+import * as SecureStore from 'expo-secure-store';
+
 
 export function getUserData() {
     return(user = {
@@ -28,6 +30,36 @@ function addPoints() {
     //query
 }
 
+
+export async function retrieveUserInfo(value) {
+    try {
+      const userInfoString = await SecureStore.getItemAsync("userInfo");
+      
+      // Parse the JSON string to get the object
+      const userInfoObject = userInfoString ? JSON.parse(userInfoString) : null;
+      
+      // Access the "id" property
+      
+      const userId = userInfoObject ? userInfoObject.id : null;
+      // Now you can use the 'userId' variable for further processing
+      switch(value) {
+        case "id":
+          return(userInfoObject.id);
+        case "bonuspoints":
+          return(userInfoObject.bonuspoints);
+        case "firstName": 
+          return(userInfoObject.firstName);
+        case "email": 
+          return(userInfoObject.email)
+      }
+  
+  
+      // You can also return the value or use it in any other way
+    } catch (error) {
+      // Handle errors here
+      console.error("Error retrieving user info:", error);
+    }
+  }
 
 
 
