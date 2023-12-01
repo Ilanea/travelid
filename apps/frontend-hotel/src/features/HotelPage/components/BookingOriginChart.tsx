@@ -24,7 +24,7 @@ const BookingOriginChart = () => {
   return (
     <DashboardCard
       className="w-1/4"
-      title="Booking Origin"
+      title="Bookings Origin"
       subtitle="How do you guests book?"
       button={
         <Button

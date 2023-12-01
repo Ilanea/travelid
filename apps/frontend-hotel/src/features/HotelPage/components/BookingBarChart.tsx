@@ -85,11 +85,8 @@ const BookingBarChart = ({ filteredData }: BookingBarChartProps) => {
       <DashboardCard
         title="Monthly Bookings"
         button={
-          <Button
-            className="bg-green-500 hover:bg-green-400"
-            onClick={() => exportToExcel(filteredData, 'bookings')}
-          >
-            Export to Excel
+          <Button onClick={() => exportToExcel(filteredData, 'bookings')}>
+            Export
           </Button>
         }
         subtitle={
@@ -133,13 +130,13 @@ const BookingBarChart = ({ filteredData }: BookingBarChartProps) => {
               dataKey={
                 view === 'daily' ? 'day' : view === 'monthly' ? 'month' : 'year'
               }
-              stroke="#003366"
+              stroke="#306395"
             />
-            <YAxis domain={[0, maxY]} stroke="#003366" />
+            <YAxis domain={[0, maxY]} stroke="#1c3c5c" />
 
             <Tooltip />
             <Legend />
-            <Bar dataKey="Bookings" fill="#003366">
+            <Bar dataKey="Bookings" fill="#063461">
               <LabelList
                 dataKey="Bookings"
                 position="top"
