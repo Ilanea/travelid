@@ -1,10 +1,17 @@
+<<<<<<< HEAD
 import { addDays } from 'date-fns';
+=======
+
+>>>>>>> origin/add-report-page-#SCRUM-18
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+<<<<<<< HEAD
 import { DateRange } from 'react-day-picker';
+=======
+>>>>>>> origin/add-report-page-#SCRUM-18
 import {
   FaBed,
   FaCookieBite,
@@ -12,6 +19,7 @@ import {
   FaRegThumbsDown,
   FaRegThumbsUp,
 } from 'react-icons/fa';
+<<<<<<< HEAD
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { ResponsiveContainer } from 'recharts';
@@ -25,25 +33,55 @@ import { CalendarDateRangePicker } from '@hotel/components/data-range-picker';
 import BookingOriginChart from '@hotel/features/HotelPage/components/BookingOriginChart';
 import ListReport from '@hotel/features/HotelPage/components/ListReport';
 
+=======
+import {
+  ResponsiveContainer,
+} from 'recharts';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+import { Button } from '@libs/ui-web';
+import BookingOriginChart from '@hotel/features/HotelPage/components/BookingOriginChart';
+>>>>>>> origin/add-report-page-#SCRUM-18
 import { getDailyBookings } from '../api/daily-bookings';
 import BedIcon from '../components/BedIcon';
 import BookingBarChart from '../components/BookingBarChart';
 import BoxComponent from '../components/BoxComponent';
 // Import the styles
 import StatsBox from '../components/StatsBox';
+<<<<<<< HEAD
+=======
+import ListReport from "@hotel/features/HotelPage/components/ListReport";
+import WorldMapBookings from "@hotel/features/HotelPage/components/WorldMapBookings";
+import {DateRangePicker} from "@hotel/features/HotelPage/components/DateRangePicker";
+import {DateRange} from "react-day-picker";
+import {addDays} from "date-fns";
+import {AiFillCreditCard} from "react-icons/ai";
+import DashboardCardMini from "@hotel/components/DashboardCardMini";
+>>>>>>> origin/add-report-page-#SCRUM-18
 
 function Report() {
   const [startDate, setStartDate] = useState<Date | null>(
     new Date(new Date().getFullYear(), 0, 1)
   );
+<<<<<<< HEAD
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: addDays(new Date(), -300),
     to: new Date(),
   });
+=======
+>>>>>>> origin/add-report-page-#SCRUM-18
   const [endDate, setEndDate] = useState<Date | null>(new Date());
   const [view, setView] = useState<'daily' | 'monthly' | 'yearly'>('daily');
   const [dailyBookings, setDailyBookings] = useState<DataEntry[]>([]);
   const [tabIndex, setTabIndex] = useState(0);
+<<<<<<< HEAD
+=======
+
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: addDays(new Date(), -90),
+    to: new Date(),
+  })
+>>>>>>> origin/add-report-page-#SCRUM-18
   interface BookingData {
     day: string;
     Bookings: number;
@@ -58,6 +96,12 @@ function Report() {
     getDailyBookingsHandler();
   }, []);
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> origin/add-report-page-#SCRUM-18
   const boxData = [
     { keyword: 'Treuepunkte vergeben', value: '323' },
     { keyword: 'Treuepunkte eingelöst', value: '200' },
@@ -102,7 +146,11 @@ function Report() {
   const filteredData = dailyBookings.filter((item: any) => {
     const itemDate = new Date(item.day); // Convert to format "YYYY-MM-DD" for Date object
 
+<<<<<<< HEAD
     if (date.from && date.to) {
+=======
+    if (date) {
+>>>>>>> origin/add-report-page-#SCRUM-18
       return itemDate >= date.from && itemDate <= date.to;
     }
 
@@ -194,165 +242,216 @@ function Report() {
   const bookings = [
     // Adding some mock bookings with the new data fields
     {
-      id: '1',
-      guestName: 'John Doe',
+      id: "1",
+      guestName: "John Doe",
       roomNumber: 101,
-      checkInDate: '2023-10-01',
-      checkOutDate: '2023-10-05',
-      bookingDate: '2023-09-01',
+      checkInDate: "2023-10-01",
+      checkOutDate: "2023-10-05",
+      bookingDate: "2023-09-01",
       numberOfNights: 4,
       numberOfGuests: 2,
-      roomType: 'Double',
-      paymentStatus: 'Paid',
+      roomType: "Double",
+      paymentStatus: "Paid",
+        loyaltyPointsUsed: 'Yes',
+        amountOfLoyalPoints: 321,
       totalAmount: 500,
-      specialRequests: 'Near elevator',
-      contactNumber: '+1 123-456-7890',
-      emailAddress: 'john@example.com',
-    },
-    {
-      id: '2',
-      guestName: 'Jane Smith',
+      specialRequests: "Near elevator",
+      contactNumber: "+1 123-456-7890",
+      emailAddress: "john@example.com",
+      bookingOrigin: "Phone",
+    },  {
+      id: "2",
+      guestName: "Jane Smith",
       roomNumber: 102,
-      checkInDate: '2023-10-06',
-      checkOutDate: '2023-10-10',
-      bookingDate: '2023-09-15',
+      checkInDate: "2023-10-06",
+      checkOutDate: "2023-10-10",
+      bookingDate: "2023-09-15",
       numberOfNights: 4,
       numberOfGuests: 1,
-      roomType: 'Single',
-      paymentStatus: 'Paid',
+      roomType: "Single",
+      paymentStatus: "Paid",
+          loyaltyPointsUsed: 'No',
+          amountOfLoyalPoints: 0,
       totalAmount: 400,
-      specialRequests: 'Quiet area',
-      contactNumber: '+1 123-456-7891',
-      emailAddress: 'jane@example.com',
+      specialRequests: "Quiet area",
+      contactNumber: "+1 123-456-7891",
+      emailAddress: "jane@example.com",
+      bookingOrigin: "Bon Away",
     },
     {
-      id: '3',
-      guestName: 'Michael Johnson',
+      id: "3",
+      guestName: "Michael Johnson",
       roomNumber: 103,
-      checkInDate: '2023-10-12',
-      checkOutDate: '2023-10-15',
-      bookingDate: '2023-09-20',
+      checkInDate: "2023-10-12",
+      checkOutDate: "2023-10-15",
+      bookingDate: "2023-09-20",
       numberOfNights: 3,
       numberOfGuests: 2,
-      roomType: 'Double',
-      paymentStatus: 'Pending',
+      roomType: "Double",
+      paymentStatus: "Pending",
+        loyaltyPointsUsed: 'Yes',
+        amountOfLoyalPoints: 100,
       totalAmount: 600,
-      specialRequests: 'Near gym',
-      contactNumber: '+1 123-456-7892',
-      emailAddress: 'michael@example.com',
+      specialRequests: "Near gym",
+      contactNumber: "+1 123-456-7892",
+      emailAddress: "michael@example.com",
+      bookingOrigin: "Bon Away",
+
     },
     {
-      id: '4',
-      guestName: 'Emily Taylor',
+      id: "4",
+      guestName: "Emily Taylor",
       roomNumber: 104,
-      checkInDate: '2023-10-18',
-      checkOutDate: '2023-10-25',
-      bookingDate: '2023-09-10',
+      checkInDate: "2023-10-18",
+      checkOutDate: "2023-10-25",
+      bookingDate: "2023-09-10",
       numberOfNights: 7,
       numberOfGuests: 2,
-      roomType: 'Suite',
-      paymentStatus: 'Paid',
+      roomType: "Suite",
+      paymentStatus: "Paid",
+      loyaltyPointsUsed: 'Yes',
+      amountOfLoyalPoints: 100,
       totalAmount: 1400,
-      specialRequests: 'Higher floor',
-      contactNumber: '+1 123-456-7893',
-      emailAddress: 'emily@example.com',
+      specialRequests: "Higher floor",
+      contactNumber: "+1 123-456-7893",
+      emailAddress: "emily@example.com",
+      bookingOrigin: "Bon Away",
     },
     {
-      id: '5',
-      guestName: 'Rachel Green',
+      id: "5",
+      guestName: "Rachel Green",
       roomNumber: 105,
-      checkInDate: '2023-10-05',
-      checkOutDate: '2023-10-10',
-      bookingDate: '2023-09-04',
+      checkInDate: "2023-10-05",
+      checkOutDate: "2023-10-10",
+      bookingDate: "2023-09-04",
       numberOfNights: 5,
       numberOfGuests: 1,
-      roomType: 'Single',
-      paymentStatus: 'Cancelled',
+      roomType: "Single",
+      paymentStatus: "Cancelled",
+        loyaltyPointsUsed: 'No',
+        amountOfLoyalPoints: 0,
       totalAmount: 400,
-      specialRequests: 'Near pool',
-      contactNumber: '+1 124-456-7894',
-      emailAddress: 'rachel@example.com',
+      specialRequests: "Near pool",
+      contactNumber: "+1 124-456-7894",
+      emailAddress: "rachel@example.com",
+      bookingOrigin: "Bon Away",
     },
     {
-      id: '6',
-      guestName: 'Ross Geller',
+      id: "6",
+      guestName: "Ross Geller",
       roomNumber: 106,
-      checkInDate: '2023-10-11',
-      checkOutDate: '2023-10-15',
-      bookingDate: '2023-09-03',
+      checkInDate: "2023-10-11",
+      checkOutDate: "2023-10-15",
+      bookingDate: "2023-09-03",
       numberOfNights: 4,
       numberOfGuests: 1,
-      roomType: 'Single',
-      paymentStatus: 'Paid',
+      roomType: "Single",
+      paymentStatus: "Paid",
+        loyaltyPointsUsed: 'Yes',
+        amountOfLoyalPoints: 220,
       totalAmount: 320,
-      specialRequests: 'Lower floor',
-      contactNumber: '+1 125-456-7895',
-      emailAddress: 'ross@example.com',
+      specialRequests: "Lower floor",
+      contactNumber: "+1 125-456-7895",
+      emailAddress: "ross@example.com",
+      bookingOrigin: "Mail",
     },
     {
-      id: '7',
-      guestName: 'Monica Geller',
+      id: "7",
+      guestName: "Monica Geller",
       roomNumber: 107,
-      checkInDate: '2023-10-20',
-      checkOutDate: '2023-10-25',
-      bookingDate: '2023-09-07',
+      checkInDate: "2023-10-20",
+      checkOutDate: "2023-10-25",
+      bookingDate: "2023-09-07",
       numberOfNights: 5,
       numberOfGuests: 2,
-      roomType: 'Double',
-      paymentStatus: 'Pending',
+      roomType: "Double",
+      paymentStatus: "Pending",
+        loyaltyPointsUsed: 'Yes',
+        amountOfLoyalPoints: 100,
       totalAmount: 700,
-      specialRequests: 'Near restaurant',
-      contactNumber: '+1 126-456-7896',
-      emailAddress: 'monica@example.com',
+      specialRequests: "Near restaurant",
+      contactNumber: "+1 126-456-7896",
+      emailAddress: "monica@example.com",
+      bookingOrigin: "Mail",
+
     },
     {
-      id: '8',
-      guestName: 'Chandler Bing',
+      id: "8",
+      guestName: "Chandler Bing",
       roomNumber: 108,
-      checkInDate: '2023-10-18',
-      checkOutDate: '2023-10-20',
-      bookingDate: '2023-09-12',
+      checkInDate: "2023-10-18",
+      checkOutDate: "2023-10-20",
+      bookingDate: "2023-09-12",
       numberOfNights: 2,
       numberOfGuests: 2,
-      roomType: 'Suite',
-      paymentStatus: 'Paid',
+      roomType: "Suite",
+      paymentStatus: "Paid",
+        loyaltyPointsUsed: 'Yes',
+        amountOfLoyalPoints: 100,
       totalAmount: 600,
-      specialRequests: 'Quiet area',
-      contactNumber: '+1 127-456-7897',
-      emailAddress: 'chandler@example.com',
+      specialRequests: "Quiet area",
+      contactNumber: "+1 127-456-7897",
+      emailAddress: "chandler@example.com",
+      bookingOrigin: "Mail",
+
     },
     {
-      id: '9',
-      guestName: 'Phoebe Buffay',
+      id: "9",
+      guestName: "Phoebe Buffay",
       roomNumber: 109,
-      checkInDate: '2023-10-01',
-      checkOutDate: '2023-10-03',
-      bookingDate: '2023-09-01',
+      checkInDate: "2023-10-01",
+      checkOutDate: "2023-10-03",
+      bookingDate: "2023-09-01",
       numberOfNights: 2,
       numberOfGuests: 1,
-      roomType: 'Single',
-      paymentStatus: 'Paid',
+      roomType: "Single",
+      paymentStatus: "Paid",
+        loyaltyPointsUsed: 'Yes',
+        amountOfLoyalPoints: 500,
       totalAmount: 200,
-      specialRequests: 'Extra towels',
-      contactNumber: '+1 128-456-7898',
-      emailAddress: 'phoebe@example.com',
+      specialRequests: "Extra towels",
+      contactNumber: "+1 128-456-7898",
+      emailAddress: "phoebe@example.com",
+      bookingOrigin: "Phone",
     },
     {
-      id: '10',
-      guestName: 'Joey Tribbiani',
+      id: "10",
+      guestName: "Joey Tribbiani",
       roomNumber: 110,
-      checkInDate: '2023-10-08',
-      checkOutDate: '2023-10-10',
-      bookingDate: '2023-09-05',
+      checkInDate: "2023-10-08",
+      checkOutDate: "2023-10-10",
+      bookingDate: "2023-09-05",
       numberOfNights: 2,
       numberOfGuests: 1,
-      roomType: 'Single',
-      paymentStatus: 'Pending',
+      roomType: "Single",
+      paymentStatus: "Pending",
+        loyaltyPointsUsed: 'No',
+        amountOfLoyalPoints: 0,
       totalAmount: 220,
-      specialRequests: 'Early check-in',
-      contactNumber: '+1 129-456-7899',
-      emailAddress: 'joey@example.com',
+      specialRequests: "Early check-in",
+      contactNumber: "+1 129-456-7899",
+      emailAddress: "joey@example.com",
+      bookingOrigin: "Bon Away",
     },
+    {
+      id: "11",
+      guestName: "John Doe!!",
+      roomNumber: 101,
+      checkInDate: "2023-10-01",
+      checkOutDate: "2023-10-05",
+      bookingDate: "2023-09-01",
+      numberOfNights: 4,
+      numberOfGuests: 2,
+      roomType: "Double",
+      paymentStatus: "Paid",
+        loyaltyPointsUsed: 'No',
+        amountOfLoyalPoints: 0,
+      totalAmount: 500,
+      specialRequests: "Near elevator",
+      contactNumber: "+1 123-456-7890",
+      emailAddress: "test@mail.com",
+      bookingOrigin: "Bon Away",
+    }
   ];
 
   return (

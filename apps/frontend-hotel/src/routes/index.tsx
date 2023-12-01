@@ -12,6 +12,7 @@ import NotFound from '@hotel/features/misc/pages/not-found';
 import EditReward from '@hotel/features/rewards/pages/edit-reward';
 import Rewards from '@hotel/features/rewards/pages/rewards';
 
+import Report from '../features/HotelPage/pages/Report';
 import SignIn from '../features/auth/pages/signin';
 import SignUp from '../features/auth/pages/signup';
 import { Role } from '../features/auth/types';
@@ -25,7 +26,6 @@ export const AppRoutes = () => {
       <Route path="/auth/signup" element={<SignUp />} />
       <Route path="/auth/signin" element={<SignIn />} />
       <Route path="*" element={<NotFound />} />
-
       {/* protected routes */}
       <Route
         element={
