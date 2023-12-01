@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
-import { API_URL } from './AuthProvider';
+import { API_URL } from '../constants/constants';
 
 // interface User {
 //   userName: string;
@@ -30,7 +30,7 @@ export class UserProviderClass {
   public async updateBonuspoints(userId: string, bonuspoints: number) {
     try {
       const result = await axios.post(
-        `${API_URL}/api/users/{userId}/bonuspoints`,
+        `${API_URL}/api/users/${userId}/bonuspoints`,
         { userId, bonuspoints },
         // Authorization check is done in the backend
         { withCredentials: true }

@@ -2,22 +2,12 @@ import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
+import { API_URL } from '../constants/constants';
+
 interface User {
+  id: number;
   userName: string;
   email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  academicDegree: string;
-  street: string;
-  city: string;
-  country: string;
-  nationality: string;
-  birthday: string;
-  documentNo: string;
-  mobilePhone: string;
-  phone: string;
 }
 
 interface AuthProps {
@@ -25,7 +15,9 @@ interface AuthProps {
   onSignup?: (
     userName: string,
     email: string,
-    password: string
+    password: string,
+    firstName: string,
+    lastName: string
   ) => Promise<User>;
   onLogin?: (email: string, password: string) => Promise<User>;
   onLogout?: () => Promise<any>;
@@ -33,7 +25,6 @@ interface AuthProps {
   getAuthState?: () => { user: User | null; authenticated: boolean | null };
 }
 
-export const API_URL = 'http://192.168.178.38:3333';
 const AuthContext = createContext<AuthProps>({});
 
 export const useAuth = () => {
@@ -53,6 +44,10 @@ export class AuthProviderClass {
   };
 
   public async init(): Promise<void> {
+    if (API_URL === undefined) {
+      console.error('API_URL is undefined, please check your constants');
+      return;
+    }
     await this.loadToken();
   }
 
@@ -85,15 +80,17 @@ export class AuthProviderClass {
     }
   }
 
-  public async signup(userName: string, email: string, password: string) {
+  public async signup(
+    userName: string,
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string
+  ) {
     try {
       const result = await axios.post(
         `${API_URL}/api/auth/signup`,
-        {
-          userName,
-          email,
-          password,
-        },
+        { userName, email, password, firstName, lastName },
         { withCredentials: true }
       );
 
@@ -189,7 +186,7 @@ export const AuthProvider = ({ children }: any) => {
       );
       await authProvider.init();
       const newAuthState = authProvider.getAuthState();
-      console.log('New AuthState after init:', newAuthState);
+      //console.log('New AuthState after init:', newAuthState);
       setAuthState(newAuthState);
       setIsInitialized(true);
     };
