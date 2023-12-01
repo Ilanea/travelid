@@ -28,6 +28,7 @@ export default function BonuspunktePage() {
         const userInfo = await retrieveUserInfo("bonuspoints");
         onChangePoints(userInfo);
         onChangeLevel(level < 4 ? points%800+1 : 3)
+        onChangeLevelPoints(800-points)
         handleLevelImage(level)
       } catch (error) {
         console.error('Error fetching user info:', error);

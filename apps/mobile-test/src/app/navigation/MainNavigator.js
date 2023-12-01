@@ -37,7 +37,17 @@ const MainNavigator = () => {
     <Stack.Navigator>
       {authenticated ? (
      <  >
-     
+      <Stack.Screen
+      name="RegisterStep2"
+      component={RegisterStep2Optional}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="RegisterStep3Optional"
+      component={RegisterStep3}
+      options={{ headerShown: false }}
+    />
+
      <Stack.Screen
      name="Home"
      component={Home}
@@ -96,17 +106,7 @@ const MainNavigator = () => {
             component={RegisterStep1}
             options={{ headerShown: false }}
           />
-          <Stack.Screen
-            name="RegisterStep2"
-            component={RegisterStep2Optional}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="RegisterStep3Optional"
-            component={RegisterStep3}
-            options={{ headerShown: false }}
-          />
-   
+    
         </>
       )}
     </Stack.Navigator>

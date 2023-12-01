@@ -48,4 +48,40 @@ export class UserProviderClass {
       return { error: true, msg: (error as any).response.data.message };
     }
   }
+  public async updateUser(userId: string, firstName: string, contactNumber: string) {
+    const userData = await SecureStore.getItemAsync("userInfo")
+    try {
+      const result = await axios.patch(
+        `${API_URL}/api/users/${userId}/bonuspoints`,
+        {
+          "userName": userData.userName,
+          "email": userData.email,
+          "firstName": firstName,
+          "lastName": userData.lastName,
+          "academicDegree": userData.academicDegree,
+          "gender": userData.gender,
+          "street": userData.street,
+          "city": userData.city,
+          "country": userData.country,
+          "nationality": userData.nationality,
+          "birthday": userData.birthday,
+          "documentNo": userData.documentNo,
+          "mobilePhone": contactNumber,
+          "phone": "string",
+        },
+        // Authorization check is done in the backend
+        { withCredentials: true }
+      ); 
+
+      // Update the bonuspoints in the local state
+
+      // Update User Info in SecureStore
+      await SecureStore.setItemAsync('userInfo', JSON.stringify(result.data));
+
+      return;
+    } catch (error) {
+      console.error('Failed to update bonus points:', error);
+      return { error: true, msg: (error as any).response.data.message };
+    }
+  }
 }

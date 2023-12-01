@@ -4,7 +4,7 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { UserData } from '../utils/internalFunctions';
 import { useState, useEffect } from 'react';
-import { retrieveUserInfo } from '../utils/apiFunctions.js';
+import { retrieveUserInfo, changeData } from '../utils/apiFunctions.js';
 import { UserProviderClass } from "../provider/UserProvider"
 import {
   Image,
@@ -74,6 +74,10 @@ export default function Profile() {
     // Call the function to update the contact number in the User Class if needed
   };
 
+  const handleDataChange = () => {
+    changeData()
+  }
+
 
   return (
     <View style={styles.container}>
@@ -127,7 +131,13 @@ export default function Profile() {
         <TextInput style={styles.normalInput} defaultValue='testpass' secureTextEntry={true}/>
         <Text style={styles.text}>Confirm Password</Text>
         <TextInput style={styles.normalInput} defaultValue='testpass' secureTextEntry={true}/>
+        <TouchableOpacity onPress={handleDataChange}>
+          <Text>
+            Submit Changes
+          </Text>
+        </TouchableOpacity>
       </View>
+
       <View style={styles.mainButtonContainer}>
         <TouchableOpacity onPress={() => navigation.navigate("Home")}>
           <View style={styles.mainButtonLeft}>

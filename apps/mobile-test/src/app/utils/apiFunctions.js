@@ -1,5 +1,6 @@
 const { format } = require('date-fns')
 import * as SecureStore from 'expo-secure-store';
+import { UserProviderClass } from "../provider/UserProvider"
 
 
 export function getUserData() {
@@ -59,6 +60,11 @@ export async function retrieveUserInfo(value) {
       // Handle errors here
       console.error("Error retrieving user info:", error);
     }
+  }
+
+  export async function changeData(userId, firstName, contactNumber) {
+    const user = new UserProviderClass()
+    user.updateUser(userId, firstName, contactNumber)
   }
 
 
