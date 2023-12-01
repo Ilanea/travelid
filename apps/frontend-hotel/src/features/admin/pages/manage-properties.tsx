@@ -6,8 +6,8 @@ import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '@hotel/features/auth/store/auth';
 import { getPropertyCategories } from '@hotel/features/hotel-profile/api/get-property-categories';
 
-import { RewardsTable } from '../components/properties-table';
-import { RewardsTableColumns } from '../components/properties-table-columns';
+import { RewardsTable } from '../components/properties/properties-table';
+import { RewardsTableColumns } from '../components/properties/properties-table-columns';
 
 const REWARDS_DATA = [
   {

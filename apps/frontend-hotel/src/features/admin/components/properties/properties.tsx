@@ -17,9 +17,9 @@ import {
   SheetTrigger,
 } from '@libs/ui-web';
 
-import { createProperty } from '../api/create-property';
+import { createProperty } from '../../api/create-property';
 //import { DataTableViewOptions } from "@/app/examples/tasks/components/data-table-view-options"
-import { priorities, statuses } from '../data/data';
+import { priorities, statuses } from '../../data/data';
 import { CategoryCombobox } from './category-combobox';
 import { RewardsTableFacetedFilter } from './properties-table-faceted-filter';
 

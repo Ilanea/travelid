@@ -4,8 +4,8 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { Badge, Checkbox } from '@libs/ui-web';
 
-import { labels, priorities, statuses } from '../data/data';
-import { Task } from '../data/schema';
+import { labels, priorities, statuses } from '../../data/data';
+import { Task } from '../../data/schema';
 import { RewardsTableColumnHeader } from './properties-table-column-header';
 import { RewardsTableRowActions } from './properties-table-row-actions';
 

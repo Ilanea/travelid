@@ -33,7 +33,7 @@ import { cn } from '@libs/utils';
 
 import UploadWidget from '@hotel/components/upload-widget';
 
-import useCreateEditReward from '../hooks/use-create-edit-reward';
+import useCreateEditReward from '../../hooks/use-create-edit-reward';
 
 const profileFormSchema = z.object({
   name: z

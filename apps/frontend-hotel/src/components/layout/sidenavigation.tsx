@@ -17,15 +17,44 @@ const SideNavigation = () => {
   const authUser = useAuthStore((state) => state.user);
   const navigation = [
     { name: 'Dashboard', to: '/dashboard', icon: Icons.home },
-    { name: 'Hotel Profile', to: '/profile/general', icon: Icons.building },
-    { name: 'Bookings', to: '/bookings', icon: Icons.calendar },
-    { name: 'Rewards', to: '/rewards', icon: Icons.gift },
-    { name: 'Example', to: '/example', icon: Icons.folder },
-    { name: 'Reports', to: '/reports', icon: Icons.fileBarChart },
-    { name: 'Properties', to: '/properties', icon: Icons.tableProperties },
+    authUser?.role !== Role.ADMIN && {
+      name: 'Hotel Profile',
+      to: '/profile/general',
+      icon: Icons.building,
+    },
+    authUser?.role !== Role.ADMIN && {
+      name: 'Bookings',
+      to: '/bookings',
+      icon: Icons.calendar,
+    },
+    authUser?.role !== Role.ADMIN && {
+      name: 'Rewards',
+      to: '/rewards',
+      icon: Icons.gift,
+    },
+    /*    authUser?.role !== Role.ADMIN && {
+      name: 'Example',
+      to: '/example',
+      icon: Icons.folder,
+    }, */
+    authUser?.role !== Role.ADMIN && {
+      name: 'Reports',
+      to: '/reports',
+      icon: Icons.fileBarChart,
+    },
     authUser?.role === Role.ADMIN && {
-      name: 'Users',
-      to: './users',
+      name: 'Properties',
+      to: '/properties',
+      icon: Icons.tableProperties,
+    },
+    authUser?.role === Role.ADMIN && {
+      name: 'Manage Hotels',
+      to: './admin/hotels',
+      icon: Icons.building,
+    },
+    authUser?.role === Role.ADMIN && {
+      name: 'Hotel Users',
+      to: './admin/users',
       icon: Icons.users,
     },
   ].filter(Boolean) as SideNavigationItem[];

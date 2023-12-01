@@ -85,7 +85,7 @@ function Topbar() {
       <DropdownMenu>
         <DropdownMenuTrigger className="hover:ring-4 ring-gray-300 ease-in transition-all duration-75 rounded-full">
           <Avatar className="h-12 w-12">
-            <AvatarImage src={avatarPath} />
+            <AvatarImage />
             <AvatarFallback>
               {initials ? initials : <Icons.user />}
             </AvatarFallback>

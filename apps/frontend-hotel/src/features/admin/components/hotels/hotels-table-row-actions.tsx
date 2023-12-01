@@ -11,16 +11,16 @@ import {
   DropdownMenuTrigger,
 } from '@libs/ui-web';
 
-import { taskSchema } from '../data/schema';
+import { hotelScheme } from '../../data/schema';
 
-interface RewardsTableRowActionsProps<TData> {
+interface HotelsTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
-export function RewardsTableRowActions<TData>({
+export function HotelsTableRowActions<TData>({
   row,
-}: RewardsTableRowActionsProps<TData>) {
-  const task = taskSchema.parse(row.original);
+}: HotelsTableRowActionsProps<TData>) {
+  const task = hotelScheme.parse(row.original);
 
   return (
     <DropdownMenu>

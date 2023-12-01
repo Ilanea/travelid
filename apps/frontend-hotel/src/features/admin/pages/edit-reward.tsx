@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@libs/ui-web';
 
-import { RewardsForm } from '../components/rewards-form';
+import { RewardsForm } from '../components/properties/rewards-form';
 
 const EditReward = () => {
   return (

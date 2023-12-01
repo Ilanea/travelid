@@ -47,7 +47,7 @@ const REWARDS_DATA = [
   },
 ];
 
-function AdminPage() {
+function UsersPage() {
   const authUser = useAuthStore((state) => state.user);
   const [rewards, setRewards] = useState([]);
 

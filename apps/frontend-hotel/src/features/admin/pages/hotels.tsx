@@ -5,8 +5,10 @@ import { Button } from '@libs/ui-web';
 
 import { useAuthStore } from '@hotel/features/auth/store/auth';
 
+import { getHotels } from '../api/get-hotels';
+import { HotelsTable } from '../components/hotels/hotels-table';
+import { RewardsTableColumns } from '../components/hotels/hotels-table-columns';
 import { RewardsTable } from '../components/properties/properties-table';
-import { RewardsTableColumns } from '../components/properties/properties-table-columns';
 
 const REWARDS_DATA = [
   {
@@ -47,19 +49,20 @@ const REWARDS_DATA = [
   },
 ];
 
-function AdminPage() {
+function HotelsPage() {
   const authUser = useAuthStore((state) => state.user);
   const [rewards, setRewards] = useState([]);
 
   useEffect(() => {
-    const fetchBookings = async () => {
+    const fetchHotels = async () => {
       console.log('get rewards');
+      const response = await getHotels();
 
-      console.log(response);
+      console.log('response hotels', response);
 
       setRewards(response);
     };
-    fetchBookings();
+    fetchHotels();
   }, []);
 
   return (
@@ -67,9 +70,9 @@ function AdminPage() {
       <div className="hidden h-full flex-1 flex-col p-8 md:flex">
         <div className="flex items-center space-x-2"></div>
       </div>
-      <RewardsTable data={rewards} columns={RewardsTableColumns} />
+      <HotelsTable data={rewards} columns={RewardsTableColumns} />
     </div>
   );
 }
 
-export default AdminPage;
+export default HotelsPage;

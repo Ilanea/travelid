@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 
 import Report from '@hotel/features/HotelPage/pages/Report';
+import HotelsPage from '@hotel/features/admin/pages/hotels';
 import ManageProperties from '@hotel/features/admin/pages/manage-properties';
 import AdminPage from '@hotel/features/admin/pages/rewards';
 import RequireAuth from '@hotel/features/auth/components/require-auth';
@@ -43,9 +44,11 @@ export const AppRoutes = () => {
         <Route path="/example" element={<ExamplePage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/admin" element={<AdminPage />} />
+      </Route>
+      <Route element={<RequireAuth allowedRoles={[Role.ADMIN]} />}>
+        <Route path="/admin/hotels" element={<HotelsPage />} />
         <Route path="/properties" element={<ManageProperties />} />
       </Route>
-      <Route element={<RequireAuth allowedRoles={[Role.ADMIN]} />}></Route>
     </Routes>
   );
 };
