@@ -24,7 +24,7 @@ const RegisterStep1 = () => {
   const handleSignup = async () => {
     if (onSignup) {
       try {
-        await onSignup(userName, email, password);
+        await onSignup(userName, email, password, firstName, lastName);
         if (onLogin)
           try {
             await onLogin(email, password);
