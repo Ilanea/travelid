@@ -26,16 +26,6 @@ export const statuses = [
     icon: CheckCircledIcon,
   },
   {
-    value: 'in progress',
-    label: 'In Progress',
-    icon: StopwatchIcon,
-  },
-  {
-    value: 'confirmed',
-    label: 'Confirmed',
-    icon: CheckCircledIcon,
-  },
-  {
     value: 'CANCELLED',
     label: 'Cancelled',
     icon: CrossCircledIcon,

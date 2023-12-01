@@ -60,21 +60,6 @@ export const RewardsTableColumns: ColumnDef<Task>[] = [
     },
   },
   {
-    accessorKey: 'category',
-    header: ({ column }) => (
-      <RewardsTableColumnHeader column={column} title="Category" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('category')}
-          </span>
-        </div>
-      );
-    },
-  },
-  {
     accessorKey: 'validFrom',
     header: ({ column }) => (
       <RewardsTableColumnHeader column={column} title="Valid From" />
@@ -83,7 +68,11 @@ export const RewardsTableColumns: ColumnDef<Task>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('validFrom')}
+            {new Date(row.getValue('validFrom')).toLocaleDateString('de-DE', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            })}
           </span>
         </div>
       );
@@ -98,26 +87,31 @@ export const RewardsTableColumns: ColumnDef<Task>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('validUntil')}
+            {new Date(row.getValue('validUntil')).toLocaleDateString('de-DE', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            })}
           </span>
         </div>
       );
     },
   },
   {
-    accessorKey: 'status',
+    accessorKey: 'active',
     header: ({ column }) => (
       <RewardsTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label);
+      console.log('isActive ', row.getValue('active'));
+
+      const isActive = row.getValue('active') === true ? 'Active' : 'Inactive';
 
       return (
         <div className="flex space-x-2">
           {label && <Badge variant="outline">{label.label}</Badge>}
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('status')}
-          </span>
+          <span className="max-w-[500px] truncate font-medium">{isActive}</span>
         </div>
       );
     },
@@ -134,7 +128,7 @@ export const RewardsTableColumns: ColumnDef<Task>[] = [
         <div className="flex space-x-2">
           {label && <Badge variant="outline">{label.label}</Badge>}
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('price') + ' Bons'}
+            {row.getValue('price') + ' Points'}
           </span>
         </div>
       );

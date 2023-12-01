@@ -34,8 +34,8 @@ export function RewardsTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Change Status</DropdownMenuItem>
-        <DropdownMenuItem>View Guest Profile</DropdownMenuItem>
+        <DropdownMenuItem>Set Inactive</DropdownMenuItem>
+        <DropdownMenuItem>Edit Reward</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -100,7 +100,11 @@ export const BookingTableColumns: ColumnDef<Booking>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('startDate')}
+            {new Date(row.getValue('startDate')).toLocaleDateString('de-DE', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            })}
           </span>
         </div>
       );
@@ -115,7 +119,11 @@ export const BookingTableColumns: ColumnDef<Booking>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('endDate')}
+            {new Date(row.getValue('endDate')).toLocaleDateString('de-DE', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            })}
           </span>
         </div>
       );

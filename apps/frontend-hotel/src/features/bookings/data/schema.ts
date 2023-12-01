@@ -12,12 +12,6 @@ export const bookingSchema = z.object({
   endDate: z.string(),
 });
 
-id: 1;
-fullName: 'Herbert Huber';
-email: 'herbert@gast.at';
-status: 'BOOKED';
-type: 'PRIVATE';
-endDate: '2021-05-03T00:00:00.000Z';
 startDate: '2021-05-01T00:00:00.000Z';
 
 export type Booking = z.infer<typeof bookingSchema>;

@@ -5,6 +5,7 @@ import { useAuthStore } from '@hotel/features/auth/store/auth';
 import { getBookings } from '../api/get-bookings';
 import { BookingsTable } from '../components/bookings-table';
 import { BookingTableColumns } from '../components/bookings-table-columns';
+import GuestProfile from '../components/guest-profile';
 
 const BOOKINGS_DATA = [
   {
