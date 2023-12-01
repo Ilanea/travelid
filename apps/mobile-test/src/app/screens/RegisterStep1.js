@@ -17,6 +17,8 @@ const RegisterStep1 = () => {
   const navigation = useNavigation();
   const { onSignup, onLogin } = useAuth();
 
+  const [firstname, setFirstName] = useState('');
+  const [lastname, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -65,6 +67,20 @@ const RegisterStep1 = () => {
             style={[styles.entriesregistration3Child, styles.childLayout]}
             contentFit="cover"
             source={require('../pics/rectangle-34624092.png')}
+          />
+          <TextInput
+            style={styles.ovalregister3}
+            placeholder={`First name`}
+            placeholderTextColor="#546a83"
+            value={firstname}
+            onChangeText={(text) => setFirstName(text)}
+          />
+          <TextInput
+            style={styles.ovalregister3}
+            placeholder={`Last name`}
+            placeholderTextColor="#546a83"
+            value={lastname}
+            onChangeText={(text) => setLastName(text)}
           />
           <TextInput
             style={styles.ovalregister3}
@@ -225,7 +241,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Padding.p_base,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 75,
+    marginTop: 100,
     overflow: 'hidden',
   },
   RegisterStep1: {

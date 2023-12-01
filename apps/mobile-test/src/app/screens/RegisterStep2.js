@@ -19,8 +19,8 @@ const RegisterStep2 = () => {
 
   const [gender, setGender] = useState('');
   const [academicDegree, setAcademicDegree] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  //const [firstName, setFirstName] = useState(''); wird vorheriger Screen schon abgefragt
+  //const [lastName, setLastName] = useState(''); wird vorheriger Screen schon abgefragt
   const [street, setStreet] = useState('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
@@ -56,16 +56,16 @@ const RegisterStep2 = () => {
           onChangeText={(text) => setAcademicDegree(text)}
         />
       </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
+      {/* <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
         <TextInput
           style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Surname"
+          placeholder="Firstame"
           value={firstName}
           onChangeText={(text) => setFirstName(text)}
           placeholderTextColor="#546a83"
         />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
+      </View> */}
+      {/* <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
         <TextInput
           style={[styles.textregister1, styles.headlineTypo]}
           placeholder="Lastname"
@@ -73,7 +73,7 @@ const RegisterStep2 = () => {
           value={lastName}
           onChangeText={(text) => setLastName(text)}
         />
-      </View>
+      </View> */}
       <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
         <TextInput
           style={[styles.textregister1, styles.headlineTypo]}
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
   },
   buttoncontinue: {
     height: 10,
-    marginTop: 12,
+    marginTop: 100,
   },
   RegisterStep2: {
     backgroundColor: Color.colorGhostwhite,

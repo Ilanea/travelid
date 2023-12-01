@@ -46,6 +46,11 @@ const MainNavigator = () => {
         </>
       ) : (
         <>
+                  <Stack.Screen
+            name="RegisterStep2"
+            component={RegisterStep2Optional}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name="Welcome"
             component={Welcome}
@@ -62,11 +67,7 @@ const MainNavigator = () => {
             component={RegisterStep1}
             options={{ headerShown: false }}
           />
-          <Stack.Screen
-            name="RegisterStep2"
-            component={RegisterStep2Optional}
-            options={{ headerShown: false }}
-          />
+
           <Stack.Screen
             name="RegisterStep3Optional"
             component={RegisterStep3}
