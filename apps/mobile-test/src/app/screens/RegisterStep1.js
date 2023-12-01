@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { useState } from 'react';
 import {
@@ -14,14 +13,13 @@ import { Border, Color, FontSize, Padding } from '../../../GlobalStyles';
 import { useAuth } from '../provider/AuthProvider';
 
 const RegisterStep1 = () => {
-  const navigation = useNavigation();
-  const { onSignup, onLogin } = useAuth();
-
   const [firstname, setFirstName] = useState('');
   const [lastname, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+
+  const { onSignup, onLogin } = useAuth();
 
   const handleSignup = async () => {
     if (onSignup) {
