@@ -13,9 +13,9 @@ import { Border, Color, FontSize, Padding } from '../../../GlobalStyles';
 import { useAuth } from '../provider/AuthProvider';
 
 const RegisterStep1 = () => {
-  const [firstname, setFirstName] = useState('');
-  const [lastname, setLastName] = useState('');
-  const [username, setUsername] = useState('');
+  const [firstName, setFirstname] = useState('');
+  const [lastName, setLastname] = useState('');
+  const [userName, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
@@ -24,7 +24,7 @@ const RegisterStep1 = () => {
   const handleSignup = async () => {
     if (onSignup) {
       try {
-        await onSignup(username, email, password);
+        await onSignup(userName, email, password);
         if (onLogin)
           try {
             await onLogin(email, password);
@@ -70,21 +70,21 @@ const RegisterStep1 = () => {
             style={styles.ovalregister3}
             placeholder={`First name`}
             placeholderTextColor="#546a83"
-            value={firstname}
-            onChangeText={(text) => setFirstName(text)}
+            value={firstName}
+            onChangeText={(text) => setFirstname(text)}
           />
           <TextInput
             style={styles.ovalregister3}
             placeholder={`Last name`}
             placeholderTextColor="#546a83"
-            value={lastname}
-            onChangeText={(text) => setLastName(text)}
+            value={lastName}
+            onChangeText={(text) => setLastname(text)}
           />
           <TextInput
             style={styles.ovalregister3}
             placeholder={`Username`}
             placeholderTextColor="#546a83"
-            value={username}
+            value={userName}
             onChangeText={(text) => setUsername(text)}
           />
           <TextInput
