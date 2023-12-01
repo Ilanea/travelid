@@ -1,14 +1,15 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { AuthProvider, useAuth } from './provider/AuthProvider';
-import MainNavigator from './navigation/MainNavigator';
 
-const App: React.FC = () => {
+import MainNavigator from './navigation/MainNavigator';
+import { AuthProvider, useAuth } from './provider/AuthProvider';
+
+const App = () => {
   const { authState } = useAuth();
 
   return (
     <AuthProvider>
       <NavigationContainer>
-        <MainNavigator/>
+        <MainNavigator />
       </NavigationContainer>
     </AuthProvider>
   );
