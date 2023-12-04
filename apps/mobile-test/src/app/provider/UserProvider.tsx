@@ -48,14 +48,14 @@ export class UserProviderClass {
       return { error: true, msg: (error as any).response.data.message };
     }
   }
-  public async updateUser(userId: string, firstName: string, contactNumber: string) {
+  public async updateUser(userId: string, firstName: string, contactNumber: string, email: string) {
     const userData = await SecureStore.getItemAsync("userInfo")
     try {
       const result = await axios.patch(
-        `${API_URL}/api/users/${userId}/bonuspoints`,
+        `${API_URL}/api/users/${userId}`,
         {
           "userName": userData.userName,
-          "email": userData.email,
+          "email": email,
           "firstName": firstName,
           "lastName": userData.lastName,
           "academicDegree": userData.academicDegree,

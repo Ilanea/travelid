@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { useState } from 'react';
+
 //import { Image } from "expo-image";
 import {
   Image,
@@ -11,6 +12,7 @@ import {
   Text,
   TextInput,
   View,
+  StatusBar
 } from 'react-native';
 
 import { useAuth } from '../provider/AuthProvider';
@@ -37,12 +39,15 @@ const LoginScreen = () => {
   const navigation = useNavigation();
 
   return (
+
     <ImageBackground
       style={{ width: '100%', height: '100%' }}
       //resizeMode="cover"
       source={require('../pics/welcome.png')}
     >
       <View style={styles.logo}>
+      <StatusBar translucent backgroundColor="transparent" />
+
         <Image
           style={styles.image30Icon}
           contentFit="cover"

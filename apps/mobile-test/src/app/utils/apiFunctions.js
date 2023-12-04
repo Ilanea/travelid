@@ -51,8 +51,12 @@ export async function retrieveUserInfo(value) {
         case "firstName": 
           return(userInfoObject.firstName);
         case "email": 
-          return(userInfoObject.email)
-      }
+          return(userInfoObject.email);
+        case "contactNum": 
+          return(userInfoObject.mobilePhone)
+        case "createdAt": 
+          return(userInfoObject.createdAt)
+        }
   
   
       // You can also return the value or use it in any other way
@@ -62,9 +66,9 @@ export async function retrieveUserInfo(value) {
     }
   }
 
-  export async function changeData(userId, firstName, contactNumber) {
+  export async function changeData(userId, firstName, contactNumber, email) {
     const user = new UserProviderClass()
-    user.updateUser(userId, firstName, contactNumber)
+    user.updateUser(userId, firstName, contactNumber, email)
   }
 
 

@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { useState } from 'react';
+import {theme } from "../theme/theme"
 import {
   Image,
   Pressable,
@@ -9,6 +10,7 @@ import {
   Text,
   TextInput,
   View,
+  StatusBar
 } from 'react-native';
 
 //import { text } from 'stream/consumers';
@@ -37,6 +39,10 @@ const RegisterStep2 = () => {
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.RegisterStep2Content}
     >
+       <StatusBar
+        barStyle="dark-content"
+        backgroundColor={theme.backgroundLightBlue}
+      />
       <Text style={[styles.headline, styles.headlineTypo]}>Register here</Text>
       <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
         <TextInput
@@ -56,7 +62,7 @@ const RegisterStep2 = () => {
           onChangeText={(text) => setAcademicDegree(text)}
         />
       </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
+     {/*  <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
         <TextInput
           style={[styles.textregister1, styles.headlineTypo]}
           placeholder="Surname"
@@ -73,7 +79,7 @@ const RegisterStep2 = () => {
           value={lastName}
           onChangeText={(text) => setLastName(text)}
         />
-      </View>
+      </View> */}
       <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
         <TextInput
           style={[styles.textregister1, styles.headlineTypo]}

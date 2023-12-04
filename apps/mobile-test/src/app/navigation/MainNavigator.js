@@ -13,6 +13,7 @@ import RegisterStep1 from '../screens/RegisterStep1';
 import RegisterStep2Optional from '../screens/RegisterStep2';
 import RegisterStep3 from '../screens/RegisterStep3Optional';
 import Results from '../screens/Results';
+import Check from '../utils/check';
 import Welcome from '../screens/Welcome';
 
 const Stack = createStackNavigator();
@@ -37,6 +38,11 @@ const MainNavigator = () => {
     <Stack.Navigator>
       {authenticated ? (
      <  >
+      <Stack.Screen
+      name="check"
+      component={Check}
+      options={{ headerShown: false }}
+    />
       <Stack.Screen
       name="RegisterStep2"
       component={RegisterStep2Optional}

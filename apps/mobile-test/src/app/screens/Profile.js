@@ -38,11 +38,15 @@ export default function Profile() {
     }
   };
 
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log(await retrieveUserInfo("email"))
         onChangeName(await retrieveUserInfo("firstName"))
         onChangeEmail(await retrieveUserInfo("email"))
+        onChangeNumber(await retrieveUserInfo("contactNum"))
       } catch (error) {
         console.error('Error fetching user info:', error);
       }
@@ -74,8 +78,9 @@ export default function Profile() {
     // Call the function to update the contact number in the User Class if needed
   };
 
-  const handleDataChange = () => {
-    changeData()
+  async function handleDataChange() {
+    
+    changeData(await retrieveUserInfo("id"), userName, contactNum, email)
   }
 
 
@@ -131,11 +136,13 @@ export default function Profile() {
         <TextInput style={styles.normalInput} defaultValue='testpass' secureTextEntry={true}/>
         <Text style={styles.text}>Confirm Password</Text>
         <TextInput style={styles.normalInput} defaultValue='testpass' secureTextEntry={true}/>
-        <TouchableOpacity onPress={handleDataChange}>
-          <Text>
-            Submit Changes
-          </Text>
-        </TouchableOpacity>
+        <View style={{width: "100%", justifyContent: "center", alignItems: "center", top: 40}}>
+          <TouchableOpacity style={{height: 50, width: "40%", backgroundColor: theme.casualButton, justifyContent: "center", alignItems: "center", borderRadius: 30}} onPress={handleDataChange}>
+            <Text style={{color: "white", fontSize: 16, fontWeight: "bold"}}>
+              Submit Changes
+            </Text>
+          </TouchableOpacity>
+          </View>
       </View>
 
       <View style={styles.mainButtonContainer}>
@@ -154,7 +161,9 @@ export default function Profile() {
                 <Text style={{ color: 'white' }}>Points</Text>
             </View>
           </TouchableOpacity>
+         
         </View>
+          
     </View>
   );
 }

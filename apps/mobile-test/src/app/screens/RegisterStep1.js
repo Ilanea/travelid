@@ -7,7 +7,9 @@ import {
   Text,
   TextInput,
   View,
+  StatusBar
 } from 'react-native';
+import {theme } from "../theme/theme"
 
 import { Border, Color, FontSize, Padding } from '../../../GlobalStyles';
 import { useAuth } from '../provider/AuthProvider';
@@ -41,6 +43,10 @@ const RegisterStep1 = () => {
 
   return (
     <View style={styles.RegisterStep1}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={theme.backgroundLightBlue}
+      />
       <Text style={styles.headline}>Say Cheese!</Text>
       <View style={styles.frameParent}>
         <View>

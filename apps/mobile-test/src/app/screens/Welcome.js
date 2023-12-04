@@ -13,8 +13,7 @@ import { StatusBar } from 'react-native';
 
 const Welcome = () => {
   const navigation = useNavigation();
-  StatusBar.setBackgroundColor('transparent');
-
+  <StatusBar translucent backgroundColor="transparent" />
   return (
     <ImageBackground
       style={{width: '100%', height: '100%'}}
