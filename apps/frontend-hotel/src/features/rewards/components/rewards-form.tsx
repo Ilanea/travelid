@@ -70,7 +70,7 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 // This can come from your database or API.
 const defaultValues: Partial<ProfileFormValues> = {
-  name: 'Hotel Sacher Salzburg',
+  name: '',
   description:
     'Das Hotel Sacher in Salzburg gilt als eines der weltweit besten Luxushotels in der Heimatstadt Mozarts. Lassen Sie das besondere Flair von Salzburg in einzigartigem elegantem Ambiente auf sich wirken. Besuchen Sie Mozarts Geburtshaus, die Festung Hohensalzburg oder die Salzburger Festspiele und erleben Sie erstklassigen Komfort, Gastfreundlichkeit und Kultur im Herzen von Salzburg.',
   price: 100,
@@ -94,31 +94,15 @@ export function RewardsForm() {
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues,
     mode: 'onChange',
   });
 
-  /*   function onSubmit(data: ProfileFormValues) {
-    toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-  } */
-
-  const handleOnUpload = () => {
-    console.log('upload image');
-  };
-
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-[800px]">
       <div>
-        <h3 className="text-lg font-medium">Profile</h3>
+        <h3 className="text-lg font-medium">Reward</h3>
         <p className="text-sm text-muted-foreground">
-          Give guests a sense of who you are.
+          Create and edit rewards.
         </p>
       </div>
       <Separator />
@@ -132,10 +116,10 @@ export function RewardsForm() {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Hotel an der Donau..." {...field} />
+                  <Input placeholder="Free Drinks at the Bar..." {...field} />
                 </FormControl>
                 <FormDescription>
-                  This is your public display hotel name.
+                  This is your public display reward name.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -149,7 +133,7 @@ export function RewardsForm() {
                 <FormLabel>Description</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Tell us about your hotel."
+                    placeholder="Tell us about your reward..."
                     {...field}
                   />
                 </FormControl>
@@ -163,13 +147,11 @@ export function RewardsForm() {
             name="image"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Image URL</FormLabel>
                 <FormControl>
-                  <Input placeholder="Hotel an der Donau..." {...field} />
+                  <Input placeholder="https://..." {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display hotel name.
-                </FormDescription>
+                <FormDescription>This image will be displayed.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -256,9 +238,21 @@ export function RewardsForm() {
               </FormItem>
             )}
           />
-          <UploadWidget
-            uploadedImage={uploadedImage}
-            setUploadedImage={setUploadedImage}
+          <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Price</FormLabel>
+                <FormControl>
+                  <Input placeholder="100" {...field} />
+                </FormControl>
+                <FormDescription>
+                  How many points does this reward cost?
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
           />
           <Button type="submit">Update reward</Button>
         </form>
