@@ -11,7 +11,7 @@ https://nodejs.org/en/download
 ## Install npm dependencies
 
 ```
-npm -install
+npm install
 ```
 
 ## Run the dev server from console
