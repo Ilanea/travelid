@@ -18,6 +18,7 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
+import * as SecureStore from 'expo-secure-store';
 
 //import { UserService } from '../services/user.service.js';
 import { theme } from '../theme/theme.js';
@@ -29,17 +30,12 @@ import {
 
 const { parseISO } = require('date-fns');
 
-//const userService = new UserService();
-
-// Rufe die benötigten Methoden der UserService auf,
-// z. B. getUser, editUser, deleteUser, etc
-//const user = await userService.getUser(1);
-
-//platzhalter für später, soll user daten simulieren.
-//const user = getUserData()
-
+async function handleNewAcc() {
+  await SecureStore.setItemAsync("newAcc", "false")
+}
 
 const Home = () => {
+  handleNewAcc()
   const navigation = useNavigation();
   const { authState, onLogout } = useAuth();
   const [authenticated, setAuthenticated] = useState(authState?.authenticated);

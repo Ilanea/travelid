@@ -4,7 +4,6 @@ import { FlatList, ScrollView, StyleSheet, View, Pressable, Text, TextInput, Ima
 import { useNavigation } from "@react-navigation/native";
 import { Padding, FontSize, Color, Border } from "../../../GlobalStyles";
 import { useAuth } from '../provider/AuthProvider';
-//import { on } from "events";
 
 const RegisterStep3Optional = () => {
   const navigation = useNavigation();
@@ -158,25 +157,12 @@ const RegisterStep3Optional = () => {
     setLanguageOpen(false);
   }, []);
 
-  // const dropdownData = [
-  //   { key: 'room', title: 'Room', items: roomItems },
-  //   { key: 'houseKeeping', title: 'Housekeeping', items: houseKeepingItems },
-  //   { key: 'disabilities', title: 'Disabilities', items: disabilitiesItems },
-  //   { key: 'interests', title: 'Interests', items: interestsItems },
-  //   { key: 'service', title: 'Service', items: serviceItems },
-  //   { key: 'allergies', title: 'Allergies', items: allergiesItems },
-  //   { key: 'language', title: 'Language', items: languageItems },
-  //   { key: 'addition', title: 'Additional Information', items: additionItems },
-  // ];
+
   return (
    <ScrollView contentContainerStyle={styles.scrollView}>
     <View style={styles.RegisterStep3Optional}>
       <Text style={styles.headline}>Tell us more about you</Text>
       <View style={styles.entriesregistration2}>
-      {/* <FlatList
-      data={dropdownData}
-      keyExtractor={(item) => item.key}
-      renderItem={({ item }) => ( */}
         <View style={styles.roomLayout}>
           <DropDownPicker
           listMode="SCROLLVIEW"
@@ -195,7 +181,6 @@ const RegisterStep3Optional = () => {
             labelStyle={styles.roomValue}
             autoScroll={true}
             multipleText={'Room'}
-            //textStyle={styles.houseKeeping}
           />
         </View>
         <View style={[styles.houseKeeping, styles.roomLayout]}>
@@ -337,7 +322,7 @@ const RegisterStep3Optional = () => {
           <View style={[styles.rectangleParent, styles.groupChildPosition]}>
             <View style={[styles.groupChild, styles.groupChildPosition]} />
             <TextInput
-              style={[styles.comments]} //{, zIndex: 1000 }, { zIndexInverse: 8000 }
+              style={[styles.comments]} 
               placeholder="Comments:"
               placeholderTextColor="#546a83"
               value={comment}
@@ -370,72 +355,13 @@ const RegisterStep3Optional = () => {
           />
         </Pressable>
       </View>
-         {/* <Pressable //no longer in use
-        style={[styles.returnButton, styles.buttonFlexBox]}
-        onPress={() => navigation.navigate("RegisterStep1")}
-      >
-        <Pressable
-          style={styles.returnbutton}
-          onPress={() => navigation.navigate("Welcome1")}
-        >
-          { <Image
-            style={styles.icon}
-            contentFit="cover"
-            source={require("../assets/returnbutton.png")}
-          /> }
-        </Pressable>
-      </Pressable>} */}
     </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  // roomValue: {
-  //   //color: "#54595e",
-  //   //fontSize: 16,
-  //   //fontWeight: "500",
-  // },
-  // houseKeepingValue: {
-  //   //color: "#54595e",
-  //   //fontSize: 16,
-  //   //fontWeight: "500",
-  // },
-  // disabilitiesValue: {
-  //   color: "#54595e",
-  //   //fontSize: 16,
-  //   fontWeight: "500",
 
-  // },
-  // interestsValue: {
-  //   color: "#54595e",
-  //   //fontSize: 16,
-  //   fontWeight: "500",
-  // },
-  // serviceValue: {
-  //   color: "#54595e",
-  //   //fontSize: 16,
-  //   fontWeight: "500",
-
-  // },
-  // allergiesValue: {
-  //   color: "#54595e",
-  //   //fontSize: 16,
-  //   fontWeight: "500",
-
-  // },
-  // languageValue: {
-  //   color: "#54595e",
-  //   //fontSize: 16,
-  //   fontWeight: "500",
-
-  // },
-  // additionValue: {
-  //   color: "#54595e",
-  //   //fontSize: 16,
-  //   fontWeight: "500",
-
-  // },
   roomLayout: {
     height: 313,
     alignSelf: "stretch",
@@ -457,7 +383,6 @@ const styles = StyleSheet.create({
   },
   houseKeeping: {
     marginTop: -250,
-    //top: 250,
   },
   entriesregistration2: {
     paddingHorizontal: 20,
@@ -487,7 +412,7 @@ const styles = StyleSheet.create({
     paddingBottom: 50, // Optional: Padding für den Text
   },
   rectangleParent: {
-    height: '12.52%', //height: '12.52%',
+    height: '12.52%', 
     width: '99.3%',
     top: '78.48%',
     left: '10%',
@@ -549,7 +474,6 @@ const styles = StyleSheet.create({
     left: "50%",
     width: 277,
     height: 64,
-    //zIndex: 1,
     flexDirection: "row",
     justifyContent: "center",
     elevation: 14,
@@ -569,7 +493,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: Color.m3RefPrimaryPrimary0,
     textAlign: "center",
-    //zIndex: 2,
     fontSize: FontSize.size_base,
     position: "absolute",
     width: "100%",
@@ -587,7 +510,6 @@ const styles = StyleSheet.create({
     top: 61,
     left: 12,
     padding: Padding.p_3xs,
-    //zIndex: 3,
     flexDirection: "row",
     justifyContent: "center",
     position: "absolute",
@@ -608,10 +530,6 @@ const styles = StyleSheet.create({
       width: 0,
       height: 40,
     },
-  //   scrollView: {
-  //     flexGrow: 1,
-  //     paddingBottom: 20, // Falls du am Ende Platz für die untere Leiste lassen willst
-  // },
 },
 });
 

@@ -7,9 +7,11 @@ import {
   Text,
   TextInput,
   View,
-  StatusBar
+  StatusBar,
+  KeyboardAvoidingView
 } from 'react-native';
 import {theme } from "../theme/theme"
+import * as SecureStore from 'expo-secure-store';
 
 import { Border, Color, FontSize, Padding } from '../../../GlobalStyles';
 import { useAuth } from '../provider/AuthProvider';
@@ -23,9 +25,14 @@ const RegisterStep1 = () => {
 
   const { onSignup, onLogin } = useAuth();
 
+  async function handleNewAcc() {
+    await SecureStore.setItemAsync("newAcc", "true")
+  }
+
   const handleSignup = async () => {
     if (onSignup) {
       try {
+        handleNewAcc()
         await onSignup(userName, email, password, firstName, lastName);
         if (onLogin)
           try {
@@ -48,7 +55,9 @@ const RegisterStep1 = () => {
         backgroundColor={theme.backgroundLightBlue}
       />
       <Text style={styles.headline}>Say Cheese!</Text>
-      <View style={styles.frameParent}>
+      <KeyboardAvoidingView 
+       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.frameParent}>
         <View>
           <Image
             style={styles.pngaaa1Icon}
@@ -66,7 +75,9 @@ const RegisterStep1 = () => {
             />
           </View>
         </View>
-        <View style={[styles.entriesregistration3, styles.buttonSpaceBlock]}>
+        <KeyboardAvoidingView 
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={[styles.entriesregistration3, styles.buttonSpaceBlock]}>
           <Image
             style={[styles.entriesregistration3Child, styles.childLayout]}
             contentFit="cover"
@@ -116,8 +127,8 @@ const RegisterStep1 = () => {
             navigate
             keyboardType="email-address"
           />
-        </View>
-      </View>
+        </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
       <Image
         style={[styles.RegisterStep1Child, styles.childLayout]}
         contentFit="cover"
@@ -126,16 +137,8 @@ const RegisterStep1 = () => {
       <Pressable
         style={[styles.button, styles.buttonSpaceBlock]}
         onPress={
-          /*() => {*/
           handleSignup
-          /*.then(() => {
-              navigation.navigate('RegisterStep2');*/
-        } /*</View>)
-            .catch((error) => {
-              console.error('Registration error:', error);
-              // Handle registration error
-            });
-        }}*/
+        } 
       >
         <Text style={[styles.labelText, styles.labelTextTypo]}>Complete</Text>
         <Image
@@ -196,7 +199,6 @@ const styles = StyleSheet.create({
     height: 17,
   },
   entriesregistration3Child: {
-    //height: 39,
   },
   ovalregister3: {
     backgroundColor: Color.colorSlategray_200,

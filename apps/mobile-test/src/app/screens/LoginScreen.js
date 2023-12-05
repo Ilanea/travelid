@@ -2,7 +2,6 @@ import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { useState } from 'react';
 
-//import { Image } from "expo-image";
 import {
   Image,
   ImageBackground,
@@ -20,7 +19,6 @@ import { useAuth } from '../provider/AuthProvider';
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  //const navigation = useNavigation();
   const { onLogin } = useAuth();
 
   const handleLogin = async () => {
@@ -42,7 +40,6 @@ const LoginScreen = () => {
 
     <ImageBackground
       style={{ width: '100%', height: '100%' }}
-      //resizeMode="cover"
       source={require('../pics/welcome.png')}
     >
       <View style={styles.logo}>
@@ -63,7 +60,7 @@ const LoginScreen = () => {
               <View style={styles.wrapperFlexBox}>
                 <TextInput
                   style={styles.username}
-                  placeholder="Username"
+                  placeholder="Email"
                   placeholderTextColor="#263238"
                   onChangeText={(text) => setEmail(text)}
                   value={email}
@@ -120,9 +117,6 @@ const styles = StyleSheet.create({
     right: 0,
   },
   frameSpaceBlock: {
-    //paddingVertical: 0,
-    //paddingHorizontal: 0,
-    //alignItems: "center",
   },
   wrapperFlexBox: {
     paddingVertical: 13,
@@ -130,7 +124,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f4f9ff',
     borderRadius: 10,
     overflow: 'hidden',
-    //alignSelf: "stretch",
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
@@ -162,12 +155,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   frameChild: {
-    // borderWidth: 1, // Dicke der Umrandung
-    // borderColor: 'red', // Farbe der Umrandung
-    // borderStyle: 'solid', // Stil der Umrandung (hier solide)
     backgroundColor: 'rgba(210, 219, 234, 0.9)',
     height: 355,
-    //alignSelf: "stretch",
     width: '100%',
     zIndex: 0,
   },
@@ -182,9 +171,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 24,
   },
-  // frameContainer: {
-  //   alignSelf: "stretch",
-  // },
   forgotPassword1: {
     fontWeight: '700',
     color: '#546a83',
@@ -192,10 +178,7 @@ const styles = StyleSheet.create({
   forgotPassword: {
     marginTop: 31,
   },
-  // frameGroup: {
-  //   alignSelf: "stretch",
-  //   alignItems: "center",
-  // },
+
   labelText: {
     letterSpacing: 0,
     lineHeight: 20,
@@ -236,11 +219,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   frameParent: {
-    //marginTop: -101,
-    //marginLeft: 65,
     zIndex: 1,
     top: '10%',
-    //left: "50%",
     position: 'absolute',
     justifyContent: 'center',
   },

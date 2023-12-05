@@ -5,7 +5,6 @@ import { useAuth } from '../provider/AuthProvider';
 import BonuspunktePage from '../screens/BonuspunktePage';
 import Booking from '../screens/Booking';
 import Home from '../screens/Home';
-import HomeScreen from '../screens/HomeScreen';
 import LoadingScreen from '../screens/LoadingScreen';
 import LoginScreen from '../screens/LoginScreen';
 import Profile from '../screens/Profile';

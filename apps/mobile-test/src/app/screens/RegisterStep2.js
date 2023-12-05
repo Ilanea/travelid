@@ -13,7 +13,6 @@ import {
   StatusBar
 } from 'react-native';
 
-//import { text } from 'stream/consumers';
 import { Border, Color, FontSize, Padding } from '../../../GlobalStyles';
 
 const RegisterStep2 = () => {
@@ -62,24 +61,7 @@ const RegisterStep2 = () => {
           onChangeText={(text) => setAcademicDegree(text)}
         />
       </View>
-     {/*  <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Surname"
-          value={firstName}
-          onChangeText={(text) => setFirstName(text)}
-          placeholderTextColor="#546a83"
-        />
-      </View>
-      <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
-        <TextInput
-          style={[styles.textregister1, styles.headlineTypo]}
-          placeholder="Lastname"
-          placeholderTextColor="#546a83"
-          value={lastName}
-          onChangeText={(text) => setLastName(text)}
-        />
-      </View> */}
+     
       <View style={[styles.ovalregister1, styles.labelTextFlexBox]}>
         <TextInput
           style={[styles.textregister1, styles.headlineTypo]}
@@ -158,9 +140,6 @@ const RegisterStep2 = () => {
       <View style={[styles.buttoncontinue, styles.buttonSpaceBlock]}>
         <Pressable
           style={[styles.button, styles.buttonSpaceBlock]}
-          // Missing Backend Function:
-          // Store optional Data from Textinputs in Database
-
           onPress={() => {
             navigation.navigate('RegisterStep3Optional');
           }}

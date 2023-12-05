@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-export const API_URL = 'http://192.168.110.215:3333';
+export const API_URL = 'http://192.168.178.27:3333';
 
 interface User {
   id: number;

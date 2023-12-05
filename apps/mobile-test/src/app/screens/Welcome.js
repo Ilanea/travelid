@@ -10,14 +10,20 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Padding, Border, Color, FontSize, } from "../../../GlobalStyles";
 import { StatusBar } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
+
+
+async function handleNewAcc() {
+  await SecureStore.setItemAsync("newAcc", "false");
+}
 
 const Welcome = () => {
+  handleNewAcc();
   const navigation = useNavigation();
   <StatusBar translucent backgroundColor="transparent" />
   return (
     <ImageBackground
       style={{width: '100%', height: '100%'}}
-      //resizeMode="cover"
       source={require("../pics/welcome.png")}
     >
       <Pressable style={[styles.loginregister, styles.registerFlexBox]}>

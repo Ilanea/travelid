@@ -5,7 +5,6 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import * as SecureStore from 'expo-secure-store';
 import { retrieveUserInfo } from '../utils/apiFunctions.js';
 import { UserProviderClass } from "../provider/UserProvider"
 import { useState, useEffect } from 'react';
@@ -75,7 +74,7 @@ export default function BonuspunktePage() {
       <StatusBar
         barStyle="dark-content"
         translucent={true}
-        backgroundColor="transparent" // Set the background color to "transparent"
+        backgroundColor="transparent" 
       />
       <LinearGradient
           colors={[theme.gradientStart, theme.gradientEnd]}
