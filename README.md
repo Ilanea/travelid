@@ -19,7 +19,7 @@ npm -install
 This will serve 2 or more apps parallel from one console, or use nx console.
 
 ```
-npx nx run-many -t serve -p apps/backend apps/mobile-guest
+npx nx run-many -t serve -p apps/backend apps/frontend-hotel
 ```
 
 ## Get the backend up and running
