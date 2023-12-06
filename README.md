@@ -14,13 +14,7 @@ https://nodejs.org/en/download
 npm install
 ```
 
-## Run the dev server from console
 
-This will serve 2 or more apps parallel from one console, or use nx console.
-
-```
-npx nx run-many -t serve -p apps/backend apps/frontend-hotel
-```
 
 ## Get the backend up and running
 Download and install Docker Desktop from https://www.docker.com/
@@ -38,9 +32,25 @@ npx prisma generate
 npx prisma migrate dev
 ```
 
+## Run the dev server from console
+
+open mobile test/src/app/provider/AuthProvider.tsx and insert your own ip in line 48
+export const API_URL = 'http://YourIP:3333/';
+
+```
+npm run dev:backend
+```
+
 ## Use the VSCode Plugin
 
 https://marketplace.visualstudio.com/items?itemName=nrwl.angular-console
 
+
+## Start Expo from apps/mobile-test
+
+npx expo start
+
+
 ## Swagger API Documentation
+
 http://localhost:3333/api-docs
