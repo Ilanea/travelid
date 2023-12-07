@@ -9,7 +9,7 @@ export const getRewards = async (hotelId: string): Promise<Rewards> => {
   console.log('getRewards2');
 
   const response = await axiosPrivate.get(
-    `/reward?hotelId=${hotelId}&page=1&pageSize=5`
+    `/reward?hotelId=${hotelId}&page=1&pageSize=50`
   );
   console.log('getRewards3');
   /*  const bookings = response.map((booking) => {

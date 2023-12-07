@@ -64,7 +64,7 @@ model Hotel {
   website     String?
   phoneNumber String
   address     String
-  subtitle    String?
+  subtitle    String
   description String?
   urls        String[]
   hotelProperties HotelProperty[] @relation(name: "HotelProperties")

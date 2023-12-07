@@ -1,9 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CalendarIcon } from '@radix-ui/react-icons';
-import { Cloudinary } from 'cloudinary-core';
 import { format } from 'date-fns';
 import { useState } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 import {
@@ -20,18 +19,10 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
   Separator,
   Textarea,
-  toast,
 } from '@libs/ui-web';
 import { cn } from '@libs/utils';
-
-import UploadWidget from '@hotel/components/upload-widget';
 
 import useCreateEditReward from '../hooks/use-create-edit-reward';
 
@@ -60,7 +51,7 @@ const profileFormSchema = z.object({
     .max(200, {
       message: 'Subtitle must not be longer than 80 characters.',
     }),
-  price: z.number(),
+  price: z.string(),
   active: z.boolean(),
   validFrom: z.date(),
   validUntil: z.date(),
@@ -84,11 +75,9 @@ const defaultValues: Partial<ProfileFormValues> = {
 export function RewardsForm() {
   const { isLoading, createEditReward } = useCreateEditReward();
 
-  const [uploadedImage, setUploadedImage] = useState('');
-
-  console.log('uploadedImage', uploadedImage);
-
   async function onSubmit(reward: ProfileFormValues) {
+    console.log('loggggg');
+
     createEditReward(reward, 'createReward');
   }
 
@@ -245,7 +234,7 @@ export function RewardsForm() {
               <FormItem>
                 <FormLabel>Price</FormLabel>
                 <FormControl>
-                  <Input placeholder="100" {...field} />
+                  <Input type="number" {...field} />
                 </FormControl>
                 <FormDescription>
                   How many points does this reward cost?

@@ -64,6 +64,7 @@ export const hotel = {
   address: 'Philharmoniker Str. 4, 1010 Wien',
   phoneNumber: '+43 1 514 560',
   email: 'info@sacher.com',
+  subtitle: 'The most famous hotel in Vienna',
   description:
     'Das Hotel Sacher ist ein traditionsreiches Grandhotel in der Wiener Innenstadt. Es befindet sich am Philharmonikerplatz im 1. Wiener Gemeindebezirk Innere Stadt und ist bekannt für seine Torte, die Sachertorte.',
   hotelProperties: [{ id: 1 }, { id: 2 }, { id: 12 }, { id: 24 }, { id: 25 }],

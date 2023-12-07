@@ -136,8 +136,10 @@ function Bookings() {
 
   useEffect(() => {
     const fetchBookings = async () => {
+      console.log('user', authUser?.hotelsAsAdmin[0].id);
+
       const response = await getBookings(authUser?.hotelsAsAdmin[0].id);
-      console.log(response);
+      console.log('rrrrrrr', response);
 
       setBookings(response);
     };

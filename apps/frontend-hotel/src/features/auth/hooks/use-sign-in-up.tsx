@@ -24,7 +24,7 @@ const useSignInUp = () => {
         setAuthUser(userResponse);
         navigate(from, { replace: true });
       } else if (type === 'signUp') {
-        userResponse = await signUp(signData);
+        userResponse = await signUp({ ...signData, userName: signData.email });
         navigate('/auth/signin', { replace: true });
         if (userResponse) {
           toast({

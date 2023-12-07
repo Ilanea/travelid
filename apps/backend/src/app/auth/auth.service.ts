@@ -48,18 +48,7 @@ export class AuthService {
   async validateUser(email: string, password: string): Promise<User | null> {
     const user = await this.prisma.user.findUnique({
       where: { email: email },
-      select: {
-        id: true,
-        createdAt: true,
-        updatedAt: true,
-        avatar: true,
-        userName: true,
-        email: true,
-        passwordHash: true,
-        firstName: true,
-        lastName: true,
-        role: true,
-        active: true,
+      include: {
         hotelsAsAdmin: true,
         hotelsAsReceptionist: true,
       },
