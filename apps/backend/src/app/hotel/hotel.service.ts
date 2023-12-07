@@ -22,6 +22,25 @@ export class HotelService {
   async getHotel(hotelId: number) {
     const hotel = await this.prisma.hotel.findUnique({
       where: { id: hotelId },
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        name: true,
+        description: true,
+        address: true,
+        phoneNumber: true,
+        subtitle: true,
+        email: true,
+        categories: true,
+        urls: true,
+        hotelProperties: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     });
     if (!hotel) {
       throw new NotFoundException('Hotel not found');
@@ -53,12 +72,24 @@ export class HotelService {
     hotelId: number,
     dto: CreateHotelDto,
   ) {
+    const { properties, ...hotelProfile } = dto;
+    console.log('editHotel', hotelProfile);
+    console.log('editHotel', properties);
+    console.log('editHotel', hotelId);
+    
+    
+    
     const hotel = await this.prisma.hotel.update({
       where: {
         id: hotelId,
       },
       data: {
-        ...dto,
+        ...hotelProfile,
+        hotelProperties: {
+          set: properties?.map((propertyId) => ({
+            id: propertyId,
+          })),
+        },
       },
     });
 
@@ -102,6 +133,24 @@ export class HotelService {
       take: pageSize,
       where: {
         hotelId: hotelId,
+      },
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        startDate: true,
+        endDate: true,
+        type: true,
+        status: true,
+        user: {
+          select: {
+            id: true,
+            userName: true,
+            email: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
       },
     });
     return bookings;

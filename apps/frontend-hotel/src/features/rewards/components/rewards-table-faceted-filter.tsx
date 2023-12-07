@@ -29,7 +29,7 @@ interface DataTableFacetedFilterProps<TData, TValue> {
   }[];
 }
 
-export function BookingsTableFacetedFilter<TData, TValue>({
+export function RewardsTableFacetedFilter<TData, TValue>({
   column,
   title,
   options,

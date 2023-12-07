@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { toast } from '@libs/ui-web';
+
 import { signIn } from '../api/sign-in';
 import { signUp } from '../api/sign-up';
 import { useAuthStore } from '../store/auth';
@@ -19,11 +21,19 @@ const useSignInUp = () => {
       if (type === 'signIn') {
         userResponse = await signIn(signData);
         console.log('response', userResponse);
+        setAuthUser(userResponse);
+        navigate(from, { replace: true });
       } else if (type === 'signUp') {
-        userResponse = await signUp(signData);
+        userResponse = await signUp({ ...signData, userName: signData.email });
+        navigate('/auth/signin', { replace: true });
+        if (userResponse) {
+          toast({
+            title: 'User created.',
+            description: 'Wait for admin to approve your account.',
+            duration: 3000,
+          });
+        }
       }
-      setAuthUser(userResponse);
-      navigate(from, { replace: true });
     } catch (error) {
       console.log('error', error);
       setIsLoading(false);

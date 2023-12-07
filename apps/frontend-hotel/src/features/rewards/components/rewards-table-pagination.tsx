@@ -15,13 +15,13 @@ import {
   SelectValue,
 } from '@libs/ui-web';
 
-interface BookingsTablePaginationProps<TData> {
+interface RewardsTablePaginationProps<TData> {
   table: Table<TData>;
 }
 
-export function BookingsTablePagination<TData>({
+export function RewardsTablePagination<TData>({
   table,
-}: BookingsTablePaginationProps<TData>) {
+}: RewardsTablePaginationProps<TData>) {
   return (
     <div className="flex items-center justify-between px-2">
       <div className="flex-1 text-sm text-muted-foreground">

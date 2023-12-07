@@ -26,18 +26,18 @@ import {
   TableRow,
 } from '@libs/ui-web';
 
-import { BookingsTablePagination } from './bookings-table-pagination';
-import { BookingsTableToolbar } from './bookings-table-toolbar';
+import { RewardsTableToolbar } from './hotels';
+import { RewardsTablePagination } from './hotels-table-pagination';
 
-interface RewardsTableProps<TData, TValue> {
+interface PropertiesTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function RewardsTable<TData, TValue>({
+export function HotelsTable<TData, TValue>({
   columns,
   data,
-}: RewardsTableProps<TData, TValue>) {
+}: PropertiesTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -68,10 +68,11 @@ export function RewardsTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
+  console.log('table', table);
+
   return (
     <div className="space-y-4">
-      <BookingsTableToolbar table={table} />
-
+      <RewardsTableToolbar table={table} data={data} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -122,7 +123,7 @@ export function RewardsTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <BookingsTablePagination table={table} />
+      <RewardsTablePagination table={table} />
     </div>
   );
 }

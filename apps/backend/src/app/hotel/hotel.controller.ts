@@ -48,6 +48,8 @@ export class HotelController {
   @ApiCookieAuth()
   @Patch('/:hotelId')
   async editHotel(@Param('hotelId') hotelId: string, @Body() dto: CreateHotelDto) {
+    console.log('editHotel', dto);
+    
     return await this.hotelService.editHotel(parseInt(hotelId), dto);
   }
 

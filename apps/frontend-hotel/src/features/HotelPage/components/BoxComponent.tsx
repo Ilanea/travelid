@@ -11,20 +11,15 @@ interface BoxProps {
 const BoxComponent: React.FC<BoxProps> = ({ data }) => {
   return (
     <div id="boxComponentId" className="flex justify-between">
-      <div className="w-1/2 pt-5">
+      <div className="w-full">
         {data.map((item, index) => (
-          <div
-            key={index}
-            className="mb-2 font-bold pt-3 border-b text-1xl text-primary"
-          >
-            {item.keyword}
-          </div>
-        ))}
-      </div>
-      <div className="w-1/2 pt-5 pr-5 text-right">
-        {data.map((item, index) => (
-          <div key={index} className="mb-2 pt-3 border-b text-1xl text-primary">
-            {item.value}
+          <div className="flex items-center justify-between">
+            <p key={index} className="mb-2 font-bold pt-3">
+              {item.keyword}
+            </p>
+            <p key={index} className="mb-2 pt-3">
+              {item.value}
+            </p>
           </div>
         ))}
       </div>

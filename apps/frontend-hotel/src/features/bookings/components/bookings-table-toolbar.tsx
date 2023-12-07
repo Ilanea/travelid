@@ -21,9 +21,9 @@ export function BookingsTableToolbar<TData>({
       <div className="flex flex-1 items-center space-x-2">
         <Input
           placeholder="Filter guests..."
-          value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
+          value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
-            table.getColumn('title')?.setFilterValue(event.target.value)
+            table.getColumn('email')?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
@@ -32,13 +32,6 @@ export function BookingsTableToolbar<TData>({
             column={table.getColumn('status')}
             title="Status"
             options={statuses}
-          />
-        )}
-        {table.getColumn('priority') && (
-          <BookingsTableFacetedFilter
-            column={table.getColumn('priority')}
-            title="Priority"
-            options={priorities}
           />
         )}
         {isFiltered && (

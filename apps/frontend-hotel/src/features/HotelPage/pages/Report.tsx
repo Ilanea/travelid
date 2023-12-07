@@ -1,8 +1,10 @@
+import { addDays } from 'date-fns';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { DateRange } from 'react-day-picker';
 import {
   FaBed,
   FaCookieBite,
@@ -14,8 +16,12 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { ResponsiveContainer } from 'recharts';
 
+import { Icons } from '@libs/icons-web';
 import { Button } from '@libs/ui-web';
 
+import DashboardCard from '@hotel/components/dashboard-card';
+import DashboardCardSmall from '@hotel/components/dashboard-card-small';
+import { CalendarDateRangePicker } from '@hotel/components/data-range-picker';
 import BookingOriginChart from '@hotel/features/HotelPage/components/BookingOriginChart';
 import ListReport from '@hotel/features/HotelPage/components/ListReport';
 
@@ -25,11 +31,16 @@ import BookingBarChart from '../components/BookingBarChart';
 import BoxComponent from '../components/BoxComponent';
 // Import the styles
 import StatsBox from '../components/StatsBox';
+import WorldMap from '../components/world-map';
 
 function Report() {
   const [startDate, setStartDate] = useState<Date | null>(
     new Date(new Date().getFullYear(), 0, 1)
   );
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: addDays(new Date(), -300),
+    to: new Date(),
+  });
   const [endDate, setEndDate] = useState<Date | null>(new Date());
   const [view, setView] = useState<'daily' | 'monthly' | 'yearly'>('daily');
   const [dailyBookings, setDailyBookings] = useState<DataEntry[]>([]);
@@ -92,8 +103,8 @@ function Report() {
   const filteredData = dailyBookings.filter((item: any) => {
     const itemDate = new Date(item.day); // Convert to format "YYYY-MM-DD" for Date object
 
-    if (startDate && endDate) {
-      return itemDate >= startDate && itemDate <= endDate;
+    if (date.from && date.to) {
+      return itemDate >= date.from && itemDate <= date.to;
     }
 
     return true; // or false, depending on your desired behavior when the dates are null
@@ -354,120 +365,76 @@ function Report() {
         onSelect={(index) => setTabIndex(index)}
         className="p-6 bg-white rounded-lg shadow-lg mx-auto mt-10"
       >
-        <TabList className="flex mb-4 border-gray-300">
-          <Tab
-            className="mr-2 py-2 px-4 cursor-pointer font-semibold text-gray-600 hover:text-blue-500 focus:outline-none"
-            selectedClassName="border-b-2 border-blue-500 text-blue-500"
-          >
-            Report Dashboard
-          </Tab>
-          <Tab
-            className="mr-2 py-2 px-4 cursor-pointer font-semibold text-gray-600 hover:text-blue-500 focus:outline-none"
-            selectedClassName="border-b-2 border-blue-500 text-blue-500"
-          >
-            Bookings Report
-          </Tab>
-          <Tab
-            className="py-2 px-4 cursor-pointer font-semibold text-gray-600 hover:text-blue-500 focus:outline-none"
-            selectedClassName="border-b-2 border-blue-500 text-blue-500"
-          >
-            Settings
-          </Tab>
+        <TabList className="flex mb-4 border-gray-300 justify-between">
+          <div className="flex">
+            <Tab
+              className="mr-2 py-2 px-4 cursor-pointer font-semibold text-gray-600 hover:text-blue-500 focus:outline-none"
+              selectedClassName="border-b-2 border-blue-500 text-blue-500"
+            >
+              Report Dashboard
+            </Tab>
+            <Tab
+              className="mr-2 py-2 px-4 cursor-pointer font-semibold text-gray-600 hover:text-blue-500 focus:outline-none"
+              selectedClassName="border-b-2 border-blue-500 text-blue-500"
+            >
+              Bookings Report
+            </Tab>
+            <Tab
+              className="py-2 px-4 cursor-pointer font-semibold text-gray-600 hover:text-blue-500 focus:outline-none"
+              selectedClassName="border-b-2 border-blue-500 text-blue-500"
+            >
+              World Map
+            </Tab>
+            <Tab
+              className="py-2 px-4 cursor-pointer font-semibold text-gray-600 hover:text-blue-500 focus:outline-none"
+              selectedClassName="border-b-2 border-blue-500 text-blue-500"
+            >
+              Settings
+            </Tab>
+          </div>
+          <div className="flex items-center space-x-2">
+            <CalendarDateRangePicker date={date} setDate={setDate} />
+            <Button
+              onClick={() =>
+                exportComponentAsPDF('wrapperdiv', 'exported-file.pdf')
+              }
+            >
+              Export as PDF
+            </Button>
+          </div>
         </TabList>
 
         <TabPanel>
           <div className="flex justify-end space-x-4 mb-5">
-            {/* Bookings this week */}
-            <div className="text-primary text-xl flex flex-col border rounded p-5 w-1/4 border-primary">
-              <div className="flex justify-between items-center">
-                <div className="text-lg">Bookings this week</div>
-                <BedIcon className="text-primary" />
-              </div>
-              <div className="flex flex-col mb-3 text-2xl pt-2">
-                <div className="font-bold">+13</div>
-                <div className="text-sm text-gray-400 ml-2">
-                  +13% seit der letzten Woche
-                </div>
-              </div>
-            </div>
-
-            {/* Bookings this month */}
-            <div className="text-primary text-xl flex flex-col border rounded p-5 w-1/4 border-primary">
-              <div className="flex justify-between items-center">
-                <div className="text-lg">Bookings this month</div>
-                <BedIcon className="text-primary" />
-              </div>
-              <div className="flex flex-col mb-3 text-2xl pt-2">
-                <div className="font-bold">+67</div>
-                <div className="text-sm text-gray-400 ml-2">
-                  +33% seit letztem Monat
-                </div>
-              </div>
-            </div>
-
-            {/* Bookings this year */}
-            <div className="text-primary text-xl flex flex-col border rounded p-5 w-1/4 border-primary">
-              <div className="flex justify-between items-center">
-                <div className="text-lg">Bookings this year</div>
-                <BedIcon className="text-primary" />
-              </div>
-              <div className="flex flex-col mb-3 text-2xl pt-2">
-                <div className="font-bold">+189</div>
-                <div className="text-sm text-gray-400 ml-2">
-                  +89% seit letztem Jahr
-                </div>
-              </div>
-            </div>
-
-            {/* Total bookings */}
-            <div className="text-primary text-xl flex flex-col border rounded p-5 w-1/4 border-primary">
-              <div className="flex justify-between items-center">
-                <div className="text-lg">Bookings total</div>
-                <BedIcon className="text-primary" />
-              </div>
-              <div className="flex flex-col mb-3 text-2xl pt-2">
-                <div className="font-bold">+456</div>
-                <div className="text-sm text-gray-400 ml-2">+189% total</div>
-              </div>
+            <div className="flex w-full space-x-4">
+              <DashboardCardSmall
+                title="Bookings this week"
+                value="+ 34"
+                subvalue="+ 20.1% from last month"
+                icon={<Icons.calendar className="w-6 h-6 text-gray-400" />}
+              />
+              <DashboardCardSmall
+                title="Bookings this month"
+                value="+ 112"
+                subvalue="+ 15.9% from last month"
+                icon={<Icons.calendar className="w-6 h-6 text-gray-400" />}
+              />
+              <DashboardCardSmall
+                title="Bookings this year"
+                value="+ 189"
+                subvalue="+ 28.9% from last year"
+                icon={<Icons.calendar className="w-6 h-6 text-gray-400" />}
+              />
+              <DashboardCardSmall
+                title="Bookings total"
+                value="+ 456"
+                subvalue="+ 189% total"
+                icon={<Icons.calendar className="w-6 h-6 text-gray-400" />}
+              />
             </div>
           </div>
-          <div className="flex justify-between items-center">
-            <div className="flex space-x-4 justify-center pl-52">
-              <span className="text-xl font-bold mb-4 text-primary flex-grow">
-                Start Datum:
-              </span>
-              <DatePicker
-                className="border rounded border-black"
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                selectsStart
-                startDate={startDate}
-                endDate={endDate}
-              />
-              <span className="text-xl font-bold mb-4 text-primary flex-grow">
-                End Datum:
-              </span>
-              <DatePicker
-                className="border rounded border-black"
-                selected={endDate}
-                onChange={(date) => setEndDate(date)}
-                selectsEnd
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate}
-              />
-              <div className="flex space-x-4 justify-center pb-4 pl-96">
-                <Button
-                  onClick={() =>
-                    exportComponentAsPDF('wrapperdiv', 'exported-file.pdf')
-                  }
-                >
-                  Export as PDF
-                </Button>
-              </div>
-            </div>
-          </div>
-          <div id="wrapperdiv" className="flex space-x-4">
+
+          <div id="wrapperdiv" className="flex space-x-4 mb-5">
             {/* Bar Chart */}
             {dailyBookings ? (
               <BookingBarChart filteredData={filteredData} />
@@ -476,21 +443,24 @@ function Report() {
             )}
             {/* Pie Chart */}
             <BookingOriginChart />
-            <div className="w-1/4  text-primary border pl-5 rounded border-black bg-gray-200 text-sm">
+            <DashboardCard
+              title="Statistics"
+              subtitle="General Statistics"
+              className="w-1/4"
+            >
               <BoxComponent data={boxData} />
-            </div>
+            </DashboardCard>
           </div>
-          <div id="wrapperdiv1" className="flex space-x-4 pt-5 pb-5">
-            <div className="w-full rounded border border-black bg-gray-200 text-primary">
-              <ResponsiveContainer width="100%" height={300}>
-                <StatsBox data={statData} />
-              </ResponsiveContainer>
-            </div>
-          </div>
+          <DashboardCard>
+            <StatsBox data={statData} />
+          </DashboardCard>
         </TabPanel>
 
         <TabPanel>
           <ListReport bookings={bookings} />
+        </TabPanel>
+        <TabPanel>
+          <WorldMap />
         </TabPanel>
 
         <TabPanel>

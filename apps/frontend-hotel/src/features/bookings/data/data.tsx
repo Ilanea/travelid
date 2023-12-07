@@ -10,34 +10,24 @@ import {
 
 export const labels = [
   {
-    value: 'business',
+    value: 'BUSINESS',
     label: 'Business',
   },
   {
-    value: 'private',
+    value: 'PRIVATE',
     label: 'Private',
   },
 ];
 
 export const statuses = [
   {
-    value: 'booked',
+    value: 'BOOKED',
     label: 'Booked',
-    icon: CircleIcon,
-  },
-  {
-    value: 'in progress',
-    label: 'In Progress',
-    icon: StopwatchIcon,
-  },
-  {
-    value: 'confirmed',
-    label: 'Confirmed',
     icon: CheckCircledIcon,
   },
   {
-    value: 'canceled',
-    label: 'Canceled',
+    value: 'CANCELLED',
+    label: 'Cancelled',
     icon: CrossCircledIcon,
   },
 ];

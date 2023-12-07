@@ -61,18 +61,23 @@ model Hotel {
 
   name        String  @unique
   email       String  @unique
+  website     String?
   phoneNumber String
   address     String
+  subtitle    String
   description String?
+  urls        String[]
+  hotelProperties HotelProperty[] @relation(name: "HotelProperties")
 
   categories Category[]
   reviews    Review[]
+  rewards Reward[]
 
   admins        User[] @relation(name: "Admins")
   receptionists User[] @relation(name: "Receptionists")
 
   Booking Booking[]
-
+  
   @@map("hotels")
 }
 
@@ -109,6 +114,8 @@ model Booking {
   price       Float?
   startDate    DateTime?
   endDate     DateTime?
+  status      String
+  type        String
 
   hotel   Hotel @relation(fields: [hotelId], references: [id])
   hotelId Int
@@ -118,3 +125,66 @@ model Booking {
 
   @@map("bookings")
 }
+
+model Reward {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name        String
+  description String?
+  price       Float?
+  image       String?
+
+  active Boolean @default(true)
+  validFrom DateTime
+  validUntil DateTime
+
+  hotel   Hotel @relation(fields: [hotelId], references: [id])
+  hotelId Int
+
+  @@map("reward")
+  }
+
+  model HotelProperty {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name        String @unique
+  description String?
+
+  hotel   Hotel[] @relation(name: "HotelProperties")
+
+  subCategory HotelPropertySubCategory @relation(fields: [subCategoryId], references: [id])
+  subCategoryId Int
+  }
+
+  model HotelPropertyCategory {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name        String
+  url         String @unique
+  description String?
+
+  subCategories HotelPropertySubCategory[]
+  }
+
+  model HotelPropertySubCategory {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name        String
+  description String?
+
+  category HotelPropertyCategory @relation(fields: [categoryId], references: [id])
+  categoryId Int
+
+  properties HotelProperty[]
+  }
+
+
+

@@ -6,10 +6,10 @@ import { Badge, Checkbox } from '@libs/ui-web';
 
 import { labels, priorities, statuses } from '../data/data';
 import { Task } from '../data/schema';
-import { BookingsTableColumnHeader } from './bookings-table-column-header';
-import { BookingsTableRowActions } from './bookings-table-row-actions';
+import { RewardsTableColumnHeader } from './rewards-table-column-header';
+import { RewardsTableRowActions } from './rewards-table-row-actions';
 
-export const BookingTableColumns: ColumnDef<Task>[] = [
+export const RewardsTableColumns: ColumnDef<Task>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -34,7 +34,7 @@ export const BookingTableColumns: ColumnDef<Task>[] = [
   {
     accessorKey: 'id',
     header: ({ column }) => (
-      <BookingsTableColumnHeader column={column} title="ID" />
+      <RewardsTableColumnHeader column={column} title="ID" />
     ),
     cell: ({ row }) => <div className="w-[80px]">{row.getValue('id')}</div>,
     enableSorting: false,
@@ -44,7 +44,7 @@ export const BookingTableColumns: ColumnDef<Task>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <BookingsTableColumnHeader column={column} title="Name" />
+      <RewardsTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label);
@@ -60,30 +60,19 @@ export const BookingTableColumns: ColumnDef<Task>[] = [
     },
   },
   {
-    accessorKey: 'category',
-    header: ({ column }) => (
-      <BookingsTableColumnHeader column={column} title="Category" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('category')}
-          </span>
-        </div>
-      );
-    },
-  },
-  {
     accessorKey: 'validFrom',
     header: ({ column }) => (
-      <BookingsTableColumnHeader column={column} title="Valid From" />
+      <RewardsTableColumnHeader column={column} title="Valid From" />
     ),
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('validFrom')}
+            {new Date(row.getValue('validFrom')).toLocaleDateString('de-DE', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            })}
           </span>
         </div>
       );
@@ -92,32 +81,37 @@ export const BookingTableColumns: ColumnDef<Task>[] = [
   {
     accessorKey: 'validUntil',
     header: ({ column }) => (
-      <BookingsTableColumnHeader column={column} title="Valid Until" />
+      <RewardsTableColumnHeader column={column} title="Valid Until" />
     ),
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('validUntil')}
+            {new Date(row.getValue('validUntil')).toLocaleDateString('de-DE', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            })}
           </span>
         </div>
       );
     },
   },
   {
-    accessorKey: 'status',
+    accessorKey: 'active',
     header: ({ column }) => (
-      <BookingsTableColumnHeader column={column} title="Status" />
+      <RewardsTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label);
+      console.log('isActive ', row.getValue('active'));
+
+      const isActive = row.getValue('active') === true ? 'Active' : 'Inactive';
 
       return (
         <div className="flex space-x-2">
           {label && <Badge variant="outline">{label.label}</Badge>}
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('status')}
-          </span>
+          <span className="max-w-[500px] truncate font-medium">{isActive}</span>
         </div>
       );
     },
@@ -125,7 +119,7 @@ export const BookingTableColumns: ColumnDef<Task>[] = [
   {
     accessorKey: 'price',
     header: ({ column }) => (
-      <BookingsTableColumnHeader column={column} title="Price" />
+      <RewardsTableColumnHeader column={column} title="Price" />
     ),
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label);
@@ -134,7 +128,7 @@ export const BookingTableColumns: ColumnDef<Task>[] = [
         <div className="flex space-x-2">
           {label && <Badge variant="outline">{label.label}</Badge>}
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('price') + ' Bons'}
+            {row.getValue('price') + ' Points'}
           </span>
         </div>
       );
@@ -142,6 +136,6 @@ export const BookingTableColumns: ColumnDef<Task>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => <BookingsTableRowActions row={row} />,
+    cell: ({ row }) => <RewardsTableRowActions row={row} />,
   },
 ];

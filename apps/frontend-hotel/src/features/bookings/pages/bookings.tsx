@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { useAuthStore } from '@hotel/features/auth/store/auth';
+
+import { getBookings } from '../api/get-bookings';
 import { BookingsTable } from '../components/bookings-table';
 import { BookingTableColumns } from '../components/bookings-table-columns';
+import GuestProfile from '../components/guest-profile';
 
 const BOOKINGS_DATA = [
   {
@@ -127,12 +131,29 @@ const BOOKINGS_DATA = [
 ];
 
 function Bookings() {
+  const authUser = useAuthStore((state) => state.user);
+  const [bookings, setBookings] = useState([]);
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      console.log('user', authUser?.hotelsAsAdmin[0].id);
+
+      const response = await getBookings(authUser?.hotelsAsAdmin[0].id);
+      console.log('rrrrrrr', response);
+
+      setBookings(response);
+    };
+    fetchBookings();
+  }, []);
+
   return (
     <div>
       <div className="hidden h-full flex-1 flex-col p-8 md:flex">
         <div className="flex items-center space-x-2"></div>
       </div>
-      <BookingsTable data={BOOKINGS_DATA} columns={BookingTableColumns} />
+      {bookings && (
+        <BookingsTable data={bookings} columns={BookingTableColumns} />
+      )}
     </div>
   );
 }

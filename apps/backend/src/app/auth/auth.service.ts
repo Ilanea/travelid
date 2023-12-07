@@ -48,6 +48,10 @@ export class AuthService {
   async validateUser(email: string, password: string): Promise<User | null> {
     const user = await this.prisma.user.findUnique({
       where: { email: email },
+      include: {
+        hotelsAsAdmin: true,
+        hotelsAsReceptionist: true,
+      },
     });
     if(!user){
       throw new ForbiddenException('User not found');

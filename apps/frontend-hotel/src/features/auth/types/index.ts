@@ -7,9 +7,18 @@ export type AuthUser = {
   lastName?: string;
   role: Role;
   accessToken: string;
+  hotelsAsAdmin: Hotel;
+};
+
+type Hotel = {
+  id: number;
+  name: string;
+  address: string;
 };
 
 export enum Role {
   ADMIN = 'ADMIN',
+  HOTELADMIN = 'HOTELADMIN',
+  HOTELRECEPTIONIST = 'HOTELRECEPTIONIST',
   GUEST = 'GUEST',
 }

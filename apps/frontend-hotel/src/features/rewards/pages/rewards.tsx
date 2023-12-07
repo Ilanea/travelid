@@ -1,9 +1,13 @@
-import React from 'react';
+import { log } from 'console';
+import React, { useEffect, useState } from 'react';
 
 import { Button } from '@libs/ui-web';
 
-import { RewardsTable } from '../components/bookings-table';
-import { BookingTableColumns } from '../components/bookings-table-columns';
+import { useAuthStore } from '@hotel/features/auth/store/auth';
+
+import { getRewards } from '../api/get-rewards';
+import { RewardsTable } from '../components/rewards-table';
+import { RewardsTableColumns } from '../components/rewards-table-columns';
 
 const REWARDS_DATA = [
   {
@@ -45,12 +49,27 @@ const REWARDS_DATA = [
 ];
 
 function Rewards() {
+  const authUser = useAuthStore((state) => state.user);
+  const [rewards, setRewards] = useState([]);
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      console.log('get rewards');
+
+      const response = await getRewards(authUser?.hotelsAsAdmin[0].id);
+      console.log(response);
+
+      setRewards(response);
+    };
+    fetchBookings();
+  }, []);
+
   return (
     <div>
       <div className="hidden h-full flex-1 flex-col p-8 md:flex">
         <div className="flex items-center space-x-2"></div>
       </div>
-      <RewardsTable data={REWARDS_DATA} columns={BookingTableColumns} />
+      <RewardsTable data={rewards} columns={RewardsTableColumns} />
     </div>
   );
 }
