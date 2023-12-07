@@ -9,7 +9,7 @@
     "storybook": "nx run libs/ui-web:storybook ",
     "prisma:studio": "cd apps/backend && npx prisma studio",
     "prisma:deploy": "cd apps/backend && prisma migrate deploy",
-    "prisma:dev": "cd apps/backend && prisma migrate dev",
+    "prisma:dev": "cd apps/backend && prisma migrate dev --name=init",
     "prisma:generate": "cd apps/backend && prisma generate",
     "prisma:seed": "npx prisma db seed",
     "db:up": "docker-compose up dev-db -d",
