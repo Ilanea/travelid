@@ -1,9 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CalendarIcon } from '@radix-ui/react-icons';
-import { Cloudinary } from 'cloudinary-core';
 import { format } from 'date-fns';
 import { useState } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 import {
@@ -20,18 +19,10 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
   Separator,
   Textarea,
-  toast,
 } from '@libs/ui-web';
 import { cn } from '@libs/utils';
-
-import UploadWidget from '@hotel/components/upload-widget';
 
 import useCreateEditReward from '../../hooks/use-create-edit-reward';
 
@@ -81,8 +72,8 @@ const defaultValues: Partial<ProfileFormValues> = {
     'https://media-cdn.tripadvisor.com/media/photo-s/0e/9c/0b/6a/hotel-sacher-salzburg.jpg',
 };
 
-export function RewardsForm() {
-  const { isLoading, createEditReward } = useCreateEditReward();
+export function HotelForm() {
+  const { createEditReward } = useCreateEditReward();
 
   const [uploadedImage, setUploadedImage] = useState('');
 
@@ -97,21 +88,6 @@ export function RewardsForm() {
     defaultValues,
     mode: 'onChange',
   });
-
-  /*   function onSubmit(data: ProfileFormValues) {
-    toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-  } */
-
-  const handleOnUpload = () => {
-    console.log('upload image');
-  };
 
   return (
     <div className="space-y-6">
@@ -255,10 +231,6 @@ export function RewardsForm() {
                 <FormMessage />
               </FormItem>
             )}
-          />
-          <UploadWidget
-            uploadedImage={uploadedImage}
-            setUploadedImage={setUploadedImage}
           />
           <Button type="submit">Update reward</Button>
         </form>

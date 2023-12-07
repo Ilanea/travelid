@@ -16,28 +16,16 @@ import {
 } from '@libs/ui-web';
 import { cn } from '@libs/utils';
 
-const frameworks = [
-  {
-    value: 'next.js',
-    label: 'Next.js',
-  },
-  {
-    value: 'sveltekit',
-    label: 'SvelteKit',
-  },
-  {
-    value: 'nuxt.js',
-    label: 'Nuxt.js',
-  },
-  {
-    value: 'remix',
-    label: 'Remix',
-  },
-  {
-    value: 'astro',
-    label: 'Astro',
-  },
-];
+type CategoryComboboxProps = {
+  data: {
+    label: string;
+    value: string;
+  }[];
+  value: string;
+  setValue: (value: string) => void;
+  title: string;
+  searchTitle: string;
+};
 
 export function CategoryCombobox({
   data,
@@ -45,7 +33,7 @@ export function CategoryCombobox({
   setValue,
   title,
   searchTitle,
-}) {
+}: CategoryComboboxProps) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -58,7 +46,7 @@ export function CategoryCombobox({
           className="justify-between"
         >
           {value
-            ? data.find((framework) => framework.value === value)?.label
+            ? data.find((category) => category.value === value)?.label
             : title}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -68,10 +56,10 @@ export function CategoryCombobox({
           <CommandInput placeholder={searchTitle} />
           <CommandEmpty>No framework found.</CommandEmpty>
           <CommandGroup>
-            {data.map((framework) => (
+            {data.map((category) => (
               <CommandItem
-                key={framework.value}
-                value={framework.value}
+                key={category.value}
+                value={category.value}
                 onSelect={(currentValue) => {
                   setValue(currentValue === value ? '' : currentValue);
                   setOpen(false);
@@ -80,10 +68,10 @@ export function CategoryCombobox({
                 <Check
                   className={cn(
                     'mr-2 h-4 w-4',
-                    value === framework.value ? 'opacity-100' : 'opacity-0'
+                    value === category.value ? 'opacity-100' : 'opacity-0'
                   )}
                 />
-                {framework.label}
+                {category.label}
               </CommandItem>
             ))}
           </CommandGroup>

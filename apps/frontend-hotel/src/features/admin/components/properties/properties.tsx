@@ -1,9 +1,6 @@
-import { Cross2Icon } from '@radix-ui/react-icons';
-import { Table, getFacetedUniqueValues } from '@tanstack/react-table';
-import { sub } from 'date-fns';
-import { create, set, uniqBy } from 'lodash';
+import { Table } from '@tanstack/react-table';
+import { uniqBy } from 'lodash';
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
 
 import { Icons } from '@libs/icons-web';
 import {
@@ -15,11 +12,11 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  toast,
 } from '@libs/ui-web';
 
 import { createProperty } from '../../api/create-property';
 //import { DataTableViewOptions } from "@/app/examples/tasks/components/data-table-view-options"
-import { priorities, statuses } from '../../data/data';
 import { CategoryCombobox } from './category-combobox';
 import { RewardsTableFacetedFilter } from './properties-table-faceted-filter';
 
@@ -57,6 +54,14 @@ export function RewardsTableToolbar<TData>({
       name: propertyName,
       subCategoryId: parseInt(subCategory),
     });
+    console.log('response', response);
+    if (response) {
+      toast({
+        title: 'Property created',
+        description: 'Your property has been created.',
+        duration: 3000,
+      });
+    }
   };
 
   console.log('subCategory', subCategory);
@@ -72,23 +77,6 @@ export function RewardsTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn('status') && (
-          <RewardsTableFacetedFilter
-            column={table.getColumn('status')}
-            title="Status"
-            options={statuses}
-          />
-        )}
-        {isFiltered && (
-          <Button
-            variant="ghost"
-            onClick={() => table.resetColumnFilters()}
-            className="h-8 px-2 lg:px-3"
-          >
-            Reset
-            <Cross2Icon className="ml-2 h-4 w-4" />
-          </Button>
-        )}
       </div>
       <Sheet>
         <Button>

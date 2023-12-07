@@ -2,7 +2,19 @@ import React from 'react';
 
 import { cn } from '@libs/utils';
 
-const DashboardCard = ({ children, title, subtitle, className, button }) => {
+type DashboardCardProps = React.HTMLAttributes<HTMLElement> & {
+  title: string;
+  subtitle: string;
+  button?: React.ReactNode;
+};
+
+const DashboardCard = ({
+  children,
+  title,
+  subtitle,
+  className,
+  button,
+}: DashboardCardProps) => {
   return (
     <div
       className={cn(

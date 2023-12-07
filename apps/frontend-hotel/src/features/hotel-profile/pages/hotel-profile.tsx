@@ -1,20 +1,14 @@
-import { Tabs } from '@radix-ui/react-tabs';
-import { set } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-
-import { Separator, TabsContent, TabsList, TabsTrigger } from '@libs/ui-web';
 
 import { useAuthStore } from '@hotel/features/auth/store/auth';
 
 import { getHotelProfile } from '../api/get-profile';
 import { getPropertyCategories } from '../api/get-property-categories';
 import { DescriptionForm } from '../components/description-form';
-import { FacilitiesForm2 } from '../components/facilities-form2';
 import { GeneralForm } from '../components/general-form';
 import { PropertiesForm } from '../components/properties-form';
 import { SidebarNav } from '../components/sidebar-nav';
-import { HotelProfile } from '../types';
 
 let sidebarNavItems = [
   {
@@ -28,9 +22,9 @@ let sidebarNavItems = [
 ];
 
 function HotelProfilePage() {
-  const [categories, setCategories] = useState([]);
-  const [properties, setProperties] = useState([]);
-  const [profile, setProfile] = useState({});
+  const [categories, setCategories] = useState<any>([]);
+  const [properties, setProperties] = useState<any>([]);
+  const [profile, setProfile] = useState<any>({});
   const location = useLocation();
   const userAuth = useAuthStore((state) => state.user);
 

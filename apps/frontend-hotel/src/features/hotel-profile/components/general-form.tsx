@@ -13,11 +13,6 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
   Separator,
   Textarea,
   toast,
@@ -62,7 +57,7 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 // This can come from your database or API.
 
-export function GeneralForm({ profile }) {
+export function GeneralForm({ profile }: any) {
   console.log('profile', profile);
 
   const defaultValues: Partial<ProfileFormValues> = {

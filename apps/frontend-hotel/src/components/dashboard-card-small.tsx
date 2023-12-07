@@ -1,16 +1,22 @@
 import React from 'react';
 
-import { Icons } from '@libs/icons-web';
 import { cn } from '@libs/utils';
 
+type DashboardCardSmallProps = {
+  title: string;
+  value: string;
+  subvalue: string;
+  icon: React.ReactNode;
+  className?: string;
+};
+
 const DashboardCardSmall = ({
-  children,
   title,
   value,
   subvalue,
   icon,
   className,
-}) => {
+}: DashboardCardSmallProps) => {
   return (
     <div
       className={cn(

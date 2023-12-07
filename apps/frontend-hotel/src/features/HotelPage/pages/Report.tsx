@@ -31,6 +31,7 @@ import BookingBarChart from '../components/BookingBarChart';
 import BoxComponent from '../components/BoxComponent';
 // Import the styles
 import StatsBox from '../components/StatsBox';
+import WorldMap from '../components/world-map';
 
 function Report() {
   const [startDate, setStartDate] = useState<Date | null>(
@@ -382,6 +383,12 @@ function Report() {
               className="py-2 px-4 cursor-pointer font-semibold text-gray-600 hover:text-blue-500 focus:outline-none"
               selectedClassName="border-b-2 border-blue-500 text-blue-500"
             >
+              World Map
+            </Tab>
+            <Tab
+              className="py-2 px-4 cursor-pointer font-semibold text-gray-600 hover:text-blue-500 focus:outline-none"
+              selectedClassName="border-b-2 border-blue-500 text-blue-500"
+            >
               Settings
             </Tab>
           </div>
@@ -451,6 +458,9 @@ function Report() {
 
         <TabPanel>
           <ListReport bookings={bookings} />
+        </TabPanel>
+        <TabPanel>
+          <WorldMap />
         </TabPanel>
 
         <TabPanel>

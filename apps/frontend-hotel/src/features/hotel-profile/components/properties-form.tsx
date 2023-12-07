@@ -1,112 +1,26 @@
-'use client';
-
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useLocation } from 'react-router-dom';
-import * as z from 'zod';
 
-import {
-  Button,
-  Checkbox,
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Separator,
-  toast,
-} from '@libs/ui-web';
+import { Button, Checkbox, Separator, toast } from '@libs/ui-web';
 
 import { updateHotelProfile } from '../api/update-profile';
 
-const wellness_items = [
-  {
-    id: 'Spa',
-    label: 'Spa',
-  },
-  {
-    id: 'Gym',
-    label: 'Gym',
-  },
-  {
-    id: 'Pool',
-    label: 'Pool',
-  },
-  {
-    id: 'Sauna',
-    label: 'Sauna',
-  },
-  {
-    id: 'Massage',
-    label: 'Massage',
-  },
-  {
-    id: 'Yoga',
-    label: 'Yoga',
-  },
-  {
-    id: 'Pilates',
-    label: 'Pilates',
-  },
-] as const;
-
-const general_items = [
-  {
-    id: 'Wifi',
-    label: 'Wifi',
-  },
-  {
-    id: 'Parking',
-    label: 'Parking',
-  },
-  {
-    id: 'Restaurant',
-    label: 'Restaurant',
-  },
-  {
-    id: 'Bar',
-    label: 'Bar',
-  },
-  {
-    id: 'Room service',
-    label: 'Room service',
-  },
-  {
-    id: 'Laundry',
-    label: 'Laundry',
-  },
-] as const;
-
-const displayFormSchema = z.object({
-  wellness_items: z
-    .array(z.string())
-    .refine((value) => value.some((item) => item), {
-      message: 'You have to select at least one item.',
-    }),
-  general_items: z
-    .array(z.string())
-    .refine((value) => value.some((item) => item), {
-      message: 'You have to select at least one item.',
-    }),
-});
-
-type DisplayFormValues = z.infer<typeof displayFormSchema>;
-
-// This can come from your database or API.
-const defaultValues: Partial<DisplayFormValues> = {
-  wellness_items: ['gym', 'sauna'],
+type PropertiesFormProps = {
+  properties: any;
+  selectedNav: any;
+  profile: any;
 };
 
-export function PropertiesForm({ properties, selectedNav, profile }) {
-  const [checkedProperties, setCheckedProperties] = useState(null);
-  const [uncheckedProperties, setUncheckedProperties] = useState(null);
+export function PropertiesForm({
+  properties,
+  selectedNav,
+  profile,
+}: PropertiesFormProps) {
+  const [checkedProperties, setCheckedProperties] = useState<any>(null);
+  const [uncheckedProperties, setUncheckedProperties] = useState<any>(null);
 
   console.log('profile', profile);
 
-  const myProperties = properties.find((categories) => {
+  const myProperties = properties.find((categories: any) => {
     console.log('categories', categories);
     console.log('categories.url', categories.url);
 
@@ -120,27 +34,31 @@ export function PropertiesForm({ properties, selectedNav, profile }) {
 
   useEffect(() => {
     if (profile?.hotelProperties) {
-      const myProps = profile?.hotelProperties?.map((item) => item.id);
+      const myProps = profile?.hotelProperties?.map((item: any) => item.id);
       setCheckedProperties(myProps);
     }
   }, [profile, properties]);
 
-  const changeCheckboxHandler = (checked, id) => {
+  const changeCheckboxHandler = (checked: any, id: any) => {
     console.log('event', checked);
 
     if (checked) {
       setCheckedProperties([...checkedProperties, id]);
-      setUncheckedProperties(uncheckedProperties.filter((item) => item !== id));
+      setUncheckedProperties(
+        uncheckedProperties.filter((item: any) => item !== id)
+      );
     } else {
-      setCheckedProperties(checkedProperties.filter((item) => item !== id));
+      setCheckedProperties(
+        checkedProperties.filter((item: any) => item !== id)
+      );
       setUncheckedProperties([...uncheckedProperties, id]);
     }
   };
 
-  const submitHandler = async (values) => {
+  const submitHandler = async (values: any) => {
     console.log('values', values);
 
-    const newValues = profile?.hotelProperties?.filter((item) =>
+    const newValues = profile?.hotelProperties?.filter((item: any) =>
       uncheckedProperties?.includes(item.id)
     );
 
@@ -154,7 +72,13 @@ export function PropertiesForm({ properties, selectedNav, profile }) {
       properties: newValues,
     });
 
-    console.log('response', response);
+    if (response) {
+      toast({
+        title: 'Profile updated',
+        description: 'Your profile has been updated.',
+        duration: 3000,
+      });
+    }
   };
 
   if (!myProperties || !checkedProperties) {
@@ -171,15 +95,12 @@ export function PropertiesForm({ properties, selectedNav, profile }) {
       </div>
       <Separator />
 
-      {myProperties.subCategories.map((subCategory) => (
+      {myProperties.subCategories.map((subCategory: any) => (
         <div>
           <div className="mb-4">
             <p>{subCategory.name}</p>
-            {/*                <FormDescription>
-                    Select the items you want to display in the sidebar.
-                  </FormDescription> */}
           </div>
-          {subCategory.properties.map((property) => (
+          {subCategory.properties.map((property: any) => (
             <div className="flex items-center space-x-2">
               <Checkbox
                 checked={checkedProperties.includes(property.id)}

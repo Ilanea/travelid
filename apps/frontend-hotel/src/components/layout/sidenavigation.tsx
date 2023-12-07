@@ -52,11 +52,6 @@ const SideNavigation = () => {
       to: './admin/hotels',
       icon: Icons.building,
     },
-    authUser?.role === Role.ADMIN && {
-      name: 'Hotel Users',
-      to: './admin/users',
-      icon: Icons.users,
-    },
   ].filter(Boolean) as SideNavigationItem[];
 
   return (

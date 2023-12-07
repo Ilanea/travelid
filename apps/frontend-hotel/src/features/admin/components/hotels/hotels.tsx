@@ -1,7 +1,4 @@
-import { Cross2Icon } from '@radix-ui/react-icons';
-import { Table, getFacetedUniqueValues } from '@tanstack/react-table';
-import { sub } from 'date-fns';
-import { create, set, uniqBy } from 'lodash';
+import { Table } from '@tanstack/react-table';
 import { useState } from 'react';
 
 import { Icons } from '@libs/icons-web';
@@ -19,9 +16,6 @@ import {
 } from '@libs/ui-web';
 
 import { createHotel } from '../../api/create-hotel';
-//import { DataTableViewOptions } from "@/app/examples/tasks/components/data-table-view-options"
-import { priorities, statuses } from '../../data/data';
-import { RewardsTableFacetedFilter } from './hotels-table-faceted-filter';
 
 interface RewardsTableToolbarProps<TData> {
   table: Table<TData>;

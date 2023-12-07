@@ -1,10 +1,7 @@
-'use client';
-
 import { ColumnDef } from '@tanstack/react-table';
 
-import { Badge, Checkbox } from '@libs/ui-web';
+import { Checkbox } from '@libs/ui-web';
 
-import { labels, priorities, statuses } from '../../data/data';
 import { Task } from '../../data/schema';
 import { RewardsTableColumnHeader } from './properties-table-column-header';
 import { RewardsTableRowActions } from './properties-table-row-actions';
@@ -47,11 +44,8 @@ export const RewardsTableColumns: ColumnDef<Task>[] = [
       <RewardsTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
-      const label = labels.find((label) => label.value === row.original.label);
-
       return (
         <div className="flex space-x-2">
-          {label && <Badge variant="outline">{label.label}</Badge>}
           <span className="max-w-[500px] truncate font-medium">
             {row.getValue('name')}
           </span>

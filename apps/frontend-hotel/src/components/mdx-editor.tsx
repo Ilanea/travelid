@@ -9,9 +9,13 @@ import {
   thematicBreakPlugin,
   toolbarPlugin,
 } from '@mdxeditor/editor';
-import React from 'react';
 
-const CustomMDXEditor = ({ markdown, onChange }) => {
+type CustomMDXEditorProps = {
+  markdown: string;
+  onChange: (markdown: string) => void;
+};
+
+const CustomMDXEditor = ({ markdown, onChange }: CustomMDXEditorProps) => {
   return (
     <MDXEditor
       markdown={markdown}
