@@ -1,4 +1,4 @@
-import { IsBoolean, IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsEmail, IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Role } from '../../auth/roles/role.enum';
 
@@ -22,6 +22,56 @@ export class EditUserDto {
   @IsString()
   @IsOptional()
   lastName?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  academicDegree?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  gender?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  street?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  city?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  country?: string;
+  
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  nationality?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  birthday?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  documentNo?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  mobilePhone?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  phone?: string;
 }
 
 export class ChangePasswordDto {
@@ -56,3 +106,9 @@ export class UploadAvatarDto {
   @ApiProperty()
   file: BinaryData;
 }
+
+export class EditBonuspointsDto {
+  @ApiProperty()
+  @IsNumber()
+  bonuspoints: number;
+} 

@@ -36,6 +36,7 @@ testem.log
 apps/backend/prisma/migrations/
 apps/backend/uploads/
 apps/mobile-guest-e2e/artifacts/
+apps/mobile-test-e2e/artifacts/
 
 # System Files
 .DS_Store

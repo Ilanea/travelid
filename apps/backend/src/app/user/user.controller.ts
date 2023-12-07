@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query, Req, Res, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthenticatedGuard, RolesGuard } from '../auth/guard';
-import { ChangePasswordDto, ChangeRoleDto, EditUserDto, ChangeActiveDto } from './dto';
+import { ChangePasswordDto, ChangeRoleDto, EditUserDto, ChangeActiveDto, EditBonuspointsDto } from './dto';
 import { UserService } from './user.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { ApiTags, ApiCookieAuth, ApiConsumes, ApiBody } from '@nestjs/swagger';
@@ -69,6 +69,22 @@ export class UserController {
   @Patch('/:userId/active')
   async changeActive(@Param('userId') userId: string, @Body() dto: ChangeActiveDto) {
     return await this.userService.changeActive(parseInt(userId), dto);
+  }
+
+  @CheckPolicies(EditUserHandler)
+  @Patch('/:userId/bonuspoints')
+  async changeBonuspoints(@Param('userId') userId: string, @Body() dto: EditBonuspointsDto) {
+    return await this.userService.changeBonuspoints(parseInt(userId), dto);
+  }
+
+  @CheckPolicies(ReadUserHandler)
+  @Get('/:userId/bookings')
+  async getAllUserBookings(
+    @Param('userId') userId: string,
+    @Query('page') page: string,
+    @Query('pageSize') pageSize: string,
+    ) {
+    return await this.userService.getAllUserBookings(parseInt(userId), parseInt(page), parseInt(pageSize));
   }
 
   @ApiConsumes('multipart/form-data')

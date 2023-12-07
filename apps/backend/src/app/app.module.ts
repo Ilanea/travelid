@@ -19,5 +19,6 @@ import { PropertyModule } from './property/property.module';
     dest: 'apps/backend/uploads/',
   }),
   AuthModule, AuthzModule, PrismaModule, BookingModule, UserModule, HotelModule, CategoryModule, RewardModule, PropertyModule],
+
 })
 export class AppModule {}
